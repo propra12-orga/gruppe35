@@ -38,7 +38,7 @@ public class Level {
 		for (int y = 0; y < ysize; y++) {
 			line = "";
 			for (int x = 0; x < xsize; x++) {
-				if (field[x][y].solid = true) {
+				if (field[x][y].solid == true) {
 					line += "#";
 				} else {
 					line += "0";
