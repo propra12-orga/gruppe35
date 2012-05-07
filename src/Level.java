@@ -6,7 +6,7 @@ public class Level {
 	protected int xsize;
 	protected int ysize;
 	protected Field[][] field;
-	protected List<Field> Fieldtypes = new ArrayList<Field>();
+	protected List<Field> fieldtypes = new ArrayList<Field>();
 
 	Level(int xsize, int ysize) {
 		this.xsize = xsize;
@@ -19,8 +19,8 @@ public class Level {
 	}
 
 	void AddFieldtype(Field field) {
-		if (!Fieldtypes.contains(field))
-			Fieldtypes.add(field);
+		if (!fieldtypes.contains(field))
+			fieldtypes.add(field);
 	}
 
 	void Random() {
@@ -28,7 +28,7 @@ public class Level {
 		for (int x = 0; x < xsize; x++) {
 			for (int y = 0; y < ysize; y++) {
 				Setfield(x, y,
-						Fieldtypes.get(randomnum.nextInt(Fieldtypes.size())));
+						fieldtypes.get(randomnum.nextInt(fieldtypes.size())));
 			}
 		}
 	}
