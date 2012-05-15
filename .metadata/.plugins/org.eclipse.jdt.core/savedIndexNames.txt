@@ -1,0 +1,2 @@
+INDEX VERSION 1.126+C:\Dokumente und Einstellungen\Kathi&Fabi\gruppe35\.metadata\.plugins\org.eclipse.jdt.core
+1664405848.index
