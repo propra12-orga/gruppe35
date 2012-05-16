@@ -5,8 +5,9 @@ import Fields.Field;
 public class Level {
 	protected int xsize;
 	protected int ysize;
+	
 	protected Field[][] field; /* Array für alle Felder */
-
+	
 	public int getXsize() {
 		return xsize;
 	}
@@ -29,7 +30,7 @@ public class Level {
 		this.field = new Field[xsize][ysize];
 	}
 
-	public void setField(int x, int y, Field field) {	
+	public void setField(int x, int y, Field field) {
 		this.field[x][y] = field.copy();
 	}
 

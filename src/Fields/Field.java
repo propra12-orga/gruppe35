@@ -7,6 +7,7 @@ import Bomb.Bomb;
 import Character.Character;
 
 public class Field {
+	// Aenderung
 	protected boolean solid; // Ist das Feld fest oder nicht?
 	protected LinkedList<Character> characterlist = new LinkedList<Character>(); // Character
 																			// auf

@@ -1,5 +1,3 @@
-
-
 /*import java.awt.Container;
  import java.awt.Graphics;
  import java.awt.GridBagConstraints;
@@ -31,15 +29,29 @@ import java.awt.Toolkit;
 import java.awt.image.ImageObserver;
 import java.awt.image.ImageProducer;
 
+import Character.Character;
+import Fields.Field;
+import Fields.Floor;
+import Fields.Stone;
+import Level.Level;
+
 import javax.swing.*;
 
 public class BeispielFrame extends JFrame implements KeyListener {
 	public int psx;
 	public int psy;
 	public boolean move;
-	// Bild laden
+	public int sqsize = 50;
+	private JPanel panel;
+	private Level leveltest;
+
+	// Bilder laden
 	public final Image image = Toolkit.getDefaultToolkit()
 			.getImage("testb.jpg");
+	public final Image boden = Toolkit.getDefaultToolkit()
+			.getImage("boden.jpg");
+	public final Image mauer = Toolkit.getDefaultToolkit()
+			.getImage("mauer.jpg");
 
 	private static final long serialVersionUID = 1L;
 
@@ -55,17 +67,55 @@ public class BeispielFrame extends JFrame implements KeyListener {
 
 		Container cp = this.getContentPane();
 
-		JPanel panel = new JPanel() {
+		int xpx = 10;
+		int ypx = 10;
+
+		leveltest = new Level(xpx, ypx);
+		Field floor = new Floor(); // Boden
+		Field stone = new Stone(); // Unzerstörbarer Block
+
+		// Erstelle Level 1
+		for (int x = 0; x < leveltest.getXsize(); x++) {
+			for (int y = 0; y < leveltest.getYsize(); y++) {
+				if (((x % 2 > 0) && (y % 2 > 0))) {
+					leveltest.setField(x, y, stone);
+				} else {
+					leveltest.setField(x, y, floor);
+				}
+
+			}
+		}
+
+		panel = new JPanel() {
 
 			private static final long serialVersionUID = 1L;
 
 			// @Override
 			public void paintComponent(Graphics g) {
+				int xpx = 10;
+				int ypx = 10;
+				// super.paintComponent(g);
+				// g.
+				
 
-				//super.paintComponent(g);
+				for (int i = 0; i < xpx; i++) {
+					for (int j = 0; j < ypx; j++) {
+						if (leveltest.getField(i, j).isSolid() == true) {
+							g.drawImage(mauer, (ypx - j - 1) * sqsize,
+									(xpx - i - 1) * sqsize, sqsize, sqsize,
+									this);
+						} else {
+							g.drawImage(boden, (ypx - j - 1) * sqsize,
+									(xpx - i - 1) * sqsize, sqsize, sqsize,
+									this);
+						}
+					}
+				}
+				
+				g.drawImage(image, psy, psx, sqsize, sqsize, this);
+				g.drawImage(image, psy + 100, psx + 100, sqsize, sqsize, this);
 
-				g.drawImage(image, psy, psx, 100, 100, this);
-				//panel.update(g);
+				// panel.update(g);
 			}
 
 		};
@@ -91,7 +141,7 @@ public class BeispielFrame extends JFrame implements KeyListener {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		this.pack();
-		this.setSize(400, 300);
+		this.setSize(xpx * 50, ypx * 50);
 		// this.setResizable(false);
 		this.setVisible(true);
 	}
@@ -106,16 +156,20 @@ public class BeispielFrame extends JFrame implements KeyListener {
 
 	public void keyPressed(KeyEvent e) {
 		laufen(e.getKeyCode());
+		Graphics g = getGraphics();
+		g.clearRect(0, 0, getWidth(), getHeight());
+		super.paint(g);
+		panel.repaint();
 		// displayInfo(e, String.valueOf(psx) + "  " + String.valueOf(psy));
 	}
 
 	private void laufen(int Taste) {
 
-		if (38 == Taste) {
+		if (40 == Taste) {
 			psx = psx + 1;
 			move = true;
 		}
-		if (40 == Taste) {
+		if (38 == Taste) {
 			psx = psx - 1;
 			move = true;
 		}
