@@ -1,9 +1,7 @@
 package Fields;
 
-
 public class Floor extends Field {
-	protected boolean solid = false;
-	
+
 	// Kopiere dieses Feld
 	public Floor copy() {
 		return new Floor(this);
@@ -13,9 +11,9 @@ public class Floor extends Field {
 	public Floor(Floor floor) {
 		super(floor);
 	}
-	
-	//Default Constructor
-	public Floor(){
+
+	// Default Constructor
+	public Floor() {
 		solid = false;
 	}
 }

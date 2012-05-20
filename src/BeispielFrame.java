@@ -1,41 +1,22 @@
-/*import java.awt.Container;
- import java.awt.Graphics;
- import java.awt.GridBagConstraints;
- import java.awt.GridBagLayout;
- import java.awt.Image;
- import java.awt.Toolkit;
- import java.awt.event.ActionEvent;
- import java.awt.event.ActionListener;
- import java.awt.event.KeyEvent;
- import java.awt.event.KeyListener;
- import java.awt.image.ImageObserver;
- import java.awt.image.ImageProducer;
 
- import javax.swing.JButton;
- import javax.swing.JFrame;
- import javax.swing.JLabel;
- import javax.swing.JPanel;*/
-
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.event.*;
-import java.util.concurrent.TimeUnit;
 import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.awt.image.ImageObserver;
-import java.awt.image.ImageProducer;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-import Character.Character;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
 import Fields.Field;
 import Fields.Floor;
 import Fields.Stone;
 import Level.Level;
-
-import javax.swing.*;
 
 public class BeispielFrame extends JFrame implements KeyListener {
 	public int psx;
@@ -96,7 +77,6 @@ public class BeispielFrame extends JFrame implements KeyListener {
 				int ypx = 10;
 				// super.paintComponent(g);
 				// g.
-				
 
 				for (int i = 0; i < xpx; i++) {
 					for (int j = 0; j < ypx; j++) {
@@ -111,7 +91,7 @@ public class BeispielFrame extends JFrame implements KeyListener {
 						}
 					}
 				}
-				
+
 				g.drawImage(image, psy, psx, sqsize, sqsize, this);
 				g.drawImage(image, psy + 100, psx + 100, sqsize, sqsize, this);
 

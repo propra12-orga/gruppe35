@@ -168,4 +168,9 @@ public class Character {
 			System.out.println("Invalid Spawn point for " + name);
 		}
 	}
+	
+	public void nextlevel(Level nextlevel){
+		level = nextlevel;
+		spawn();
+	}
 }
