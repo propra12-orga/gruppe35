@@ -8,6 +8,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+import Level.Levellist;
+
 public class Menu extends JFrame {
 	// Constructor
 	public Menu() {
@@ -15,24 +17,34 @@ public class Menu extends JFrame {
 
 		JMenu start = new JMenu("Start");
 		start.setMnemonic('S');
-		JMenuItem l1Item =  new JMenuItem("Level 1");
-		start.add(l1Item);
 
 		JMenu options = new JMenu("Options");
 		options.setMnemonic('O');
-		
+
 		JMenuItem exitItem = new JMenuItem("Exit");
 		exitItem.setMnemonic('X');
+
+		// Action listener für Level items
+		// JMenuItem[] levelItems = new JMenuItem[Levellist.list.size()];
+		/*
+		 * for(int i=0;i<Levellist.list.size();i++){ JMenuItem levelItem = new
+		 * JMenuItem("Level" + (i+1)); levelItem.addActionListener(new
+		 * ActionListener() { public void actionPerformed(ActionEvent e) {
+		 * System.out.println("Starte Level"+ (i+1)); } }); }
+		 */
+
+		JMenuItem l1Item = new JMenuItem("Level 1");
+		start.add(l1Item);
 		
-		// Action listener für menu items
 		l1Item.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Level 1 is pressed");
+				
 			}
 		});
+
+		// Action listener für Exit
 		exitItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Exit is pressed");
 				System.exit(0);
 			}
 		});
@@ -48,6 +60,8 @@ public class Menu extends JFrame {
 	}
 
 	public static void main(String[] args) {
+		// Levels laden
+		Levellist.load();
 		Menu app = new Menu();
 		app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}

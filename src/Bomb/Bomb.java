@@ -20,10 +20,10 @@ public class Bomb implements Runnable {
 	protected int range;
 	protected int x;
 	protected int y;
-	protected Level level;
 	private Thread thread = null;
+	Level level;
 
-	public Bomb(Level level, int x, int y, Character owner, int timer, int range) {
+	public Bomb(Level level,int x, int y, Character owner, int timer, int range) {
 		this.x = x;
 		this.y = y;
 		this.level = level;

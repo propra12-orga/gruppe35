@@ -1,18 +1,9 @@
 package Fields;
 
 import Character.Character;
-import Level.Level;
+import Level.Levellist;
 
 public class Exit extends Field {
-	protected Level nextlevel;
-
-	public Level getNextlevel() {
-		return nextlevel;
-	}
-
-	public void setNextlevel(Level nextlevel) {
-		this.nextlevel = nextlevel;
-	}
 
 	public boolean enter(Character character) {
 		// Falls Flammen auf dem Feld sind wird der Charakter getötet der das
@@ -21,9 +12,7 @@ public class Exit extends Field {
 			if (flame > 0) {
 				character.kill();
 			} else {
-				if (nextlevel != null) {
-					character.nextlevel(nextlevel);
-				}
+				Levellist.next();
 			}
 			return (true);
 		} else {

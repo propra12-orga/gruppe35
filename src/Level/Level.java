@@ -5,7 +5,16 @@ import Fields.Field;
 public class Level {
 	protected int xsize;
 	protected int ysize;
+	protected boolean locked;
 	
+	public boolean isLocked() {
+		return locked;
+	}
+
+	public void setLocked(boolean locked) {
+		this.locked = locked;
+	}
+
 	protected Field[][] field; /* Array für alle Felder */
 	
 	public int getXsize() {
@@ -58,5 +67,6 @@ public class Level {
 		}
 
 	}
+	
 
 }
