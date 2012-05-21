@@ -10,9 +10,9 @@ public class Field {
 	// Aenderung
 	protected boolean solid; // Ist das Feld fest oder nicht?
 	protected LinkedList<Character> characterlist = new LinkedList<Character>(); // Character
-																			// auf
-																			// diesem
-																			// Feld
+	// auf
+	// diesem
+	// Feld
 	protected Bomb bomb = null; // Eventuelle Bombe auf diesem Feld
 	protected int flame = 0; // Flammen auf diesem Feld
 
@@ -54,10 +54,6 @@ public class Field {
 			bomb.destruction();
 		// Töte alle Character auf diesem Feld
 		synchronized (characterlist) {
-			/*
-			 * ListIterator<Character> i = characterlist.listIterator(); while
-			 * (i.hasNext()) { i.next().kill(); } characterlist.clear();
-			 */
 			while (characterlist.size() > 0) {
 				characterlist.removeFirst().kill();
 			}
@@ -68,7 +64,7 @@ public class Field {
 	public boolean enter(Character character) {
 		// Falls Flammen auf dem Feld sind wird der Charakter getötet der das
 		// Feld betritt.
-		if((!solid) && (bomb == null)){
+		if ((!solid) && (bomb == null)) {
 			if (flame > 0) {
 				character.kill();
 			} else {
@@ -76,9 +72,9 @@ public class Field {
 					characterlist.add(character);
 				}
 			}
-			return(true);
+			return (true);
 		} else {
-			return(false);
+			return (false);
 		}
 	}
 

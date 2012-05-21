@@ -1,3 +1,11 @@
+/**
+ This is the bomb class, which creates thread, that runs for (timer) seconds.
+ After that the bomb explodes, creating Flame classes in the blast range.
+ The destruction() method can also be called from the Field class, when it is subject to flames.
+ @author Peet
+ */
+
+
 package Bomb;
 
 import java.util.concurrent.TimeUnit;
