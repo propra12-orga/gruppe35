@@ -33,7 +33,7 @@ class Bombertest {
 		 * Debug Field floor2 = new Floor(); level1.setField(0,0,floor2);
 		 * level1.setField(9,9,floor2);
 		 */
-		Character guy2 = new Character("Guy2",0.5,0.5, level1, 1.0, 2, 2, 2, 3);
+		Character guy2 = new Character("Guy2",0.5,0.5, 1.0, 2, 2, 2, 3);
 		guy2.move(1, 0);
 		guy2.move(1, 0);
 		guy2.move(1, 0);
