@@ -1,4 +1,3 @@
-
 import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
@@ -22,17 +21,19 @@ public class BeispielFrame extends JFrame implements KeyListener {
 	public int psx;
 	public int psy;
 	public boolean move;
-	public int sqsize = 50;
+	public int sqsize = 100;
 	private JPanel panel;
 	private Level leveltest;
 
 	// Bilder laden
 	public final Image image = Toolkit.getDefaultToolkit()
-			.getImage("testb.jpg");
+			.getImage("img/testb.jpg");
+	public final Image image2 = Toolkit.getDefaultToolkit().getImage(
+			"img/boltzmann2.gif");
 	public final Image boden = Toolkit.getDefaultToolkit()
-			.getImage("boden.jpg");
+			.getImage("img/boden3.gif");
 	public final Image mauer = Toolkit.getDefaultToolkit()
-			.getImage("mauer.jpg");
+			.getImage("img/mauer2.gif");
 
 	private static final long serialVersionUID = 1L;
 
@@ -92,8 +93,8 @@ public class BeispielFrame extends JFrame implements KeyListener {
 					}
 				}
 
-				g.drawImage(image, psy, psx, sqsize, sqsize, this);
-				g.drawImage(image, psy + 100, psx + 100, sqsize, sqsize, this);
+				g.drawImage(image2, psy, psx, sqsize, sqsize, this);
+				g.drawImage(image2, psy + 100, psx + 100, sqsize, sqsize, this);
 
 				// panel.update(g);
 			}
