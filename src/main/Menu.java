@@ -7,6 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import Level.Levellist;
 
@@ -35,10 +37,11 @@ public class Menu extends JFrame {
 
 		JMenuItem l1Item = new JMenuItem("Level 1");
 		start.add(l1Item);
-		
+
 		l1Item.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				Levellist.currentlevel = Levellist.list.get(0);
+
 			}
 		});
 
@@ -62,7 +65,36 @@ public class Menu extends JFrame {
 	public static void main(String[] args) {
 		// Levels laden
 		Levellist.load();
-		Menu app = new Menu();
-		app.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// Player laden
+		Playerlist.load();
+
+		try {
+			// UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+			// UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
+			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+		} catch (UnsupportedLookAndFeelException ex) {
+			ex.printStackTrace();
+		} catch (IllegalAccessException ex) {
+			ex.printStackTrace();
+		} catch (InstantiationException ex) {
+			ex.printStackTrace();
+		} catch (ClassNotFoundException ex) {
+			ex.printStackTrace();
+		}
+
+		Menu menu = new Menu();
+		menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		//Provisorisch
+		Levellist.currentlevel=Levellist.list.get(0);
+		Playerlist.list.get(0).spawn();
+		
+		final GUI feld = new GUI();
+		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+					feld.initialize();
+			}
+		});
+
 	}
 }

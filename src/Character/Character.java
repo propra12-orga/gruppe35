@@ -9,6 +9,8 @@ public class Character {
 	protected double speed;
 	protected double spawnx;
 	protected double spawny;
+	protected int pixsizex = 25;
+	protected int pixsizey = 40;
 	protected double posx;
 	protected double posy;
 	protected int maxbombs;
@@ -17,8 +19,24 @@ public class Character {
 	protected int bombtimer;
 	protected int lifes;
 
-	public Character(String name, double spawnx, double spawny, 
-			double speed, int maxbombs, int bombrange, int bombtimer, int lifes) {
+	public int getPixsizex() {
+		return pixsizex;
+	}
+
+	public void setPixsizex(int pixsizex) {
+		this.pixsizex = pixsizex;
+	}
+
+	public int getPixsizey() {
+		return pixsizey;
+	}
+
+	public void setPixsizey(int pixsizey) {
+		this.pixsizey = pixsizey;
+	}
+
+	public Character(String name, double spawnx, double spawny, double speed,
+			int maxbombs, int bombrange, int bombtimer, int lifes) {
 		this.name = name;
 		this.spawnx = spawnx;
 		this.spawny = spawny;
@@ -27,7 +45,6 @@ public class Character {
 		this.bombrange = bombrange;
 		this.bombtimer = bombtimer;
 		this.lifes = lifes;
-		spawn();
 	}
 
 	public String getName() {
@@ -48,6 +65,14 @@ public class Character {
 
 	public double getPosx() {
 		return posx;
+	}
+
+	public int getDrawx() {
+		return ((int) (posx * 50 - pixsizex * 0.5));
+	}
+
+	public int getDrawy() {
+		return ((int) (posy * 50 - pixsizey * 0.5));
 	}
 
 	public void setPosx(double posx) {
@@ -105,8 +130,8 @@ public class Character {
 	public void placebomb() {
 		if (bombs < maxbombs) {
 			bombs++;
-			Bomb bomb = new Bomb(Levellist.currentlevel, (int) (posx), (int) (posy), this,
-					bombtimer, bombrange);
+			Bomb bomb = new Bomb(Levellist.currentlevel, (int) (posx),
+					(int) (posy), this, bombtimer, bombrange);
 			bomb.start();
 		}
 	}
@@ -122,30 +147,49 @@ public class Character {
 	}
 
 	public void move(int dirx, int diry) {
-		double newposx = posx + speed * dirx;
-		double newposy = posy + speed * diry;
+		double newposx = (posx) + speed * dirx;
+		double newposy = (posy) + speed * diry;
+		double newborderposx = (posx + dirx * pixsizex * 0.5) + speed * dirx;
+		double newborderposy = (posx + diry * pixsizey * 0.5) + speed * diry;
 		int oldx = (int) (posx);
 		int oldy = (int) (posy);
+		int newborderx = (int) (newborderposx);
+		int newbordery = (int) (newborderposy);
 		int newx = (int) (newposx);
 		int newy = (int) (newposy);
 
-		// Würde neues Feld betreten werden?
 		if (((newx - oldx) != 0) || ((newy - oldy) != 0)) {
 			// Kann dieses Feld überhaupt betreten werden?
-			if (!Levellist.currentlevel.getField(newx, newy).enter(this)) {
-				// Kann nicht betreten werden, gehe nur bis zum Rand
-				posx = newx - dirx * 1e-3;
-				posy = newy - diry * 1e-3;
-			} else {
-				// Kann betreten werden, gehe weiter
-				// Verlasse auch das alte Feld
+			if (Levellist.currentlevel.getField(newx, newy).enter(this)) {
+				// Kann betreten werden
 				Levellist.currentlevel.getField(oldx, oldy).leave(this);
 				posx = newposx;
 				posy = newposy;
+			} else {
+				// Gehe bis zum Rand
+				posx = newposx - dirx * pixsizex * 0.5;
+				posx = newposy - diry * pixsizey * 0.5;
+
 			}
 		} else {
-			posx = newposx;
-			posy = newposy;
+
+			// Würde der Rand ein neues Feld betreten?
+			if (((newborderx - oldx) != 0) || ((newbordery - oldy) != 0)) {
+				// Kann dieses Feld überhaupt betreten werden?
+				if (Levellist.currentlevel.getField(newx, newy).enterborder(this)) {
+					//Kann betreten werden
+					//Gehe weiter
+					posx = newposx;
+					posy = newposy;
+				} else {
+					// Gehe bis zum Rand
+					posx = newposx - dirx * pixsizex * 0.5;
+					posx = newposy - diry * pixsizey * 0.5;
+				}
+			} else {
+				posx = newposx;
+				posy = newposy;
+			}
 		}
 	}
 
@@ -153,7 +197,8 @@ public class Character {
 		posx = spawnx;
 		posy = spawny;
 		System.out.println(name + " spawns at " + posx + "," + posy);
-		if (!Levellist.currentlevel.getField((int) (posx), (int) (posy)).enter(this)) {
+		if (!Levellist.currentlevel.getField((int) (posx), (int) (posy)).enter(
+				this)) {
 			System.out.println("Invalid Spawn point for " + name);
 		}
 	}

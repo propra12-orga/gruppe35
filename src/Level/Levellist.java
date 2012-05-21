@@ -10,7 +10,7 @@ import Fields.Stone;
 
 public class Levellist {
 	public static ArrayList<Level> list = new ArrayList<Level>(); // Levelliste
-	public static Level currentlevel;
+	public static Level currentlevel = null;
 
 	public static void load() {
 		Field floor = new Floor(); // Boden
@@ -48,13 +48,13 @@ public class Levellist {
 
 	}
 
-	public static void next(){
+	public static void next() {
 		int i = list.indexOf(currentlevel);
-		ListIterator<Level> it = list.listIterator(i); 
-		if(it.hasNext()){
-			currentlevel=it.next();
-			currentlevel.setLocked(false); //Unlock the new level
-		}else{
+		ListIterator<Level> it = list.listIterator(i);
+		if (it.hasNext()) {
+			currentlevel = it.next();
+			currentlevel.setLocked(false); // Unlock the new level
+		} else {
 			System.out.println("This was the last level, you have won!");
 		}
 	}
