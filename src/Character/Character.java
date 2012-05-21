@@ -1,7 +1,7 @@
 package Character;
 
 import Bomb.Bomb;
-import Level.Level;
+import Level.Levellist;
 
 /** Character sind Bomberman, Gegner usw. **/
 public class Character {
@@ -16,9 +16,8 @@ public class Character {
 	protected int bombrange;
 	protected int bombtimer;
 	protected int lifes;
-	protected Level level;
 
-	public Character(String name, double spawnx, double spawny, Level level,
+	public Character(String name, double spawnx, double spawny, 
 			double speed, int maxbombs, int bombrange, int bombtimer, int lifes) {
 		this.name = name;
 		this.spawnx = spawnx;
@@ -28,7 +27,6 @@ public class Character {
 		this.bombrange = bombrange;
 		this.bombtimer = bombtimer;
 		this.lifes = lifes;
-		this.level = level;
 		spawn();
 	}
 
@@ -104,18 +102,10 @@ public class Character {
 		this.lifes = lifes;
 	}
 
-	public Level getLevel() {
-		return level;
-	}
-
-	public void setLevel(Level level) {
-		this.level = level;
-	}
-
 	public void placebomb() {
 		if (bombs < maxbombs) {
 			bombs++;
-			Bomb bomb = new Bomb(level, (int) (posx), (int) (posy), this,
+			Bomb bomb = new Bomb(Levellist.currentlevel, (int) (posx), (int) (posy), this,
 					bombtimer, bombrange);
 			bomb.start();
 		}
@@ -126,7 +116,6 @@ public class Character {
 		lifes--;
 		if (lifes <= 0) {
 			System.out.println("Game over for " + this.name);
-			level = null;
 		} else {
 			spawn();
 		}
@@ -143,14 +132,14 @@ public class Character {
 		// Würde neues Feld betreten werden?
 		if (((newx - oldx) != 0) || ((newy - oldy) != 0)) {
 			// Kann dieses Feld überhaupt betreten werden?
-			if (!level.getField(newx, newy).enter(this)) {
+			if (!Levellist.currentlevel.getField(newx, newy).enter(this)) {
 				// Kann nicht betreten werden, gehe nur bis zum Rand
 				posx = newx - dirx * 1e-3;
 				posy = newy - diry * 1e-3;
 			} else {
 				// Kann betreten werden, gehe weiter
 				// Verlasse auch das alte Feld
-				level.getField(oldx, oldy).leave(this);
+				Levellist.currentlevel.getField(oldx, oldy).leave(this);
 				posx = newposx;
 				posy = newposy;
 			}
@@ -164,13 +153,8 @@ public class Character {
 		posx = spawnx;
 		posy = spawny;
 		System.out.println(name + " spawns at " + posx + "," + posy);
-		if (!level.getField((int) (posx), (int) (posy)).enter(this)) {
+		if (!Levellist.currentlevel.getField((int) (posx), (int) (posy)).enter(this)) {
 			System.out.println("Invalid Spawn point for " + name);
 		}
-	}
-	
-	public void nextlevel(Level nextlevel){
-		level = nextlevel;
-		spawn();
 	}
 }

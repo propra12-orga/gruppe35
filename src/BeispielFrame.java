@@ -24,7 +24,7 @@ public class BeispielFrame extends JFrame implements KeyListener {
 	public int sqsize = 100;
 	private JPanel panel;
 	private Level leveltest;
-
+	
 	// Bilder laden
 	public final Image image = Toolkit.getDefaultToolkit()
 			.getImage("img/testb.jpg");
