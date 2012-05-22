@@ -20,7 +20,7 @@ public class Field {
 		return solid;
 	}
 
-	public int getflame() {
+	public int getFlame() {
 		return flame;
 	}
 

@@ -13,6 +13,7 @@ public class Levellist {
 	public static Level currentlevel = null;
 
 	public static void load() {
+		list.clear();
 		Field floor = new Floor(); // Boden
 		Field stone = new Stone(); // Unzerstörbarer Block
 		Field exit = new Exit(); // Ausgang
