@@ -144,7 +144,7 @@ public class Character {
 			System.out.println("Game over for " + this.name);
 			Menu.panelvisible = false;
 			Menu.feld.initialize();
-		
+
 		} else {
 			spawn();
 		}
