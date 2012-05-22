@@ -37,7 +37,7 @@ public class GUI extends JFrame implements KeyListener {
 		super("BeispielFrame");
 	}
 
-	public void initialize() {
+	public void initialize(boolean panelvisible) {
 
 		Container cp = this.getContentPane();
 
@@ -52,7 +52,7 @@ public class GUI extends JFrame implements KeyListener {
 
 				for (int x = 0; x < Levellist.currentlevel.getXsize(); x++) {
 					for (int y = 0; y < Levellist.currentlevel.getYsize(); y++) {
-						if (Levellist.currentlevel.getField(x, y).isSolid() == true) {
+						if (Levellist.currentlevel.getField(y, x).isSolid() == true) {
 							g.drawImage(mauer, y * sqsize, x * sqsize, sqsize,
 									sqsize, this);
 						} else {
@@ -142,7 +142,7 @@ public class GUI extends JFrame implements KeyListener {
 		this.setSize(Levellist.currentlevel.getXsize() * 50,
 				Levellist.currentlevel.getYsize() * 50);
 		// this.setResizable(false);
-		this.setVisible(true);
+		this.setVisible(panelvisible);
 	}
 
 	public void keyTyped(KeyEvent e) {
@@ -182,4 +182,7 @@ public class GUI extends JFrame implements KeyListener {
 		// displayInfo(e, String.valueOf(psx) + "  " + String.valueOf(psy));
 	}
 
+	public JPanel getPanel() {
+		return panel;
+	}
 }

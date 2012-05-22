@@ -6,7 +6,7 @@ public class Level {
 	protected int xsize;
 	protected int ysize;
 	protected boolean locked;
-	
+
 	public boolean isLocked() {
 		return locked;
 	}
@@ -16,7 +16,7 @@ public class Level {
 	}
 
 	protected Field[][] field; /* Array für alle Felder */
-	
+
 	public int getXsize() {
 		return xsize;
 	}
@@ -67,6 +67,5 @@ public class Level {
 		}
 
 	}
-	
 
 }

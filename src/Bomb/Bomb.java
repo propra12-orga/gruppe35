@@ -28,11 +28,11 @@ public class Bomb implements Runnable {
 	}
 
 	public int getDrawx() {
-		return ((int) (x*50  + (50 - pixsizex)*0.5));
+		return ((int) (x * 50 + (50 - pixsizex) * 0.5));
 	}
 
 	public int getDrawy() {
-		return ((int) (y*50  + (50 - pixsizey)*0.5));
+		return ((int) (y * 50 + (50 - pixsizey) * 0.5));
 	}
 
 	public void setPixsizex(int pixsizex) {
