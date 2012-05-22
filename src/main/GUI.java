@@ -17,14 +17,16 @@ import Level.Levellist;
 public class GUI extends JFrame implements KeyListener {
 	public int sqsize = 50;
 	private JPanel panel;
-
+	private boolean moving = false;
 	// Bilder laden
-	public final Image image = Toolkit.getDefaultToolkit()
-			.getImage("src/img/boltzmann2.gif");
-	public final Image boden = Toolkit.getDefaultToolkit()
-			.getImage("src/img/boden3.gif");
-	public final Image mauer = Toolkit.getDefaultToolkit()
-			.getImage("src/img/mauer2.gif");
+	public final Image image = Toolkit.getDefaultToolkit().getImage(
+			"src/img/boltzmann2.gif");
+	public final Image steht = Toolkit.getDefaultToolkit().getImage(
+			"src/img/boltzmann.gif");
+	public final Image boden = Toolkit.getDefaultToolkit().getImage(
+			"src/img/boden3.gif");
+	public final Image mauer = Toolkit.getDefaultToolkit().getImage(
+			"src/img/mauer2.gif");
 
 	private static final long serialVersionUID = 1L;
 
@@ -57,11 +59,17 @@ public class GUI extends JFrame implements KeyListener {
 						}
 					}
 				}
-
-				g.drawImage(image, Playerlist.list.get(0).getDrawx(),
-						Playerlist.list.get(0).getDrawy(),
-						Playerlist.list.get(0).getPixsizex(), Playerlist.list
-								.get(0).getPixsizey(), this);
+				if (moving == false) {
+					g.drawImage(steht, Playerlist.list.get(0).getDrawx(),
+							Playerlist.list.get(0).getDrawy(), Playerlist.list
+									.get(0).getPixsizex(),
+							Playerlist.list.get(0).getPixsizey(), this);
+				} else {
+					g.drawImage(image, Playerlist.list.get(0).getDrawx(),
+							Playerlist.list.get(0).getDrawy(), Playerlist.list
+									.get(0).getPixsizex(),
+							Playerlist.list.get(0).getPixsizey(), this);
+				}
 
 				// panel.update(g);
 			}
@@ -100,10 +108,11 @@ public class GUI extends JFrame implements KeyListener {
 	}
 
 	public void keyReleased(KeyEvent e) {
-
+		moving = false;
 	}
 
 	public void keyPressed(KeyEvent e) {
+		moving = true;
 		// Rechts
 		if (39 == e.getKeyCode()) {
 			Playerlist.list.get(0).move(1, 0);

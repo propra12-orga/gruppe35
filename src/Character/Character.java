@@ -167,8 +167,8 @@ public class Character {
 				posy = newposy;
 			} else {
 				// Gehe bis zum Rand
-				posx = newposx - dirx * pixsizex * 0.5;
-				posx = newposy - diry * pixsizey * 0.5;
+				//posx = newposx - dirx * pixsizex * 0.5;
+				//posx = newposy - diry * pixsizey * 0.5;
 
 			}
 		} else {
@@ -183,8 +183,8 @@ public class Character {
 					posy = newposy;
 				} else {
 					// Gehe bis zum Rand
-					posx = newposx - dirx * pixsizex * 0.5;
-					posx = newposy - diry * pixsizey * 0.5;
+					//posx = newposx - dirx * pixsizex * 0.5;
+					//posx = newposy - diry * pixsizey * 0.5;
 				}
 			} else {
 				posx = newposx;
