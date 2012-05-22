@@ -3,6 +3,9 @@ package Level;
 import java.util.ArrayList;
 import java.util.ListIterator;
 
+import main.Bomblist;
+import main.Flamelist;
+
 import Fields.Exit;
 import Fields.Field;
 import Fields.Floor;
@@ -42,19 +45,27 @@ public class Levellist {
 			}
 		}
 		level2.setField(8, 8, stone);
+		level2.setField(7, 8, stone);
+		level2.setField(6, 8, stone);
+		level2.setField(5, 8, stone);
 		level2.setField(0, 8, exit);
 		// Zur Levelliste hinzufügen
 		list.add(level1);
 		list.add(level2);
+		
+		currentlevel=level1;
+		currentlevel.setLocked(false); // Unlock the first level
 
 	}
 
 	public static void next() {
-		int i = list.indexOf(currentlevel);
+		int i = list.indexOf(currentlevel)+1;
 		ListIterator<Level> it = list.listIterator(i);
 		if (it.hasNext()) {
 			currentlevel = it.next();
 			currentlevel.setLocked(false); // Unlock the new level
+			Bomblist.list.clear();	//Alle Bomben nicht mehr zeichnen
+			Flamelist.list.clear(); //Alle Flammen nicht mehr zeichnen
 		} else {
 			System.out.println("This was the last level, you have won!");
 		}

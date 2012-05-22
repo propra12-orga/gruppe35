@@ -128,7 +128,9 @@ public class Character {
 	}
 
 	public void placebomb() {
-		if (bombs < maxbombs) {
+		if ((bombs < maxbombs)
+				&& (Levellist.currentlevel.getField((int) (posx), (int) (posy))
+						.getBomb() == null)) {
 			bombs++;
 			Bomb bomb = new Bomb(Levellist.currentlevel, (int) (posx),
 					(int) (posy), this, bombtimer, bombrange);
@@ -175,6 +177,8 @@ public class Character {
 	}
 
 	public void spawn() {
+		// Verlasse altes Feld
+		Levellist.currentlevel.getField((int)(posx), (int)(posy)).leave(this);
 		posx = spawnx;
 		posy = spawny;
 		System.out.println(name + " spawns at " + posx + "," + posy);

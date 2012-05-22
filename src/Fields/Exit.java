@@ -8,16 +8,9 @@ public class Exit extends Field {
 	public boolean enter(Character character) {
 		// Falls Flammen auf dem Feld sind wird der Charakter getötet der das
 		// Feld betritt.
-		if ((!solid) && (bomb == null)) {
-			if (flame > 0) {
-				character.kill();
-			} else {
-				Levellist.next();
-			}
-			return (true);
-		} else {
-			return (false);
-		}
+			Levellist.next();
+			character.spawn();		
+		return(false);
 	}
 
 	// Kopiere dieses Feld
