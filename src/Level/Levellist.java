@@ -5,6 +5,7 @@ import java.util.ListIterator;
 
 import main.Bomblist;
 import main.Flamelist;
+import main.Playerlist;
 
 import Fields.Exit;
 import Fields.Field;
@@ -52,20 +53,21 @@ public class Levellist {
 		// Zur Levelliste hinzufügen
 		list.add(level1);
 		list.add(level2);
-		
-		currentlevel=level1;
+
+		currentlevel = level1;
 		currentlevel.setLocked(false); // Unlock the first level
 
 	}
 
 	public static void next() {
-		int i = list.indexOf(currentlevel)+1;
+		int i = list.indexOf(currentlevel) + 1;
 		ListIterator<Level> it = list.listIterator(i);
 		if (it.hasNext()) {
 			currentlevel = it.next();
 			currentlevel.setLocked(false); // Unlock the new level
-			Bomblist.list.clear();	//Alle Bomben nicht mehr zeichnen
-			Flamelist.list.clear(); //Alle Flammen nicht mehr zeichnen
+			Bomblist.list.clear(); // Alle Bomben nicht mehr zeichnen
+			Flamelist.list.clear(); // Alle Flammen nicht mehr zeichnen
+			Playerlist.list.get(0).spawn(); // Character neu spawnen
 		} else {
 			System.out.println("This was the last level, you have won!");
 		}

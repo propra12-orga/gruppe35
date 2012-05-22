@@ -5,7 +5,7 @@ import Fields.Field;
 public class Level {
 	protected int xsize;
 	protected int ysize;
-	protected boolean locked = true;;
+	protected boolean locked = true;
 	
 	public boolean isLocked() {
 		return locked;

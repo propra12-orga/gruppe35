@@ -19,16 +19,16 @@ public class GUI extends JFrame implements KeyListener {
 	public JPanel panel;
 
 	// Bilder laden
-	public final Image image = Toolkit.getDefaultToolkit()
-			.getImage("src/img/boltzmann2.gif");
-	public final Image boden = Toolkit.getDefaultToolkit()
-			.getImage("src/img/boden3.gif");
-	public final Image mauer = Toolkit.getDefaultToolkit()
-			.getImage("src/img/mauer2.gif");
-	public final Image bomb = Toolkit.getDefaultToolkit()
-			.getImage("src/img/bomb.gif");
-	public final Image flame = Toolkit.getDefaultToolkit()
-			.getImage("src/img/fire_central.gif");
+	public final Image image = Toolkit.getDefaultToolkit().getImage(
+			"src/img/boltzmann2.gif");
+	public final Image boden = Toolkit.getDefaultToolkit().getImage(
+			"src/img/boden3.gif");
+	public final Image mauer = Toolkit.getDefaultToolkit().getImage(
+			"src/img/mauer2.gif");
+	public final Image bomb = Toolkit.getDefaultToolkit().getImage(
+			"src/img/bomb.gif");
+	public final Image flame = Toolkit.getDefaultToolkit().getImage(
+			"src/img/fire_central.gif");
 
 	private static final long serialVersionUID = 1L;
 
@@ -37,7 +37,7 @@ public class GUI extends JFrame implements KeyListener {
 		super("BeispielFrame");
 	}
 
-	public void initialize() {
+	public void initialize(boolean panelvisible) {
 
 		Container cp = this.getContentPane();
 
@@ -52,12 +52,42 @@ public class GUI extends JFrame implements KeyListener {
 
 				for (int x = 0; x < Levellist.currentlevel.getXsize(); x++) {
 					for (int y = 0; y < Levellist.currentlevel.getYsize(); y++) {
-						if (Levellist.currentlevel.getField(x, y).isSolid() == true) {
+						if (Levellist.currentlevel.getField(y, x).isSolid() == true) {
 							g.drawImage(mauer, y * sqsize, x * sqsize, sqsize,
 									sqsize, this);
 						} else {
-							g.drawImage(boden, y * sqsize, x * sqsize, sqsize,
-									sqsize, this);
+
+							if (Levellist.currentlevel.getField(y, x).getBomb() != null) {
+								g.drawImage(boden, y * sqsize, x * sqsize,
+										sqsize, sqsize, this);
+								g.drawImage(
+										bomb,
+										(int) (y * sqsize + (sqsize - Bomblist.list
+												.get(0).getPixsizey()) * 0.5),
+										(int) (x * sqsize + (sqsize - Bomblist.list
+												.get(0).getPixsizex()) * 0.5),
+										Bomblist.list.get(0).getPixsizex(),
+										Bomblist.list.get(0).getPixsizey(),
+										this);
+							} else {
+								if (Levellist.currentlevel.getField(y, x)
+										.getflame() == 0) {
+									g.drawImage(boden, y * sqsize, x * sqsize,
+											sqsize, sqsize, this);
+								} else {
+									g.drawImage(boden, y * sqsize, x * sqsize,
+											sqsize, sqsize, this);
+									g.drawImage(
+											flame,
+											y * sqsize,
+											x * sqsize,
+											Flamelist.list.get(0).getPixsizex(),
+											Flamelist.list.get(0).getPixsizey(),
+											this);
+
+								}
+
+							}
 						}
 					}
 				}
@@ -66,25 +96,25 @@ public class GUI extends JFrame implements KeyListener {
 						Playerlist.list.get(0).getDrawy(),
 						Playerlist.list.get(0).getPixsizex(), Playerlist.list
 								.get(0).getPixsizey(), this);
-				//evt.Bombe malen
-				for(int i=0;i<Bomblist.list.size();i++){
-					g.drawImage(bomb, Bomblist.list.get(0).getDrawx(),
-							Bomblist.list.get(i).getDrawy(),
-							Bomblist.list.get(i).getPixsizex(), Bomblist.list
-									.get(0).getPixsizey(), this);
-					
-				}
-				//evt.Flammen malen
-				for(int i=0;i<Flamelist.list.size();i++){
-					g.drawImage(flame, Flamelist.list.get(0).getDrawx(),
-							Flamelist.list.get(i).getDrawy(),
-							Flamelist.list.get(i).getPixsizex(), Flamelist.list
-									.get(0).getPixsizey(), this);
-					
-				}
+				// evt.Bombe malen
+				// for (int i = 0; i < Bomblist.list.size(); i++) {
+				// g.drawImage(bomb, Bomblist.list.get(0).getDrawx(),
+				// Bomblist.list.get(i).getDrawy(),
+				// Bomblist.list.get(i).getPixsizex(), Bomblist.list
+				// .get(0).getPixsizey(), this);
 
-				// panel.update(g);
+				// }
+				// evt.Flammen malen
+				// for(int i=0;i<Flamelist.list.size();i++){
+				// g.drawImage(flame, Flamelist.list.get(0).getDrawx(),
+				// Flamelist.list.get(i).getDrawy(),
+				// Flamelist.list.get(i).getPixsizex(), Flamelist.list
+				// .get(0).getPixsizey(), this);
+
 			}
+
+			// panel.update(g);
+			// }
 
 		};
 
@@ -112,7 +142,7 @@ public class GUI extends JFrame implements KeyListener {
 		this.setSize(Levellist.currentlevel.getXsize() * 50,
 				Levellist.currentlevel.getYsize() * 50);
 		// this.setResizable(false);
-		this.setVisible(true);
+		this.setVisible(panelvisible);
 	}
 
 	public void keyTyped(KeyEvent e) {
@@ -141,10 +171,10 @@ public class GUI extends JFrame implements KeyListener {
 			Playerlist.list.get(0).move(0, -1);
 		}
 		// Leertaste (Bombe)
-				if (32 == e.getKeyCode()) {
-					Playerlist.list.get(0).placebomb();
-				}
-		
+		if (32 == e.getKeyCode()) {
+			Playerlist.list.get(0).placebomb();
+		}
+
 		Graphics g = getGraphics();
 		g.clearRect(0, 0, getWidth(), getHeight());
 		super.paint(g);
@@ -152,5 +182,7 @@ public class GUI extends JFrame implements KeyListener {
 		// displayInfo(e, String.valueOf(psx) + "  " + String.valueOf(psy));
 	}
 
-
+	public JPanel getPanel() {
+		return panel;
+	}
 }

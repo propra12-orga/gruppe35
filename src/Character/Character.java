@@ -178,7 +178,7 @@ public class Character {
 
 	public void spawn() {
 		// Verlasse altes Feld
-		Levellist.currentlevel.getField((int)(posx), (int)(posy)).leave(this);
+		Levellist.currentlevel.getField((int) (posx), (int) (posy)).leave(this);
 		posx = spawnx;
 		posy = spawny;
 		System.out.println(name + " spawns at " + posx + "," + posy);
