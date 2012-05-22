@@ -97,8 +97,8 @@ public class Menu extends JFrame {
 		menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// Provisorisch
-		Levellist.currentlevel = Levellist.list.get(0);
-		Playerlist.list.get(0).spawn();
+		//Levellist.currentlevel = Levellist.list.get(0);
+		//Playerlist.list.get(0).spawn();
 
 		// final GUI feld = new GUI();
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {

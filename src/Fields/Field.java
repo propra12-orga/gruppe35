@@ -71,12 +71,14 @@ public class Field {
 		if ((!solid) && (bomb == null)) {
 			if (flame > 0) {
 				character.kill();
+				return(false);
 			} else {
 				synchronized (characterlist) {
 					characterlist.add(character);
 				}
+				return (true);
 			}
-			return (true);
+			
 		} else {
 			return (false);
 		}

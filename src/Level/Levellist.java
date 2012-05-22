@@ -5,6 +5,7 @@ import java.util.ListIterator;
 
 import main.Bomblist;
 import main.Flamelist;
+import main.Menu;
 import main.Playerlist;
 
 import Fields.Exit;
@@ -33,7 +34,7 @@ public class Levellist {
 				}
 			}
 		}
-		level1.setField(8, 8, exit);
+		level1.setField(2, 1, exit);
 
 		// Erstelle Level 2
 		for (int x = 0; x < level2.getXsize(); x++) {
@@ -71,6 +72,8 @@ public class Levellist {
 			Playerlist.list.get(0).spawn(); // Character neu spawnen
 		} else {
 			System.out.println("This was the last level, you have won!");
+			Menu.panelvisible = false;
+			Menu.feld.initialize();
 		}
 	}
 }

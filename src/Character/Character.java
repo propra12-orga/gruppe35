@@ -159,25 +159,32 @@ public class Character {
 		double newposy = (posy) + speed * diry;
 		int newx = (int) (newposx);
 		int newy = (int) (newposy);
+		// wird der Rand des Spielfeldes nicht verlassen?
+		if ((newposx > 0.0)
+				&& (newposx < Levellist.currentlevel.getXsize())
+				&& (newposy > 0.0)
+				&& (newposy < Levellist.currentlevel.getYsize())) {
+			// Würde ein neues Feld betreten?
+			if (((newx - oldx) != 0) || ((newy - oldy) != 0)) {
+				// Kann dieses Feld überhaupt betreten werden?
+				if (Levellist.currentlevel.getField(newx, newy).enter(this)) {
+					// Kann betreten werden
+					// Gehe weiter
+					posx = newposx;
+					posy = newposy;
+					// Verlasse altes Feld
+					Levellist.currentlevel.getField(oldx, oldy).leave(this);
+				} else {
+					// Kann nicht betreten werden
+				}
 
-		// Würde ein neues Feld betreten?
-		if (((newx - oldx) != 0) || ((newy - oldy) != 0)) {
-			// Kann dieses Feld überhaupt betreten werden?
-			if (Levellist.currentlevel.getField(newx, newy).enter(this)) {
-				// Kann betreten werden
-				// Gehe weiter
+			} else {
+				// Kein neues Feld wird betreten, gehe einfach weiter
 				posx = newposx;
 				posy = newposy;
-				// Verlasse altes Feld
-				Levellist.currentlevel.getField(oldx, oldy).leave(this);
-			} else {
-				// Kann nicht betreten werden
 			}
-		} else {
-			// Kein neues Feld wird betreten, gehe einfach weiter
-			posx = newposx;
-			posy = newposy;
 		}
+
 	}
 
 	public void spawn() {
