@@ -56,8 +56,38 @@ public class GUI extends JFrame implements KeyListener {
 							g.drawImage(mauer, y * sqsize, x * sqsize, sqsize,
 									sqsize, this);
 						} else {
-							g.drawImage(boden, y * sqsize, x * sqsize, sqsize,
-									sqsize, this);
+
+							if (Levellist.currentlevel.getField(y, x).getBomb() != null) {
+								g.drawImage(boden, y * sqsize, x * sqsize,
+										sqsize, sqsize, this);
+								g.drawImage(
+										bomb,
+										(int) (y * sqsize + (sqsize - Bomblist.list
+												.get(0).getPixsizey()) * 0.5),
+										(int) (x * sqsize + (sqsize - Bomblist.list
+												.get(0).getPixsizex()) * 0.5),
+										Bomblist.list.get(0).getPixsizex(),
+										Bomblist.list.get(0).getPixsizey(),
+										this);
+							} else {
+								if (Levellist.currentlevel.getField(y, x)
+										.getflame() == 0) {
+									g.drawImage(boden, y * sqsize, x * sqsize,
+											sqsize, sqsize, this);
+								} else {
+									g.drawImage(boden, y * sqsize, x * sqsize,
+											sqsize, sqsize, this);
+									g.drawImage(
+											flame,
+											y * sqsize,
+											x * sqsize,
+											Flamelist.list.get(0).getPixsizex(),
+											Flamelist.list.get(0).getPixsizey(),
+											this);
+
+								}
+
+							}
 						}
 					}
 				}
@@ -67,24 +97,24 @@ public class GUI extends JFrame implements KeyListener {
 						Playerlist.list.get(0).getPixsizex(), Playerlist.list
 								.get(0).getPixsizey(), this);
 				// evt.Bombe malen
-				for (int i = 0; i < Bomblist.list.size(); i++) {
-					g.drawImage(bomb, Bomblist.list.get(0).getDrawx(),
-							Bomblist.list.get(i).getDrawy(),
-							Bomblist.list.get(i).getPixsizex(), Bomblist.list
-									.get(0).getPixsizey(), this);
+				// for (int i = 0; i < Bomblist.list.size(); i++) {
+				// g.drawImage(bomb, Bomblist.list.get(0).getDrawx(),
+				// Bomblist.list.get(i).getDrawy(),
+				// Bomblist.list.get(i).getPixsizex(), Bomblist.list
+				// .get(0).getPixsizey(), this);
 
-				}
+				// }
 				// evt.Flammen malen
-				for (int i = 0; i < Flamelist.list.size(); i++) {
-					g.drawImage(flame, Flamelist.list.get(0).getDrawx(),
-							Flamelist.list.get(i).getDrawy(), Flamelist.list
-									.get(i).getPixsizex(), Flamelist.list
-									.get(0).getPixsizey(), this);
+				// for(int i=0;i<Flamelist.list.size();i++){
+				// g.drawImage(flame, Flamelist.list.get(0).getDrawx(),
+				// Flamelist.list.get(i).getDrawy(),
+				// Flamelist.list.get(i).getPixsizex(), Flamelist.list
+				// .get(0).getPixsizey(), this);
 
-				}
-
-				// panel.update(g);
 			}
+
+			// panel.update(g);
+			// }
 
 		};
 

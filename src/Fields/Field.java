@@ -19,7 +19,11 @@ public class Field {
 	public boolean isSolid() {
 		return solid;
 	}
-
+	public int getflame(){
+	return flame;
+	}
+	
+	
 	public void addFlame(int i) {
 		flame += i;
 	}
