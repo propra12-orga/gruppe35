@@ -16,7 +16,7 @@ import Level.Levellist;
 
 public class GUI extends JFrame implements KeyListener {
 	public int sqsize = 50;
-	private JPanel panel;
+	public JPanel panel;
 
 	// Bilder laden
 	public final Image image = Toolkit.getDefaultToolkit()
@@ -25,6 +25,10 @@ public class GUI extends JFrame implements KeyListener {
 			.getImage("src/img/boden3.gif");
 	public final Image mauer = Toolkit.getDefaultToolkit()
 			.getImage("src/img/mauer2.gif");
+	public final Image bomb = Toolkit.getDefaultToolkit()
+			.getImage("src/img/bomb.gif");
+	public final Image flame = Toolkit.getDefaultToolkit()
+			.getImage("src/img/fire_central.gif");
 
 	private static final long serialVersionUID = 1L;
 
@@ -62,6 +66,22 @@ public class GUI extends JFrame implements KeyListener {
 						Playerlist.list.get(0).getDrawy(),
 						Playerlist.list.get(0).getPixsizex(), Playerlist.list
 								.get(0).getPixsizey(), this);
+				//evt.Bombe malen
+				for(int i=0;i<Bomblist.list.size();i++){
+					g.drawImage(bomb, Bomblist.list.get(0).getDrawx(),
+							Bomblist.list.get(i).getDrawy(),
+							Bomblist.list.get(i).getPixsizex(), Bomblist.list
+									.get(0).getPixsizey(), this);
+					
+				}
+				//evt.Flammen malen
+				for(int i=0;i<Flamelist.list.size();i++){
+					g.drawImage(flame, Flamelist.list.get(0).getDrawx(),
+							Flamelist.list.get(i).getDrawy(),
+							Flamelist.list.get(i).getPixsizex(), Flamelist.list
+									.get(0).getPixsizey(), this);
+					
+				}
 
 				// panel.update(g);
 			}
@@ -120,7 +140,11 @@ public class GUI extends JFrame implements KeyListener {
 		if (38 == e.getKeyCode()) {
 			Playerlist.list.get(0).move(0, -1);
 		}
-		laufen(e.getKeyCode());
+		// Leertaste (Bombe)
+				if (32 == e.getKeyCode()) {
+					Playerlist.list.get(0).placebomb();
+				}
+		
 		Graphics g = getGraphics();
 		g.clearRect(0, 0, getWidth(), getHeight());
 		super.paint(g);
@@ -128,9 +152,5 @@ public class GUI extends JFrame implements KeyListener {
 		// displayInfo(e, String.valueOf(psx) + "  " + String.valueOf(psy));
 	}
 
-	private void laufen(int Taste) {
-		// Rechts
-
-	}
 
 }

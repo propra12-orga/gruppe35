@@ -41,6 +41,7 @@ public class Levellist {
 
 			}
 		}
+		level2.setField(8, 8, stone);
 		level2.setField(0, 8, exit);
 		// Zur Levelliste hinzufügen
 		list.add(level1);

@@ -78,19 +78,6 @@ public class Field {
 		}
 	}
 	
-	public boolean enterborder(Character character) {
-		// Falls Flammen auf dem Feld sind wird der Charakter getötet der das
-		// Feld betritt.
-		if ((!solid) && (bomb == null)) {
-			if (flame > 0) {
-				character.kill();
-			}
-			return (true);
-		} else {
-			return (false);
-		}
-	}
-
 	public void leave(Character character) {
 		synchronized (characterlist) {
 			characterlist.remove(character);

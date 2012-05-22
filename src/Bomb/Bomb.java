@@ -5,11 +5,11 @@
  @author Peet
  */
 
-
 package Bomb;
 
 import java.util.concurrent.TimeUnit;
 
+import main.Bomblist;
 import Character.Character;
 import Fields.Field;
 import Level.Level;
@@ -20,10 +20,37 @@ public class Bomb implements Runnable {
 	protected int range;
 	protected int x;
 	protected int y;
+	protected int pixsizex = 30;
+	protected int pixsizey = 30;
+
+	public int getPixsizex() {
+		return pixsizex;
+	}
+
+	public int getDrawx() {
+		return ((int) (x*50  + (50 - pixsizex)*0.5));
+	}
+
+	public int getDrawy() {
+		return ((int) (y*50  + (50 - pixsizey)*0.5));
+	}
+
+	public void setPixsizex(int pixsizex) {
+		this.pixsizex = pixsizex;
+	}
+
+	public int getPixsizey() {
+		return pixsizey;
+	}
+
+	public void setPixsizey(int pixsizey) {
+		this.pixsizey = pixsizey;
+	}
+
 	private Thread thread = null;
 	Level level;
 
-	public Bomb(Level level,int x, int y, Character owner, int timer, int range) {
+	public Bomb(Level level, int x, int y, Character owner, int timer, int range) {
 		this.x = x;
 		this.y = y;
 		this.level = level;
@@ -38,6 +65,9 @@ public class Bomb implements Runnable {
 		if (thread == null) {
 			thread = new Thread(this);
 			thread.start();
+			synchronized (Bomblist.list) {
+				Bomblist.list.add(this);
+			}
 		}
 	}
 
@@ -61,7 +91,10 @@ public class Bomb implements Runnable {
 		System.out.println("Boom!");
 		owner.setBombs(owner.getBombs() - 1); // Bombenanzahl des Besitzers
 												// anpassen
-
+		// Nicht mehr zeichnen
+		synchronized (Bomblist.list) {
+			Bomblist.list.remove(this);
+		}
 		// Zerstörung von Feldern und Bomben in Reichweite und Erzeugung von
 		// Flammen
 
