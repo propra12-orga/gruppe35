@@ -147,49 +147,30 @@ public class Character {
 	}
 
 	public void move(int dirx, int diry) {
-		double newposx = (posx) + speed * dirx;
-		double newposy = (posy) + speed * diry;
-		double newborderposx = (posx + dirx * pixsizex * 0.5) + speed * dirx;
-		double newborderposy = (posx + diry * pixsizey * 0.5) + speed * diry;
 		int oldx = (int) (posx);
 		int oldy = (int) (posy);
-		int newborderx = (int) (newborderposx);
-		int newbordery = (int) (newborderposy);
+		double newposx = (posx) + speed * dirx;
+		double newposy = (posy) + speed * diry;
 		int newx = (int) (newposx);
 		int newy = (int) (newposy);
 
+		// Würde ein neues Feld betreten?
 		if (((newx - oldx) != 0) || ((newy - oldy) != 0)) {
 			// Kann dieses Feld überhaupt betreten werden?
 			if (Levellist.currentlevel.getField(newx, newy).enter(this)) {
 				// Kann betreten werden
-				Levellist.currentlevel.getField(oldx, oldy).leave(this);
+				// Gehe weiter
 				posx = newposx;
 				posy = newposy;
+				// Verlasse altes Feld
+				Levellist.currentlevel.getField(oldx, oldy).leave(this);
 			} else {
-				// Gehe bis zum Rand
-				//posx = newposx - dirx * pixsizex * 0.5;
-				//posx = newposy - diry * pixsizey * 0.5;
-
+				// Kann nicht betreten werden
 			}
 		} else {
-
-			// Würde der Rand ein neues Feld betreten?
-			if (((newborderx - oldx) != 0) || ((newbordery - oldy) != 0)) {
-				// Kann dieses Feld überhaupt betreten werden?
-				if (Levellist.currentlevel.getField(newx, newy).enterborder(this)) {
-					//Kann betreten werden
-					//Gehe weiter
-					posx = newposx;
-					posy = newposy;
-				} else {
-					// Gehe bis zum Rand
-					//posx = newposx - dirx * pixsizex * 0.5;
-					//posx = newposy - diry * pixsizey * 0.5;
-				}
-			} else {
-				posx = newposx;
-				posy = newposy;
-			}
+			// Kein neues Feld wird betreten, gehe einfach weiter
+			posx = newposx;
+			posy = newposy;
 		}
 	}
 
