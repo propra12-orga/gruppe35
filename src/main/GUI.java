@@ -37,7 +37,7 @@ public class GUI extends JFrame implements KeyListener {
 		super("BeispielFrame");
 	}
 
-	public void initialize(boolean panelvisible) {
+	public void initialize() {
 
 		Container cp = this.getContentPane();
 
@@ -71,7 +71,7 @@ public class GUI extends JFrame implements KeyListener {
 										this);
 							} else {
 								if (Levellist.currentlevel.getField(y, x)
-										.getflame() == 0) {
+										.getFlame() == 0) {
 									g.drawImage(boden, y * sqsize, x * sqsize,
 											sqsize, sqsize, this);
 								} else {
@@ -142,7 +142,7 @@ public class GUI extends JFrame implements KeyListener {
 		this.setSize(Levellist.currentlevel.getXsize() * 50,
 				Levellist.currentlevel.getYsize() * 50);
 		// this.setResizable(false);
-		this.setVisible(panelvisible);
+		this.setVisible(Menu.panelvisible);
 	}
 
 	public void keyTyped(KeyEvent e) {

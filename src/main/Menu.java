@@ -14,7 +14,8 @@ import Level.Levellist;
 
 public class Menu extends JFrame {
 	// Constructor
-	public static boolean panelvisible = true;
+	public static boolean panelvisible = false;
+	final public static GUI feld = new GUI();
 
 	public Menu() {
 		super("MainMenu");
@@ -42,8 +43,15 @@ public class Menu extends JFrame {
 
 		l1Item.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// Levels laden
+				Levellist.load();
+				// Player laden
+				Playerlist.load();
 				Levellist.currentlevel = Levellist.list.get(0);
-				panelvisible = true;
+				Playerlist.list.get(0).spawn();
+				Menu.panelvisible = true;
+				Menu.feld.initialize();
+
 			}
 		});
 
@@ -92,10 +100,10 @@ public class Menu extends JFrame {
 		Levellist.currentlevel = Levellist.list.get(0);
 		Playerlist.list.get(0).spawn();
 
-		final GUI feld = new GUI();
+		// final GUI feld = new GUI();
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				feld.initialize(panelvisible);
+				Menu.feld.initialize();
 			}
 		});
 

@@ -1,5 +1,6 @@
 package Character;
 
+import main.Menu;
 import Bomb.Bomb;
 import Level.Levellist;
 
@@ -143,6 +144,9 @@ public class Character {
 		lifes--;
 		if (lifes <= 0) {
 			System.out.println("Game over for " + this.name);
+			Menu.panelvisible = false;
+			Menu.feld.initialize();
+
 		} else {
 			spawn();
 		}
