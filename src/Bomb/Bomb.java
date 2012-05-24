@@ -136,14 +136,18 @@ public class Bomb implements Runnable {
 		Field field = level.getField(x, y);
 		if (field != null) {
 			field.destruction();
+			// Falls das Feld zerstörbar ist, wird es in ein anderes umgewandelt
+			field.transform(level, x, y);
 			// Falls das Feld solid ist oder eine Bombe beinhaltet wird keine
 			// Flamme
 			// erzeugt
+
 			if ((field.isSolid()) || (field.getBomb() != null)) {
 				return (false);
 			}
 			Flame flame = new Flame(field, x, y);
 			flame.start();
+
 			return (true);
 		} else {
 			return (false);

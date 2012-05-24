@@ -5,6 +5,7 @@ import java.util.List;
 
 import Bomb.Bomb;
 import Character.Character;
+import Level.Level;
 
 public class Field {
 	// Aenderung
@@ -15,6 +16,8 @@ public class Field {
 	// Feld
 	protected Bomb bomb = null; // Eventuelle Bombe auf diesem Feld
 	protected int flame = 0; // Flammen auf diesem Feld
+	protected Class<Field> destructto;
+	
 
 	public boolean isSolid() {
 		return solid;
@@ -62,7 +65,9 @@ public class Field {
 				characterlist.removeFirst().kill();
 			}
 		}
+	}
 
+	public void transform(Level level,int x,int y){
 	}
 
 	public boolean enter(Character character) {

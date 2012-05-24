@@ -7,7 +7,7 @@ import main.Bomblist;
 import main.Flamelist;
 import main.Menu;
 import main.Playerlist;
-
+import Fields.Earth;
 import Fields.Exit;
 import Fields.Field;
 import Fields.Floor;
@@ -21,6 +21,7 @@ public class Levellist {
 		list.clear();
 		Field floor = new Floor(); // Boden
 		Field stone = new Stone(); // Unzerstörbarer Block
+		Field earth = new Earth(); // Zerstörbarer Block
 		Field exit = new Exit(); // Ausgang
 		Level level1 = new Level(9, 9);
 		Level level2 = new Level(9, 9);
@@ -47,10 +48,10 @@ public class Levellist {
 
 			}
 		}
-		level2.setField(8, 8, stone);
-		level2.setField(7, 8, stone);
-		level2.setField(6, 8, stone);
-		level2.setField(5, 8, stone);
+		level2.setField(8, 8, earth);
+		level2.setField(7, 8, earth);
+		level2.setField(6, 8, earth);
+		level2.setField(5, 8, earth);
 		level2.setField(0, 8, exit);
 		// Zur Levelliste hinzufügen
 		list.add(level1);
