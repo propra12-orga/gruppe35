@@ -141,7 +141,8 @@ public class Leveleditor {
 				}
 				spawnpointElement.setAttribute("x", str);
 
-				System.out.print("Enter Y coordinate of spawnpoint:");
+				System.out.print("Enter Y coordinate of spawnpoint number " + i
+						+ " :");
 				valid = false;
 				while (!valid) {
 					try {
@@ -158,6 +159,68 @@ public class Leveleditor {
 				spawnpointElement.setAttribute("y", str);
 
 			}
+			
+			// Exits
+			// Füge Exits element hinzu
+			Element exitsElement = document.createElement("exits");
+			rootElement.appendChild(exitsElement);
+						// Lese Anzahl Spawnpoints ein
+						System.out.print("Enter number of exits for your level: ");
+						valid = false;
+						int exitnum = 1;
+						while (!valid) {
+							try {
+								str = bf.readLine();
+								exitnum = Integer.parseInt(str);
+								if (spawnpointnum > 0) {
+									valid = true;
+								}
+
+							} catch (NumberFormatException e) {
+								valid = false;
+							}
+						}
+						// Füge Attribute x und y hinzu
+						for (int i = 1; i <= exitnum; i++) {
+							Element exitElement = document
+									.createElement("exit");
+							exitsElement.appendChild(exitElement);
+
+							System.out.print("Enter X coordinate of exit number " + i
+									+ " :");
+							valid = false;
+							while (!valid) {
+								try {
+									str = bf.readLine();
+									int exitx = Integer.parseInt(str);
+									if ((exitx <= xsize) && (exitx > 0)) {
+										valid = true;
+									}
+
+								} catch (NumberFormatException e) {
+									valid = false;
+								}
+							}
+							exitElement.setAttribute("x", str);
+
+							System.out.print("Enter Y coordinate of exit number " + i
+									+ " :");
+							valid = false;
+							while (!valid) {
+								try {
+									str = bf.readLine();
+									int exity = Integer.parseInt(str);
+									if ((exity <= xsize) && (exity > 0)) {
+										valid = true;
+									}
+
+								} catch (NumberFormatException e) {
+									valid = false;
+								}
+							}
+							exitElement.setAttribute("y", str);
+
+						}
 
 			// In Datei schreiben
 

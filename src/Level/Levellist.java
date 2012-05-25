@@ -65,13 +65,17 @@ public class Levellist {
 			int ysize = Integer.parseInt(rootElement.getAttribute("ysize"));
 
 			// Besorge NodeList der Felder aus dem fields Element und der
-			// Spawnpoints aus dem spawnpoints element
+			// Spawnpoints aus dem spawnpoints Element und der Exits aus dem
+			// exits Element
 			NodeList searchNodeList;
 			searchNodeList = rootElement.getElementsByTagName("fields");
-			NodeList fieldNodes = searchNodeList.item(0).getChildNodes();// getElementsByTagName("field");
+			NodeList fieldNodes = searchNodeList.item(0).getChildNodes();
 
 			searchNodeList = rootElement.getElementsByTagName("spawnpoints");
 			NodeList spawnpointNodes = searchNodeList.item(0).getChildNodes();
+			
+			searchNodeList = rootElement.getElementsByTagName("exits");
+			NodeList exitNodes = searchNodeList.item(0).getChildNodes();
 
 			// Lese Spawnpoints aus
 			int spawnpointnum = spawnpointNodes.getLength();
@@ -82,6 +86,17 @@ public class Levellist {
 				int y = Integer.parseInt(thisElement.getAttribute("y")) - 1;
 				spawnpoints[i][0] = x;
 				spawnpoints[i][1] = y;
+			}
+
+			// Lese Exits aus
+			int exitnum = exitNodes.getLength();
+			int exits[][] = new int[exitnum][2];
+			for (int i = 0; i <exitnum; i++) {
+				Element thisElement = (Element) exitNodes.item(i);
+				int x = Integer.parseInt(thisElement.getAttribute("x")) - 1;
+				int y = Integer.parseInt(thisElement.getAttribute("y")) - 1;
+				exits[i][0] = x;
+				exits[i][1] = y;
 			}
 
 			// Erstelle Level
