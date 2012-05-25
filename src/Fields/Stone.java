@@ -11,9 +11,10 @@ public class Stone extends Field {
 	public Stone(Stone stone) {
 		super(stone);
 	}
-	
-	//Default Constructor
-	public Stone(){
-		solid = true;
+
+	// Default Constructor
+	public Stone() {
+		this.solid = true;
+		this.transformto = null;
 	}
 }

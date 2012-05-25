@@ -73,7 +73,7 @@ public class Levellist {
 
 			searchNodeList = rootElement.getElementsByTagName("spawnpoints");
 			NodeList spawnpointNodes = searchNodeList.item(0).getChildNodes();
-			
+
 			searchNodeList = rootElement.getElementsByTagName("exits");
 			NodeList exitNodes = searchNodeList.item(0).getChildNodes();
 
@@ -91,7 +91,7 @@ public class Levellist {
 			// Lese Exits aus
 			int exitnum = exitNodes.getLength();
 			int exits[][] = new int[exitnum][2];
-			for (int i = 0; i <exitnum; i++) {
+			for (int i = 0; i < exitnum; i++) {
 				Element thisElement = (Element) exitNodes.item(i);
 				int x = Integer.parseInt(thisElement.getAttribute("x")) - 1;
 				int y = Integer.parseInt(thisElement.getAttribute("y")) - 1;
@@ -114,7 +114,7 @@ public class Levellist {
 				}
 			}
 
-			// Lese Felder aus
+			// Lese Felder aus und setze sie
 			for (int i = 0; i < fieldNodes.getLength(); i++) {
 				Element thisElement = (Element) fieldNodes.item(i);
 				int x = Integer.parseInt(thisElement.getAttribute("x")) - 1;
@@ -126,8 +126,20 @@ public class Levellist {
 					level.setField(x, y, stone);
 				if ((type.equals("E")) || type.equals("e"))
 					level.setField(x, y, earth);
-				if ((type.equals("X")) || type.equals("x"))
+			}
+			// Lege Exits an
+			for (int i = 0; i < exitnum; i++) {
+				int x = exits[i][0];
+				int y = exits[i][1];
+				Field field = level.getField(x, y);
+				if (field instanceof Floor){
+					//Offener Ausgang
 					level.setField(x, y, exit);
+				} else {
+					//Versteckter Ausgang
+					field.setTransformto(exit);
+				}
+					
 			}
 
 			// Setze aktives Level

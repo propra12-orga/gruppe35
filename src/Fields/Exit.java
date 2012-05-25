@@ -24,7 +24,8 @@ public class Exit extends Field {
 
 	// Default Constructor
 	public Exit() {
-		solid = false;
+		this.solid = false;
+		this.transformto = null;
 	}
 
 }

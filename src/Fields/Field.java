@@ -16,8 +16,7 @@ public class Field {
 	// Feld
 	protected Bomb bomb = null; // Eventuelle Bombe auf diesem Feld
 	protected int flame = 0; // Flammen auf diesem Feld
-	protected Class<Field> destructto;
-	
+	protected Field transformto;
 
 	public boolean isSolid() {
 		return solid;
@@ -40,11 +39,12 @@ public class Field {
 	}
 
 	public Field() {
-		this(false);
+		this(false,null);
 	}
 
-	public Field(boolean solid) {
+	public Field(boolean solid, Field transformto) {
 		this.solid = solid;
+		this.transformto = transformto;
 	}
 
 	public Bomb getBomb() {
@@ -67,7 +67,14 @@ public class Field {
 		}
 	}
 
-	public void transform(Level level,int x,int y){
+	public void setTransformto(Field field) {
+		transformto = field;
+	}
+
+	public void transform(Level level, int x, int y) {
+		if (transformto != null) {
+			level.setField(x, y, transformto);
+		}
 	}
 
 	public boolean enter(Character character) {
@@ -76,14 +83,14 @@ public class Field {
 		if ((!solid) && (bomb == null)) {
 			if (flame > 0) {
 				character.kill();
-				return(false);
+				return (false);
 			} else {
 				synchronized (characterlist) {
 					characterlist.add(character);
 				}
 				return (true);
 			}
-			
+
 		} else {
 			return (false);
 		}
@@ -102,7 +109,7 @@ public class Field {
 
 	// Copy Constructor
 	public Field(Field field) {
-		this(field.solid);
+		this(field.solid,field.transformto);
 	}
 
 }

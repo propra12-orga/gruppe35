@@ -72,7 +72,7 @@ public class Leveleditor {
 			Element fieldsElement = document.createElement("fields");
 			rootElement.appendChild(fieldsElement);
 			System.out
-					.println("Valid fieldtypes are f = Floor, s = Stone, e = Earth and x = Exit");
+					.println("Valid fieldtypes are f = Floor, s = Stone, e = Earth");
 			for (int x = 1; x <= xsize; x++) {
 				for (int y = 1; y <= ysize; y++) {
 					System.out.print("Enter the type of field " + x + "," + y
@@ -87,8 +87,6 @@ public class Leveleditor {
 						if ((fieldtype.equals("S")) || fieldtype.equals("s"))
 							pressed = true;
 						if ((fieldtype.equals("E")) || fieldtype.equals("e"))
-							pressed = true;
-						if ((fieldtype.equals("X")) || fieldtype.equals("x"))
 							pressed = true;
 					}
 					Element fieldElement = document.createElement("field");
@@ -159,68 +157,67 @@ public class Leveleditor {
 				spawnpointElement.setAttribute("y", str);
 
 			}
-			
+
 			// Exits
 			// Füge Exits element hinzu
 			Element exitsElement = document.createElement("exits");
 			rootElement.appendChild(exitsElement);
-						// Lese Anzahl Spawnpoints ein
-						System.out.print("Enter number of exits for your level: ");
+			// Lese Anzahl Spawnpoints ein
+			System.out.print("Enter number of exits for your level: ");
+			valid = false;
+			int exitnum = 1;
+			while (!valid) {
+				try {
+					str = bf.readLine();
+					exitnum = Integer.parseInt(str);
+					if (spawnpointnum > 0) {
+						valid = true;
+					}
+
+				} catch (NumberFormatException e) {
+					valid = false;
+				}
+			}
+			// Füge Attribute x und y hinzu
+			for (int i = 1; i <= exitnum; i++) {
+				Element exitElement = document.createElement("exit");
+				exitsElement.appendChild(exitElement);
+
+				System.out.print("Enter X coordinate of exit number " + i
+						+ " :");
+				valid = false;
+				while (!valid) {
+					try {
+						str = bf.readLine();
+						int exitx = Integer.parseInt(str);
+						if ((exitx <= xsize) && (exitx > 0)) {
+							valid = true;
+						}
+
+					} catch (NumberFormatException e) {
 						valid = false;
-						int exitnum = 1;
-						while (!valid) {
-							try {
-								str = bf.readLine();
-								exitnum = Integer.parseInt(str);
-								if (spawnpointnum > 0) {
-									valid = true;
-								}
+					}
+				}
+				exitElement.setAttribute("x", str);
 
-							} catch (NumberFormatException e) {
-								valid = false;
-							}
+				System.out.print("Enter Y coordinate of exit number " + i
+						+ " :");
+				valid = false;
+				while (!valid) {
+					try {
+						str = bf.readLine();
+						int exity = Integer.parseInt(str);
+						if ((exity <= xsize) && (exity > 0)) {
+							valid = true;
 						}
-						// Füge Attribute x und y hinzu
-						for (int i = 1; i <= exitnum; i++) {
-							Element exitElement = document
-									.createElement("exit");
-							exitsElement.appendChild(exitElement);
 
-							System.out.print("Enter X coordinate of exit number " + i
-									+ " :");
-							valid = false;
-							while (!valid) {
-								try {
-									str = bf.readLine();
-									int exitx = Integer.parseInt(str);
-									if ((exitx <= xsize) && (exitx > 0)) {
-										valid = true;
-									}
+					} catch (NumberFormatException e) {
+						valid = false;
+					}
+				}
+				exitElement.setAttribute("y", str);
 
-								} catch (NumberFormatException e) {
-									valid = false;
-								}
-							}
-							exitElement.setAttribute("x", str);
-
-							System.out.print("Enter Y coordinate of exit number " + i
-									+ " :");
-							valid = false;
-							while (!valid) {
-								try {
-									str = bf.readLine();
-									int exity = Integer.parseInt(str);
-									if ((exity <= xsize) && (exity > 0)) {
-										valid = true;
-									}
-
-								} catch (NumberFormatException e) {
-									valid = false;
-								}
-							}
-							exitElement.setAttribute("y", str);
-
-						}
+			}
 
 			// In Datei schreiben
 

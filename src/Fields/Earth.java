@@ -1,9 +1,6 @@
 package Fields;
 
-import Level.Level;
-
 public class Earth extends Field {
-
 	// Kopiere dieses Feld
 	public Earth copy() {
 		return new Earth(this);
@@ -16,11 +13,8 @@ public class Earth extends Field {
 
 	// Default Constructor
 	public Earth() {
-		solid = true;
-	}
-	
-	public void transform(Level level,int x,int y){
-		level.setField(x, y, new Floor());
+		this.solid = true;
+		this.transformto = new Floor();
 	}
 
 }

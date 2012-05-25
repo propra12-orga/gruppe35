@@ -14,6 +14,7 @@ public class Floor extends Field {
 
 	// Default Constructor
 	public Floor() {
-		solid = false;
+		this.solid = false;
+		this.transformto = null;
 	}
 }
