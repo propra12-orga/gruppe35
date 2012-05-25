@@ -130,10 +130,10 @@ public class Character {
 
 	public void placebomb() {
 		if ((bombs < maxbombs)
-				&& (Levellist.currentlevel.getField((int) (posx), (int) (posy))
+				&& (Levellist.activeLevel.getField((int) (posx), (int) (posy))
 						.getBomb() == null)) {
 			bombs++;
-			Bomb bomb = new Bomb(Levellist.currentlevel, (int) (posx),
+			Bomb bomb = new Bomb(Levellist.activeLevel, (int) (posx),
 					(int) (posy), this, bombtimer, bombrange);
 			bomb.start();
 		}
@@ -142,11 +142,12 @@ public class Character {
 	public void kill() {
 		System.out.println(this.name + " dies!");
 		lifes--;
+		// Verlasse Feld
+		Levellist.activeLevel.getField((int) (posx), (int) (posy)).leave(this);
 		if (lifes <= 0) {
 			System.out.println("Game over for " + this.name);
 			Menu.panelvisible = false;
 			Menu.feld.initialize();
-
 		} else {
 			spawn();
 		}
@@ -160,20 +161,19 @@ public class Character {
 		int newx = (int) (newposx);
 		int newy = (int) (newposy);
 		// wird der Rand des Spielfeldes nicht verlassen?
-		if ((newposx > 0.0)
-				&& (newposx < Levellist.currentlevel.getXsize())
+		if ((newposx > 0.0) && (newposx < Levellist.activeLevel.getXsize())
 				&& (newposy > 0.0)
-				&& (newposy < Levellist.currentlevel.getYsize())) {
+				&& (newposy < Levellist.activeLevel.getYsize())) {
 			// Würde ein neues Feld betreten?
 			if (((newx - oldx) != 0) || ((newy - oldy) != 0)) {
 				// Kann dieses Feld überhaupt betreten werden?
-				if (Levellist.currentlevel.getField(newx, newy).enter(this)) {
+				if (Levellist.activeLevel.getField(newx, newy).enter(this)) {
 					// Kann betreten werden
 					// Gehe weiter
 					posx = newposx;
 					posy = newposy;
 					// Verlasse altes Feld
-					Levellist.currentlevel.getField(oldx, oldy).leave(this);
+					Levellist.activeLevel.getField(oldx, oldy).leave(this);
 				} else {
 					// Kann nicht betreten werden
 				}
@@ -188,12 +188,10 @@ public class Character {
 	}
 
 	public void spawn() {
-		// Verlasse altes Feld
-		Levellist.currentlevel.getField((int) (posx), (int) (posy)).leave(this);
-		posx = spawnx;
-		posy = spawny;
+		posx = Levellist.activeLevel.getSpawnx();
+		posy = Levellist.activeLevel.getSpawny();
 		System.out.println(name + " spawns at " + posx + "," + posy);
-		if (!Levellist.currentlevel.getField((int) (posx), (int) (posy)).enter(
+		if (!Levellist.activeLevel.getField((int) (posx), (int) (posy)).enter(
 				this)) {
 			System.out.println("Invalid Spawn point for " + name);
 		}

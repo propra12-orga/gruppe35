@@ -20,14 +20,15 @@ public class Leveleditor {
 		try {
 			BufferedReader bf = new BufferedReader(new InputStreamReader(
 					System.in));
+			String str = "";
+			boolean valid;
+			int xsize = 1;
+			int ysize = 1;
+			// Read in levelname
 			System.out.print("Enter Name of the level: ");
 			String levelname = bf.readLine();
-			System.out.print("Enter X size of your level ");
-			String str = bf.readLine();
-			int xsize = Integer.parseInt(str);
-			System.out.print("Enter Y size of your level ");
-			str = bf.readLine();
-			int ysize = Integer.parseInt(str);
+
+			// Create document
 			DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory
 					.newInstance();
 			DocumentBuilder documentBuilder = documentBuilderFactory
@@ -35,15 +36,47 @@ public class Leveleditor {
 			Document document = documentBuilder.newDocument();
 			Element rootElement = document.createElement(levelname);
 			document.appendChild(rootElement);
+
+			// Read in xsize and ysize
+			System.out.print("Enter X size of your level ");
+			valid = false;
+			while (!valid) {
+				try {
+					str = bf.readLine();
+					xsize = Integer.parseInt(str);
+					if (xsize > 0) {
+						valid = true;
+					}
+
+				} catch (NumberFormatException e) {
+					valid = false;
+				}
+			}
+			rootElement.setAttribute("xsize", str);
+			System.out.print("Enter Y size of your level ");
+			valid = false;
+			while (!valid) {
+				try {
+					str = bf.readLine();
+					ysize = Integer.parseInt(str);
+					if (ysize > 0) {
+						valid = true;
+					}
+
+				} catch (NumberFormatException e) {
+					valid = false;
+				}
+			}
+			rootElement.setAttribute("ysize", str);
+			// Lese Felder ein
+			Element fieldsElement = document.createElement("fields");
+			rootElement.appendChild(fieldsElement);
 			System.out
 					.println("Valid fieldtypes are f = Floor, s = Stone, e = Earth and x = Exit");
 			for (int x = 1; x <= xsize; x++) {
-				Element xElement = document.createElement("X");
-				rootElement.appendChild(xElement);
 				for (int y = 1; y <= ysize; y++) {
-					Element yElement = document.createElement("Y");
-					xElement.appendChild(yElement);
-					System.out.print("Enter the type of field " + x + "," + y + ":");
+					System.out.print("Enter the type of field " + x + "," + y
+							+ ":");
 					String fieldtype = "";
 					Scanner kb = new Scanner(System.in);
 					boolean pressed = false;
@@ -58,9 +91,75 @@ public class Leveleditor {
 						if ((fieldtype.equals("X")) || fieldtype.equals("x"))
 							pressed = true;
 					}
-					yElement.appendChild(document.createTextNode(fieldtype));
+					Element fieldElement = document.createElement("field");
+					fieldsElement.appendChild(fieldElement);
+					fieldElement.setAttribute("x", String.valueOf(x));
+					fieldElement.setAttribute("y", String.valueOf(y));
+					fieldElement.setAttribute("type", fieldtype);
 				}
 			}
+			// Spawnpoints
+			// Füge Spawnpoints element hinzu
+			Element spawnpointsElement = document.createElement("spawnpoints");
+			rootElement.appendChild(spawnpointsElement);
+			// Lese Anzahl Spawnpoints ein
+			System.out.print("Enter number of spawnpoints for your level: ");
+			valid = false;
+			int spawnpointnum = 1;
+			while (!valid) {
+				try {
+					str = bf.readLine();
+					spawnpointnum = Integer.parseInt(str);
+					if (spawnpointnum > 0) {
+						valid = true;
+					}
+
+				} catch (NumberFormatException e) {
+					valid = false;
+				}
+			}
+			// Füge Attribute x und y hinzu
+			for (int i = 1; i <= spawnpointnum; i++) {
+				Element spawnpointElement = document
+						.createElement("spawnpoint");
+				spawnpointsElement.appendChild(spawnpointElement);
+
+				System.out.print("Enter X coordinate of spawnpoint number " + i
+						+ " :");
+				valid = false;
+				while (!valid) {
+					try {
+						str = bf.readLine();
+						int spawnx = Integer.parseInt(str);
+						if ((spawnx <= xsize) && (spawnx > 0)) {
+							valid = true;
+						}
+
+					} catch (NumberFormatException e) {
+						valid = false;
+					}
+				}
+				spawnpointElement.setAttribute("x", str);
+
+				System.out.print("Enter Y coordinate of spawnpoint:");
+				valid = false;
+				while (!valid) {
+					try {
+						str = bf.readLine();
+						int spawny = Integer.parseInt(str);
+						if ((spawny <= xsize) && (spawny > 0)) {
+							valid = true;
+						}
+
+					} catch (NumberFormatException e) {
+						valid = false;
+					}
+				}
+				spawnpointElement.setAttribute("y", str);
+
+			}
+
+			// In Datei schreiben
 
 			TransformerFactory transformerFactory = TransformerFactory
 					.newInstance();

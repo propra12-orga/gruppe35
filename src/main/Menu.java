@@ -29,28 +29,22 @@ public class Menu extends JFrame {
 		JMenuItem exitItem = new JMenuItem("Exit");
 		exitItem.setMnemonic('X');
 
-		// Action listener für Level items
-		// JMenuItem[] levelItems = new JMenuItem[Levellist.list.size()];
-		/*
-		 * for(int i=0;i<Levellist.list.size();i++){ JMenuItem levelItem = new
-		 * JMenuItem("Level" + (i+1)); levelItem.addActionListener(new
-		 * ActionListener() { public void actionPerformed(ActionEvent e) {
-		 * System.out.println("Starte Level"+ (i+1)); } }); }
-		 */
-
 		JMenuItem l1Item = new JMenuItem("Level 1");
 		start.add(l1Item);
 
 		l1Item.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Levels laden
-				Levellist.load();
+				Levellist.load(0);
 				// Player laden
 				Playerlist.load();
-				Levellist.currentlevel = Levellist.list.get(0);
 				Playerlist.list.get(0).spawn();
 				Menu.panelvisible = true;
-				Menu.feld.initialize();
+				javax.swing.SwingUtilities.invokeLater(new Runnable() {
+					public void run() {
+						Menu.feld.initialize();
+					}
+				});
 
 			}
 		});
@@ -73,9 +67,6 @@ public class Menu extends JFrame {
 	}
 
 	public static void main(String[] args) {
-
-		// Levels laden
-		Levellist.load();
 		// Player laden
 		Playerlist.load();
 
@@ -95,17 +86,6 @@ public class Menu extends JFrame {
 
 		Menu menu = new Menu();
 		menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		// Provisorisch
-		//Levellist.currentlevel = Levellist.list.get(0);
-		//Playerlist.list.get(0).spawn();
-
-		// final GUI feld = new GUI();
-		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				Menu.feld.initialize();
-			}
-		});
 
 	}
 }

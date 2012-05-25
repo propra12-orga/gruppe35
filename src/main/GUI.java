@@ -50,14 +50,14 @@ public class GUI extends JFrame implements KeyListener {
 				// super.paintComponent(g);
 				// g.
 
-				for (int x = 0; x < Levellist.currentlevel.getXsize(); x++) {
-					for (int y = 0; y < Levellist.currentlevel.getYsize(); y++) {
-						if (Levellist.currentlevel.getField(y, x).isSolid() == true) {
+				for (int x = 0; x < Levellist.activeLevel.getXsize(); x++) {
+					for (int y = 0; y < Levellist.activeLevel.getYsize(); y++) {
+						if (Levellist.activeLevel.getField(y, x).isSolid() == true) {
 							g.drawImage(mauer, y * sqsize, x * sqsize, sqsize,
 									sqsize, this);
 						} else {
 
-							if (Levellist.currentlevel.getField(y, x).getBomb() != null) {
+							if (Levellist.activeLevel.getField(y, x).getBomb() != null) {
 								g.drawImage(boden, y * sqsize, x * sqsize,
 										sqsize, sqsize, this);
 								g.drawImage(
@@ -70,7 +70,7 @@ public class GUI extends JFrame implements KeyListener {
 										Bomblist.list.get(0).getPixsizey(),
 										this);
 							} else {
-								if (Levellist.currentlevel.getField(y, x)
+								if (Levellist.activeLevel.getField(y, x)
 										.getFlame() == 0) {
 									g.drawImage(boden, y * sqsize, x * sqsize,
 											sqsize, sqsize, this);
@@ -139,8 +139,8 @@ public class GUI extends JFrame implements KeyListener {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		this.pack();
-		this.setSize(Levellist.currentlevel.getXsize() * 50,
-				Levellist.currentlevel.getYsize() * 50);
+		this.setSize(Levellist.activeLevel.getXsize() * 50,
+				Levellist.activeLevel.getYsize() * 50);
 		// this.setResizable(false);
 		this.setVisible(Menu.panelvisible);
 	}

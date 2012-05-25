@@ -3,10 +3,19 @@ package Level;
 import Fields.Field;
 
 public class Level {
-	protected int xsize;
-	protected int ysize;
+	private int xsize;
+	private int ysize;
 	protected boolean locked = true;
-	
+	private int spawnpoints[][]; // [number][x,y]
+
+	public double getSpawnx() {
+		return (spawnpoints[0][0] + 0.5);
+	}
+
+	public double getSpawny() {
+		return (spawnpoints[0][1] + 0.5);
+	}
+
 	public boolean isLocked() {
 		return locked;
 	}
@@ -16,7 +25,7 @@ public class Level {
 	}
 
 	protected Field[][] field; /* Array für alle Felder */
-	
+
 	public int getXsize() {
 		return xsize;
 	}
@@ -33,9 +42,10 @@ public class Level {
 		this.ysize = ysize;
 	}
 
-	public Level(int xsize, int ysize) {
+	public Level(int xsize, int ysize, int spawnpoints[][]) {
 		this.xsize = xsize;
 		this.ysize = ysize;
+		this.spawnpoints = spawnpoints;
 		this.field = new Field[xsize][ysize];
 	}
 
@@ -67,6 +77,5 @@ public class Level {
 		}
 
 	}
-	
 
 }

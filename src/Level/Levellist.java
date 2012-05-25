@@ -1,17 +1,20 @@
 package Level;
 
 import java.io.File;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import org.w3c.dom.*;
-
-import java.util.ArrayList;
-import java.util.ListIterator;
 
 import main.Bomblist;
 import main.Flamelist;
 import main.Menu;
 import main.Playerlist;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
+import Character.Character;
 import Fields.Earth;
 import Fields.Exit;
 import Fields.Field;
@@ -19,116 +22,126 @@ import Fields.Floor;
 import Fields.Stone;
 
 public class Levellist {
-	public static ArrayList<Level> list = new ArrayList<Level>(); // Levelliste
-	public static Level currentlevel = null;
+	public static File[] levelList; // Liste
+									// aller
+									// Level
+									// XML
+									// Dateien
+									// im
+									// Levels
+									// Ordner
+	public static Level activeLevel = null;
+	public static int activeLevelIndex = 0;
 
-	public static void load() {
-		list.clear();
-		Field floor = new Floor(); // Boden
-		Field stone = new Stone(); // Unzerstörbarer Block
-		Field earth = new Earth(); // Zerstörbarer Block
-		Field exit = new Exit(); // Ausgang
-		Level level1 = new Level(9, 9);
-		Level level2 = new Level(9, 9);
-		// Erstelle Level 1
-		for (int x = 0; x < level1.getXsize(); x++) {
-			for (int y = 0; y < level1.getYsize(); y++) {
-				if (((x % 2 > 0) && (y % 2 > 0))) {
-					level1.setField(x, y, stone);
-				} else {
-					level1.setField(x, y, floor);
-				}
-			}
-		}
-		level1.setField(2, 1, exit);
-
-		// Erstelle Level 2
-		for (int x = 0; x < level2.getXsize(); x++) {
-			for (int y = 0; y < level2.getYsize(); y++) {
-				if (((x % 2 > 0) && (y % 2 > 0))) {
-					level2.setField(x, y, stone);
-				} else {
-					level2.setField(x, y, floor);
-				}
-
-			}
-		}
-		level2.setField(8, 8, earth);
-		level2.setField(7, 8, earth);
-		level2.setField(6, 8, earth);
-		level2.setField(5, 8, earth);
-		level2.setField(0, 8, exit);
-		// Zur Levelliste hinzufügen
-		list.add(level1);
-		list.add(level2);
-
-		currentlevel = level1;
-		currentlevel.setLocked(false); // Unlock the first level
-
+	// Initialisierung
+	static {
+		// Lade Levels aus dem Levels Ordner
+		File levelsfolder = new File("Levels/");
+		levelList = levelsfolder.listFiles();
 	}
 
-	public static void load2() {
+	// Lade das Level das zum activeLevelIndex gehört
+	public static void load(int levelIndex) {
 		try {
-			File file = new File("/Levels/Level1.xml");
+			File file = levelList[levelIndex];
+			// Besorge Levelname aus Dateinamen ohne Extension
+			String levelname;
+			int index = file.getName().lastIndexOf('.');
+			if (index > 0 && index <= file.getName().length() - 2) {
+				levelname = file.getName().substring(0, index);
+			} else {
+				levelname = file.getName();
+			}
+			System.out.println("Levelname = " + levelname);
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 			DocumentBuilder db = dbf.newDocumentBuilder();
 			Document document = db.parse(file);
-			document.getDocumentElement().normalize();
-			System.out.println("Root element "
-					+ document.getDocumentElement().getNodeName());
-			NodeList node = document.getElementsByTagName("student");
-			System.out.println("Information of the students");
+			Element rootElement = document.getDocumentElement();
+			rootElement.normalize();
+			System.out.println("Root element " + rootElement.getNodeName());
 
-			for (int i = 0; i < node.getLength(); i++) {
-				Node firstNode = node.item(i);
+			// Besorge Levelgröße aus RootElement
+			int xsize = Integer.parseInt(rootElement.getAttribute("xsize"));
+			int ysize = Integer.parseInt(rootElement.getAttribute("ysize"));
 
-				if (firstNode.getNodeType() == Node.ELEMENT_NODE) {
+			// Besorge NodeList der Felder aus dem fields Element und der
+			// Spawnpoints aus dem spawnpoints element
+			NodeList searchNodeList;
+			searchNodeList = rootElement.getElementsByTagName("fields");
+			NodeList fieldNodes = searchNodeList.item(0).getChildNodes();// getElementsByTagName("field");
 
-					Element element = (Element) firstNode;
-					NodeList firstNameElemntList = element
-							.getElementsByTagName("firstname");
-					Element firstNameElement = (Element) firstNameElemntList
-							.item(0);
-					NodeList firstName = firstNameElement.getChildNodes();
-					System.out.println("First Name:"
-							+ (firstName.item(0).getNodeValue()));
+			searchNodeList = rootElement.getElementsByTagName("spawnpoints");
+			NodeList spawnpointNodes = searchNodeList.item(0).getChildNodes();
 
-					NodeList lastNameElementList = element
-							.getElementsByTagName("lastname");
-					Element lastNameElement = (Element) lastNameElementList
-							.item(0);
-					NodeList lastName = lastNameElement.getChildNodes();
-					System.out.println("Last Name :"
-							+ (lastName.item(0).getNodeValue()));
+			// Lese Spawnpoints aus
+			int spawnpointnum = spawnpointNodes.getLength();
+			int spawnpoints[][] = new int[spawnpointnum][2];
+			for (int i = 0; i < spawnpointnum; i++) {
+				Element thisElement = (Element) spawnpointNodes.item(i);
+				int x = Integer.parseInt(thisElement.getAttribute("x")) - 1;
+				int y = Integer.parseInt(thisElement.getAttribute("y")) - 1;
+				spawnpoints[i][0] = x;
+				spawnpoints[i][1] = y;
+			}
 
-					NodeList addressList = element
-							.getElementsByTagName("address");
-					Element addressElement = (Element) addressList.item(0);
-					NodeList address = addressElement.getChildNodes();
-					System.out.println("Address : "
-							+ ((Node) address.item(0)).getNodeValue());
+			// Erstelle Level
+			Level level = new Level(xsize, ysize, spawnpoints);
 
-					NodeList cityList = element.getElementsByTagName("city");
-					Element cityElement = (Element) cityList.item(0);
-					NodeList city = cityElement.getChildNodes();
-					System.out.println("City : "
-							+ ((Node) city.item(0)).getNodeValue());
+			Field floor = new Floor(); // Boden
+			Field stone = new Stone(); // Unzerstörbarer Block
+			Field earth = new Earth(); // Zerstörbarer Block
+			Field exit = new Exit(); // Ausgang
+
+			// Erstmal alles auf Floor setzen
+			for (int x = 0; x < xsize; x++) {
+				for (int y = 0; y < ysize; y++) {
+					level.setField(x, y, floor);
 				}
 			}
+
+			// Lese Felder aus
+			for (int i = 0; i < fieldNodes.getLength(); i++) {
+				Element thisElement = (Element) fieldNodes.item(i);
+				int x = Integer.parseInt(thisElement.getAttribute("x")) - 1;
+				int y = Integer.parseInt(thisElement.getAttribute("y")) - 1;
+				String type = thisElement.getAttribute("type");
+				if ((type.equals("F")) || type.equals("f"))
+					level.setField(x, y, floor);
+				if ((type.equals("S")) || type.equals("s"))
+					level.setField(x, y, stone);
+				if ((type.equals("E")) || type.equals("e"))
+					level.setField(x, y, earth);
+				if ((type.equals("X")) || type.equals("x"))
+					level.setField(x, y, exit);
+			}
+
+			// Setze aktives Level
+			activeLevel = level;
+			activeLevelIndex = levelIndex;
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	public static void next() {
-		int i = list.indexOf(currentlevel) + 1;
-		ListIterator<Level> it = list.listIterator(i);
-		if (it.hasNext()) {
-			currentlevel = it.next();
-			currentlevel.setLocked(false); // Unlock the new level
+		// Charaktere von Feldern entfernen
+		for (int i = 0; i < Playerlist.list.size(); i++) {
+			Character character = Playerlist.list.get(i);
+			activeLevel.getField((int) (character.getPosx()),
+					(int) (character.getPosy())).leave(character);
+		}
+		if (activeLevelIndex < levelList.length - 1) {
+			activeLevelIndex++;
+			load(activeLevelIndex); // Neues Level laden
+			activeLevel.setLocked(false); // Neues Level freischalten
 			Bomblist.list.clear(); // Alle Bomben nicht mehr zeichnen
 			Flamelist.list.clear(); // Alle Flammen nicht mehr zeichnen
-			Playerlist.list.get(0).spawn(); // Character neu spawnen
+			// Charactere neu spawnen
+			for (int i = 0; i < Playerlist.list.size(); i++) {
+				Playerlist.list.get(i).spawn();
+			}
+
 		} else {
 			System.out.println("This was the last level, you have won!");
 			Menu.panelvisible = false;
