@@ -1,0 +1,5 @@
+\beamer@endinputifotherversion {3.16pt}
+\select@language {ngerman}
+\beamer@sectionintoc {1}{Einleitung}{3}{0}{1}
+\beamer@sectionintoc {2}{XML}{5}{0}{2}
+\beamer@sectionintoc {3}{Parser}{10}{0}{3}

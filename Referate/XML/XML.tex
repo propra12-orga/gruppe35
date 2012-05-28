@@ -1,0 +1,202 @@
+\documentclass{beamer}
+
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc} 
+\usepackage{graphicx}
+\graphicspath{{logos/}{figures/}}
+\usepackage{framed} %Rahmen Umgebung
+
+\usepackage{amsmath}
+\usepackage{verbatim}
+
+\usetheme{CambridgeUS}
+
+\usepackage{listings} %Programmcode schön einfügen
+\lstloadlanguages{XML}
+\lstset{language=XML,
+extendedchars=true,
+basicstyle=\tiny,
+tabsize=2,
+xleftmargin=20pt,
+breakatwhitespace=true,
+columns=fullflexible,
+keepspaces=true}
+%\renewcommand{\lstlistingname}{Code}
+
+
+\setbeamercovered{transparent}
+\beamertemplatenavigationsymbolsempty
+\setbeamertemplate{footline}[frame number]
+
+%Show Outline at begin of sections
+\AtBeginSection[]{%
+  \begin{frame}[plain]
+    \frametitle{Gliederung}
+    \tableofcontents[sectionstyle=show/shaded,subsectionstyle=shaded/show/shaded]
+  \end{frame}
+  \addtocounter{framenumber}{-1}% If you don't want them to affect the slide number
+}
+
+%Title, subtitle, authors, date, affiliation and logos
+\title{Austauschbare Datenformate \& Parsing}
+\subtitle{Referat im Rahmen des Programmierpraktikums 2012} 
+\author{Peet Cremer}
+\institute{%
+Lehrstuhl für Physik der weichen Materie \\
+Heinrich-Heine-Universit\"at D\"usseldorf, \\
+Universit\"atsstra\ss e 1, D-40225 D\"usseldorf, Germany
+}%
+\date{6. Juli 2012}
+
+%References
+\bibliographystyle{abbrvunsrt2}
+
+\begin{document}
+
+%Titlepage
+\begin{frame}[plain]
+  %Logos
+  \begin{columns}
+    \column{0.6\textwidth}
+    \column{0.4\textwidth}
+      \begin{figure}
+        \centering
+        \includegraphics[width=0.65\columnwidth]{hhu_logo.pdf}
+      \end{figure}
+  \end{columns}
+  
+  \titlepage
+  
+  \addtocounter{framenumber}{-1}
+\end{frame}
+
+%Inhaltsverzeichnis
+\begin{frame}[plain]
+  \frametitle{Gliederung}
+  \tableofcontents[sectionstyle=show/show,subsectionstyle=show/show/show]
+  \addtocounter{framenumber}{-1}
+\end{frame}
+\addtocounter{framenumber}{-1}
+
+\section{Einleitung}
+\addtocounter{framenumber}{+1}
+
+\begin{frame}{Datenformate}
+  \begin{itemize}
+    \item  Plattformunabhängige Datenformate besonders für das Internet wichtig
+    \item  Hierarchische Baumstrukturen 
+    \item  Menschenlesbar
+    \item  Müssen geschrieben und ausgelesen werden: Parser
+  \end{itemize}
+\end{frame}
+
+\section{XML}
+
+\begin{frame}{XML}
+  \begin{itemize}
+    \item  e\textbf{X}tensible \textbf{M}arkup \textbf{L}anguage
+    \item  Herausgegeben vom World Wide Web Consortium (W3C)
+    \item  Darstellung hierarchisch strukturierter Daten in Textdateien
+    \item  ASCII codiert und damit menschenlesbar
+    \item  Definiert strukturelle und inhaltliche Einschränkungen um als Grundlage für 	anwendungsspezifische Sprachen zu dienen
+    \item  Beispiele für XML--Sprachen: RSS, MathML, GraphML, XHTML, XAML, SVG
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Inhalte}
+  \begin{itemize}
+    \item  Elemente beginnen mit Start--Tag enden mit End--Tag
+    \item  Attribute, die zu einem Element gehören
+    \item  Verarbeitungsanweisungen
+    \item  Kommentare
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]{XML--Syntax}
+\begin{lstlisting}
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+   <Level1 xsize="3" ysize="3">
+      <fields>
+         <field type="f" x="1" y="1"/>
+         <field type="f" x="1" y="2"/>
+         <field type="e" x="1" y="3"/>
+         <field type="f" x="2" y="1"/>
+         <field type="s" x="2" y="2"/>
+         <field type="e" x="2" y="3"/>
+         <field type="e" x="3" y="1"/>
+         <field type="e" x="3" y="2"/>
+         <field type="e" x="3" y="3"/>
+      </fields>
+      <spawnpoints>
+         <spawnpoint x="1" y="1"/>
+      </spawnpoints>
+      <exits>
+         <exit x="3" y="3"/>
+      </exits>
+      <Gelaber>
+         BlaBla
+      <\Gelaber>
+      <?Ziel--Name Parameter ?>
+      <!-- Kommentar -->
+   </Level1>
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{XML--Regeln}
+  XML--Dokument heißt \alert{wohlgeformt} wenn es die XML--Regeln einhält
+  \begin{itemize}
+    \item  Es gibt genau ein \alert{Wurzelelement} (das äußerste Element der Hierarchie)
+    \item  Alle Elemente besitzen ein \alert{Begin--Tag} und ein \alert{End--Tag} und den Inhalt dazwischen	   
+    \item  Elemente am ohne Unterelemente können alternativ auch in sich geschlossen werden 
+    \item  Elemente enthalten nur ein Attribut mit demselben Namen
+  \end{itemize}
+\end{frame}
+
+\section{Parser}
+
+\begin{frame}{Parser}
+XML--Dokumente sollen automatisch generiert und ausgelesen werden
+\begin{itemize}
+  \item  \textbf{D}ocument \textbf{O}bject \textbf{M}odel
+    \begin{itemize}
+      \item  Das Ganze Dokument wird in den Speicher geladen
+      \item  Zugriff auf das Dokument als Baumstruktur
+      \item  Erlaubt Manipulation und Zurückschreiben in das XML--Dokument
+      \item  Speicherintensiv
+      \item  Für kleine Dokumente gut geeignet
+    \end{itemize}
+  \item  \textbf{S}imple \textbf{A}PI for \textbf{X}ML
+    \begin{itemize}
+      \item  XML--Dokument als sequentieller Datenstrom
+      \item  Auf Ereignisse im Datenstrom wird reagiert
+      \item  Wenig Speicherintensiv
+      \item  Keine Manipulation möglich
+      \item  Für große Dokumente gut geeignet
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+
+
+
+
+
+%%%COMMENT%%%
+\begin{comment}
+%Appendix
+\appendix
+\newcounter{finalframe}
+\setcounter{finalframe}{\value{framenumber}}
+
+%Quellen
+\begin{frame}[plain]{References}
+	\bibliography{references.bib}
+\end{frame}
+
+
+
+\setcounter{framenumber}{\value{finalframe}}
+\end{comment}
+%%%COMMENT%%%
+\end{document}
