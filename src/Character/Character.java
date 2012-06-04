@@ -1,15 +1,33 @@
 package Character;
 
 import main.Menu;
+
+/**
+ * @author Peet
+ * 
+ *         The Character class specifies the Player controlled Characters. 
+ *         
+ *         "name" String specifies the Charakter name
+ *         "speed" defines how fast the Charakter can move
+ *         "pixsizex" and "pixsizey" define the size of the Character in Pixel which is important for drawing, but also for moving.
+ *         "posx" and "posy" specify the current position of the character
+ *         "maxbombs" defines the maximum number of bombs the player can have in the Level at the same time
+ *         "bombs" is the current number of active bombs
+ *         "bombrange" is the range the bombs placed by this Character possess
+ *         "bombtimer" is the time in seconds it takes for a bomb places by this Character to explode
+ *         "lifes" is the number of times this Character can die before it is game over
+ *         
+ *         The placebomb() method allows the Character to create a new Bomb on the Field it is standing on
+ *         The kill() method is called to kill this character
+ *         The move() method is called whenever the Player presses the movement keys. It then moves in the corresponding direction if no blocking terrain or other problem occurs
+ *         The spawn() method (re)places the Character in the Level in the beginning or when it dies.
+ */
 import Bomb.Bomb;
 import Level.Levellist;
 
-/** Character sind Bomberman, Gegner usw. **/
 public class Character {
 	protected String name;
 	protected double speed;
-	protected double spawnx;
-	protected double spawny;
 	protected int pixsizex = 25;
 	protected int pixsizey = 40;
 	protected double posx;

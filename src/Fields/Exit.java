@@ -1,13 +1,18 @@
 package Fields;
 
 import Character.Character;
+
+/**
+ * @author Peet
+ * 
+ *         The Exit class is a child of the Field class and is very similar to the Floor class, except for the overwritten enter() method
+ *         Should a Character enter the Exit, the next Level ist started.
+ */
 import Level.Levellist;
 
 public class Exit extends Field {
 
 	public boolean enter(Character character) {
-		// Falls Flammen auf dem Feld sind wird der Charakter getötet der das
-		// Feld betritt.
 		Levellist.next();
 		return (false);
 	}

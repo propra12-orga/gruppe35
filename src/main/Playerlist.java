@@ -2,6 +2,13 @@ package main;
 
 import java.util.ArrayList;
 
+/**
+ * @author Peet
+ * 
+ *         The Playerlist class keeps track of all the Characters which are currently
+ *         present. At the moment only one Player is supported
+ */
+
 import Character.Character;
 
 public class Playerlist {

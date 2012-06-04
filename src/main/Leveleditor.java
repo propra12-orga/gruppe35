@@ -1,3 +1,11 @@
+/**
+ * @author Peet
+ The Leveleditor class creates, as the name says, a level from user input. 
+ The level file is saved in an XML file in the "Levels/" directory.
+ Input includes the Levelname (also the name of the file), the x- and y- size of the level, the positions of spawnpoints and the positions of exits.
+ Most importantly the field types are read in. Currently supportet fieldtypes are floor = f, stone = s, earth = e
+ */
+
 package main;
 
 import java.io.BufferedReader;

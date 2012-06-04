@@ -1,5 +1,13 @@
 package Fields;
 
+/**
+ * @author Peet
+ * 
+ *         The Earth class is a child of the Field class and is simply the type
+ *         of field which is solid, but transforms into Floor when it is
+ *         destroyed
+ */
+
 public class Earth extends Field {
 	// Kopiere dieses Feld
 	public Earth copy() {

@@ -1,5 +1,15 @@
 package Level;
 
+/**
+ * @author Peet
+ * 
+ *         The Level class keeps track of alle the Fields and their positions and of all the spawnpoints.
+ *         The spawnpoints are saved in the "spawnpoints" jagged array, where the first coordinate specifies the number and the second coordinate the x and y position
+ *         The "xsize" and "ysize" variables define how many Fields the Level contains in each direction.
+ *         The "locked" has no purpose yet, however it can be used in the future to make the player unlock Levels by completing former Levels.
+ * 			
+ */
+
 import Fields.Field;
 
 public class Level {
@@ -61,21 +71,4 @@ public class Level {
 			return (null);
 		}
 	}
-
-	public void draw() {
-		String line = "";
-		for (int y = ysize - 1; y >= 0; y--) {
-			for (int x = 0; x < xsize; x++) {
-				if (field[x][y].isSolid() == true) {
-					line += "# ";
-				} else {
-					line += "O ";
-				}
-			}
-			System.out.println(line);
-			line = "";
-		}
-
-	}
-
 }
