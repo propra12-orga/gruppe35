@@ -54,11 +54,9 @@ public class Character {
 		this.pixsizey = pixsizey;
 	}
 
-	public Character(String name, double spawnx, double spawny, double speed,
-			int maxbombs, int bombrange, int bombtimer, int lifes) {
+	public Character(String name, double speed, int maxbombs, int bombrange,
+			int bombtimer, int lifes) {
 		this.name = name;
-		this.spawnx = spawnx;
-		this.spawny = spawny;
 		this.speed = speed;
 		this.maxbombs = maxbombs;
 		this.bombrange = bombrange;
