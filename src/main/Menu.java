@@ -38,7 +38,9 @@ public class Menu extends JFrame {
 				Levellist.load(0);
 				// Player laden
 				Playerlist.load();
-				Playerlist.list.get(0).spawn();
+				for (int i=0 ; i<Playerlist.list.size();i++){
+				Playerlist.list.get(i).spawn();
+				}
 				Menu.panelvisible = true;
 				javax.swing.SwingUtilities.invokeLater(new Runnable() {
 					public void run() {

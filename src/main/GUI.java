@@ -91,11 +91,12 @@ public class GUI extends JFrame implements KeyListener {
 						}
 					}
 				}
-
-				g.drawImage(image, Playerlist.list.get(0).getDrawx(),
-						Playerlist.list.get(0).getDrawy(),
-						Playerlist.list.get(0).getPixsizex(), Playerlist.list
-								.get(0).getPixsizey(), this);
+				for (int i = 0; i < Playerlist.list.size(); i++) {
+					g.drawImage(image, Playerlist.list.get(i).getDrawx(),
+							Playerlist.list.get(i).getDrawy(), Playerlist.list
+									.get(i).getPixsizex(),
+							Playerlist.list.get(i).getPixsizey(), this);
+				}
 				// evt.Bombe malen
 				// for (int i = 0; i < Bomblist.list.size(); i++) {
 				// g.drawImage(bomb, Bomblist.list.get(0).getDrawx(),
@@ -154,25 +155,46 @@ public class GUI extends JFrame implements KeyListener {
 	}
 
 	public void keyPressed(KeyEvent e) {
-		// Rechts
+		// Rechts Spieler 1
 		if (39 == e.getKeyCode()) {
 			Playerlist.list.get(0).move(1, 0);
 		}
-		// Links
+		// Links Spieler 1
 		if (37 == e.getKeyCode()) {
 			Playerlist.list.get(0).move(-1, 0);
 		}
-		// Oben
+		// Oben Spieler 1
 		if (40 == e.getKeyCode()) {
 			Playerlist.list.get(0).move(0, 1);
 		}
-		// Unten
+		// Unten Spieler 1
 		if (38 == e.getKeyCode()) {
 			Playerlist.list.get(0).move(0, -1);
 		}
-		// Leertaste (Bombe)
-		if (32 == e.getKeyCode()) {
+		// Leertaste (Bombe) Spieler 1
+		if (10 == e.getKeyCode()) {
 			Playerlist.list.get(0).placebomb();
+		}
+
+		// Rechts Spieler 2
+		if (68 == e.getKeyCode()) {
+			Playerlist.list.get(1).move(1, 0);
+		}
+		// Links Spieler 2
+		if (65 == e.getKeyCode()) {
+			Playerlist.list.get(1).move(-1, 0);
+		}
+		// Oben Spieler 2
+		if (83 == e.getKeyCode()) {
+			Playerlist.list.get(1).move(0, 1);
+		}
+		// Unten Spieler 2
+		if (87 == e.getKeyCode()) {
+			Playerlist.list.get(1).move(0, -1);
+		}
+		// Leertaste (Bombe) Spieler 2
+		if (32 == e.getKeyCode()) {
+			Playerlist.list.get(1).placebomb();
 		}
 
 		Graphics g = getGraphics();
