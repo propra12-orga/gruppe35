@@ -64,7 +64,7 @@ public class Menu extends JFrame {
 		bar.add(exitItem);
 
 		getContentPane();
-		setSize(200, 200);
+		setSize(400, 400);
 		setVisible(true);
 	}
 

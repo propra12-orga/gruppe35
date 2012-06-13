@@ -24,6 +24,7 @@ public class Stone extends Field {
 	// Default Constructor
 	public Stone() {
 		this.solid = true;
+		this.destructable = false;
 		this.transformto = null;
 	}
 }

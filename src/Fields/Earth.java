@@ -24,6 +24,7 @@ public class Earth extends Field {
 	// Default Constructor
 	public Earth() {
 		this.solid = true;
+		this.destructable = true;
 		this.transformto = new Floor();
 	}
 

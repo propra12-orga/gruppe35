@@ -3,6 +3,7 @@ package Bomb;
 import java.util.concurrent.TimeUnit;
 import main.Flamelist;
 import Fields.Field;
+//import main.Global;
 
 /**
  * This is the Flame class. It is responsible for running a timer thread, that
@@ -23,8 +24,10 @@ import Fields.Field;
 public class Flame implements Runnable {
 	protected int x;
 	protected int y;
-	protected int pixsizex = 50;
-	protected int pixsizey = 50;
+	protected int pixsizex = 100; // 50
+	protected int pixsizey = 100; // 50
+	// Friedrich: sqsize sollte global sein!
+	protected int sqsize = 100; // Friedrich: Damit Übereinstimmung mit GUI...
 
 	public int getPixsizex() {
 		return pixsizex;
@@ -47,11 +50,11 @@ public class Flame implements Runnable {
 	private static final int timer = 1000;
 
 	public int getDrawx() {
-		return ((int) (x * 50 + (50 - pixsizex) * 0.5));
+		return ((int) (x * sqsize + (sqsize - pixsizex) * 0.5));
 	}
 
 	public int getDrawy() {
-		return ((int) (y * 50 + (50 - pixsizey) * 0.5));
+		return ((int) (y * sqsize + (sqsize - pixsizey) * 0.5));
 	}
 
 	public Flame(Field field, int x, int y) {

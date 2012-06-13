@@ -13,18 +13,24 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import Level.Levellist;
+//import main.Global;
 
 public class GUI extends JFrame implements KeyListener {
-	public int sqsize = 50;
+	// Friedrich: sqsize sollte global sein!
+	public int sqsize = 100;
 	public JPanel panel;
 
 	// Bilder laden
-	public final Image image = Toolkit.getDefaultToolkit().getImage(
+	public final Image image1 = Toolkit.getDefaultToolkit().getImage(
 			"src/img/boltzmann2.gif");
+	public final Image image2 = Toolkit.getDefaultToolkit().getImage(
+			"src/img/feynman.gif");
 	public final Image boden = Toolkit.getDefaultToolkit().getImage(
-			"src/img/boden3.gif");
+			"src/img/boden.jpg");
 	public final Image mauer = Toolkit.getDefaultToolkit().getImage(
-			"src/img/mauer2.gif");
+			"src/img/mauer.jpg");
+	public final Image mauersolid = Toolkit.getDefaultToolkit().getImage(
+			"src/img/mauersolid.jpg");
 	public final Image bomb = Toolkit.getDefaultToolkit().getImage(
 			"src/img/bomb.gif");
 	public final Image flame = Toolkit.getDefaultToolkit().getImage(
@@ -53,8 +59,15 @@ public class GUI extends JFrame implements KeyListener {
 				for (int x = 0; x < Levellist.activeLevel.getXsize(); x++) {
 					for (int y = 0; y < Levellist.activeLevel.getYsize(); y++) {
 						if (Levellist.activeLevel.getField(y, x).isSolid() == true) {
-							g.drawImage(mauer, y * sqsize, x * sqsize, sqsize,
-									sqsize, this);
+							if (Levellist.activeLevel.getField(y, x)
+									.isDestructable() == true) {
+								g.drawImage(mauer, y * sqsize, x * sqsize,
+										sqsize, sqsize, this);
+							} else {
+								g.drawImage(mauersolid, y * sqsize, x * sqsize,
+										sqsize, sqsize, this);
+							}
+
 						} else {
 
 							if (Levellist.activeLevel.getField(y, x).getBomb() != null) {
@@ -91,12 +104,17 @@ public class GUI extends JFrame implements KeyListener {
 						}
 					}
 				}
-				for (int i = 0; i < Playerlist.list.size(); i++) {
-					g.drawImage(image, Playerlist.list.get(i).getDrawx(),
-							Playerlist.list.get(i).getDrawy(), Playerlist.list
-									.get(i).getPixsizex(),
-							Playerlist.list.get(i).getPixsizey(), this);
-				}
+				// male player1
+				g.drawImage(image1, Playerlist.list.get(0).getDrawx(),
+						Playerlist.list.get(0).getDrawy(),
+						Playerlist.list.get(0).getPixsizex(), Playerlist.list
+								.get(0).getPixsizey(), this);
+
+				// male player2
+				g.drawImage(image2, Playerlist.list.get(1).getDrawx(),
+						Playerlist.list.get(1).getDrawy(),
+						Playerlist.list.get(1).getPixsizex(), Playerlist.list
+								.get(1).getPixsizey(), this);
 				// evt.Bombe malen
 				// for (int i = 0; i < Bomblist.list.size(); i++) {
 				// g.drawImage(bomb, Bomblist.list.get(0).getDrawx(),
@@ -140,8 +158,8 @@ public class GUI extends JFrame implements KeyListener {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		this.pack();
-		this.setSize(Levellist.activeLevel.getXsize() * 50,
-				Levellist.activeLevel.getYsize() * 50);
+		this.setSize(Levellist.activeLevel.getXsize() * sqsize,
+				Levellist.activeLevel.getYsize() * sqsize);
 		// this.setResizable(false);
 		this.setVisible(Menu.panelvisible);
 	}

@@ -9,4 +9,5 @@ package main;
  */
 
 public class Global {
+	int sqsize = 100;
 }

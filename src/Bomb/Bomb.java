@@ -6,6 +6,7 @@ import main.Bomblist;
 import Character.Character;
 import Fields.Field;
 import Level.Level;
+//import main.Global;
 
 /**
  * 
@@ -36,19 +37,21 @@ public class Bomb implements Runnable {
 	protected int range;
 	protected int x;
 	protected int y;
-	protected int pixsizex = 30;
-	protected int pixsizey = 30;
+	protected int pixsizex = 60; // 30
+	protected int pixsizey = 60; // 30
+	// Friedrich: sqsize sollte global sein!
+	protected int sqsize = 100; // Friedrich: Übereinstimmung mit GUI...
 
 	public int getPixsizex() {
 		return pixsizex;
 	}
 
 	public int getDrawx() {
-		return ((int) (x * 50 + (50 - pixsizex) * 0.5));
+		return ((int) (x * sqsize + (sqsize - pixsizex) * 0.5));
 	}
 
 	public int getDrawy() {
-		return ((int) (y * 50 + (50 - pixsizey) * 0.5));
+		return ((int) (y * sqsize + (sqsize - pixsizey) * 0.5));
 	}
 
 	public void setPixsizex(int pixsizex) {
