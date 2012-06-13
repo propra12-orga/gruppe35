@@ -1,9 +1,9 @@
 package Character;
 
+import main.Global;
 import main.Menu;
 import Bomb.Bomb;
 import Level.Levellist;
-//import main.Global;
 
 /**
  * 
@@ -34,10 +34,8 @@ import Level.Levellist;
 public class Character {
 	protected String name;
 	protected double speed;
-	protected int pixsizex = 50; //25
-	protected int pixsizey = 80; //40
-	// Friedrich: sqsize sollte global sein!
-	protected int sqsize = 100; // Friedrich: gleiche Größe wie in GUI!
+	protected int pixsizex = (int)(Global.sqsize*0.5); //25
+	protected int pixsizey = (int)(Global.sqsize*0.8); //40
 	protected double posx;
 	protected double posy;
 	protected int maxbombs;
@@ -93,11 +91,11 @@ public class Character {
 	}
 
 	public int getDrawx() {
-		return ((int) (posx * sqsize - pixsizex * 0.5));
+		return ((int) (posx * Global.sqsize - pixsizex * 0.5));
 	}
 
 	public int getDrawy() {
-		return ((int) (posy * sqsize - pixsizey * 0.5));
+		return ((int) (posy * Global.sqsize - pixsizey * 0.5));
 	}
 
 	public void setPosx(double posx) {

@@ -1,12 +1,15 @@
 package Bomb;
 
+import java.awt.Graphics;
 import java.util.concurrent.TimeUnit;
+
+import javax.swing.JPanel;
 
 import main.Bomblist;
 import Character.Character;
 import Fields.Field;
 import Level.Level;
-//import main.Global;
+import main.Global;
 
 /**
  * 
@@ -37,21 +40,20 @@ public class Bomb implements Runnable {
 	protected int range;
 	protected int x;
 	protected int y;
-	protected int pixsizex = 60; // 30
-	protected int pixsizey = 60; // 30
-	// Friedrich: sqsize sollte global sein!
-	protected int sqsize = 100; // Friedrich: Übereinstimmung mit GUI...
+	protected int pixsizex = (int)(Global.sqsize*0.6); 
+	protected int pixsizey = (int)(Global.sqsize*0.6); 
+	
 
 	public int getPixsizex() {
 		return pixsizex;
 	}
 
 	public int getDrawx() {
-		return ((int) (x * sqsize + (sqsize - pixsizex) * 0.5));
+		return ((int) (x * Global.sqsize + (Global.sqsize - pixsizex) * 0.5));
 	}
 
 	public int getDrawy() {
-		return ((int) (y * sqsize + (sqsize - pixsizey) * 0.5));
+		return ((int) (y * Global.sqsize + (Global.sqsize - pixsizey) * 0.5));
 	}
 
 	public void setPixsizex(int pixsizex) {
@@ -80,6 +82,12 @@ public class Bomb implements Runnable {
 		this.range = range;
 	}
 
+	public void DrawComponent(Graphics g, JPanel panel) {
+		g.drawImage(Global.boden, this.x * Global.sqsize, this.y * Global.sqsize, Global.sqsize,
+				Global.sqsize, panel);
+		g.drawImage(Global.bomb, this.getDrawx(), this.getDrawy() ,
+				this.getPixsizex(), this.getPixsizey(), panel);
+	}
 	public synchronized void start() {
 		if (thread == null) {
 			thread = new Thread(this);

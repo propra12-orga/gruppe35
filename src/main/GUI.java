@@ -13,29 +13,12 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import Level.Levellist;
+import main.Global;
 
 //import main.Global;
 
 public class GUI extends JFrame implements KeyListener {
-	// Friedrich: sqsize sollte global sein!
-	public int sqsize = 100;
 	public JPanel panel;
-
-	// Bilder laden
-	public final Image image1 = Toolkit.getDefaultToolkit().getImage(
-			"src/img/boltzmann2.gif");
-	public final Image image2 = Toolkit.getDefaultToolkit().getImage(
-			"src/img/feynman.gif");
-	public final Image boden = Toolkit.getDefaultToolkit().getImage(
-			"src/img/boden.jpg");
-	public final Image mauer = Toolkit.getDefaultToolkit().getImage(
-			"src/img/mauer.jpg");
-	public final Image mauersolid = Toolkit.getDefaultToolkit().getImage(
-			"src/img/mauersolid.jpg");
-	public final Image bomb = Toolkit.getDefaultToolkit().getImage(
-			"src/img/bomb.gif");
-	public final Image flame = Toolkit.getDefaultToolkit().getImage(
-			"src/img/fire_central.gif");
 
 	private static final long serialVersionUID = 1L;
 
@@ -61,58 +44,41 @@ public class GUI extends JFrame implements KeyListener {
 					for (int y = 0; y < Levellist.activeLevel.getYsize(); y++) {
 						if (Levellist.activeLevel.getField(y, x).isSolid() == true) {
 							if (Levellist.activeLevel.getField(y, x)
-									.isDestructable() == true) {
-								g.drawImage(mauer, y * sqsize, x * sqsize,
-										sqsize, sqsize, this);
+									.isTransformable() == null) {
+								g.drawImage(Global.mauersolid, y
+										* Global.sqsize, x * Global.sqsize,
+										Global.sqsize, Global.sqsize, this);
+
 							} else {
-								g.drawImage(mauersolid, y * sqsize, x * sqsize,
-										sqsize, sqsize, this);
+								g.drawImage(Global.mauer, y * Global.sqsize, x
+										* Global.sqsize, Global.sqsize,
+										Global.sqsize, this);
+
 							}
 
 						} else {
 
-							if (Levellist.activeLevel.getField(y, x).getBomb() != null) {
-								g.drawImage(boden, y * sqsize, x * sqsize,
-										sqsize, sqsize, this);
-								g.drawImage(
-										bomb,
-										(int) (y * sqsize + (sqsize - Bomblist.list
-												.get(0).getPixsizey()) * 0.5),
-										(int) (x * sqsize + (sqsize - Bomblist.list
-												.get(0).getPixsizex()) * 0.5),
-										Bomblist.list.get(0).getPixsizex(),
-										Bomblist.list.get(0).getPixsizey(),
-										this);
-							} else {
-								if (Levellist.activeLevel.getField(y, x)
-										.getFlame() == 0) {
-									g.drawImage(boden, y * sqsize, x * sqsize,
-											sqsize, sqsize, this);
-								} else {
-									g.drawImage(boden, y * sqsize, x * sqsize,
-											sqsize, sqsize, this);
-									g.drawImage(
-											flame,
-											y * sqsize,
-											x * sqsize,
-											Flamelist.list.get(0).getPixsizex(),
-											Flamelist.list.get(0).getPixsizey(),
-											this);
+							g.drawImage(Global.boden, y * Global.sqsize, x
+									* Global.sqsize, Global.sqsize,
+									Global.sqsize, this);
 
-								}
-
-							}
 						}
 					}
 				}
+				for (int i = 0; i < Bomblist.list.size(); i++) {
+					Bomblist.list.get(i).DrawComponent(g, panel);
+				}
+				for (int i = 0; i < Flamelist.list.size(); i++) {
+					Flamelist.list.get(i).DrawComponent(g, panel);
+				}
 				// male player1
-				g.drawImage(image1, Playerlist.list.get(0).getDrawx(),
+				g.drawImage(Global.image1, Playerlist.list.get(0).getDrawx(),
 						Playerlist.list.get(0).getDrawy(),
 						Playerlist.list.get(0).getPixsizex(), Playerlist.list
 								.get(0).getPixsizey(), this);
 
 				// male player2
-				g.drawImage(image2, Playerlist.list.get(1).getDrawx(),
+				g.drawImage(Global.image2, Playerlist.list.get(1).getDrawx(),
 						Playerlist.list.get(1).getDrawy(),
 						Playerlist.list.get(1).getPixsizex(), Playerlist.list
 								.get(1).getPixsizey(), this);
@@ -159,8 +125,8 @@ public class GUI extends JFrame implements KeyListener {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		this.pack();
-		this.setSize(Levellist.activeLevel.getXsize() * sqsize * 2,
-				Levellist.activeLevel.getYsize() * sqsize * 2);
+		this.setSize(Levellist.activeLevel.getXsize() * Global.sqsize * 2,
+				Levellist.activeLevel.getYsize() * Global.sqsize * 2);
 		// this.setResizable(false);
 		this.setVisible(Menu.panelvisible);
 	}

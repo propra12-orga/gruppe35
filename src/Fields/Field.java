@@ -27,7 +27,6 @@ import Level.Level;
 public class Field {
 	// Aenderung
 	protected boolean solid; // Ist das Feld fest oder nicht?
-	protected boolean destructable; // Friedrich: ist das Feld zerstoerbar?
 	protected LinkedList<Character> characterlist = new LinkedList<Character>(); // Character
 	// auf
 	// diesem
@@ -36,13 +35,13 @@ public class Field {
 	protected int flame = 0; // Flammen auf diesem Feld
 	protected Field transformto;
 
+	public Field isTransformable() {
+		return transformto;
+	}
+
 	public boolean isSolid() {
 		return solid;
 	}
-	public boolean isDestructable(){
-		return destructable;
-	}
-	
 
 	public int getFlame() {
 		return flame;
