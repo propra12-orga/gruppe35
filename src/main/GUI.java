@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import Level.Levellist;
+
 //import main.Global;
 
 public class GUI extends JFrame implements KeyListener {
@@ -158,8 +159,8 @@ public class GUI extends JFrame implements KeyListener {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		this.pack();
-		this.setSize(Levellist.activeLevel.getXsize() * sqsize,
-				Levellist.activeLevel.getYsize() * sqsize);
+		this.setSize(Levellist.activeLevel.getXsize() * sqsize * 2,
+				Levellist.activeLevel.getYsize() * sqsize * 2);
 		// this.setResizable(false);
 		this.setVisible(Menu.panelvisible);
 	}
