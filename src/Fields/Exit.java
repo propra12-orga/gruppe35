@@ -1,14 +1,18 @@
 package Fields;
 
 import Character.Character;
+import Level.Levellist;
 
 /**
- * @author Peet
  * 
- *         The Exit class is a child of the Field class and is very similar to the Floor class, except for the overwritten enter() method
- *         Should a Character enter the Exit, the next Level ist started.
+ *         The Exit class is a child of the Field class and is very similar to
+ *         the Floor class, except for the overwritten enter() method Should a
+ *         Character enter the Exit, the next Level ist started.
+ * 
+ *         <P>
+ * 
+ * @author Peet
  */
-import Level.Levellist;
 
 public class Exit extends Field {
 

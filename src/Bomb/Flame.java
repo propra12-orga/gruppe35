@@ -1,22 +1,24 @@
-/**
- * @author Peet
- * 
- *         This is the Flame class. It is responsible for running a timer thread, that causes the Flame to disappear when it expires. Flames on a field cause characters to die when they enter it.
- *         
- *     	   "x" and "y" are the position in Field coordinates of this bomb in the level
- *         The "pixsizex" and "pixsizey" variables are important for the GUI for drawing only
- *         The "timer" is the time in milliseconds it takes until this Flame disappears
- *         "thread" is the timer thread that runs until this flame disappears
- *         "field" is the Field this flame is placed on. When it disappears, the Field stops killing Characters that enter it.
-
- */
-
 package Bomb;
 
 import java.util.concurrent.TimeUnit;
-
 import main.Flamelist;
 import Fields.Field;
+
+/**
+ * This is the Flame class. It is responsible for running a timer thread, that
+ * causes the Flame to disappear when it expires. Flames on a field cause
+ * characters to die when they enter it.
+ * 
+ * "x" and "y" are the position in Field coordinates of this bomb in the level
+ * The "pixsizex" and "pixsizey" variables are important for the GUI for drawing
+ * only The "timer" is the time in milliseconds it takes until this Flame
+ * disappears "thread" is the timer thread that runs until this flame disappears
+ * "field" is the Field this flame is placed on. When it disappears, the Field
+ * stops killing Characters that enter it.
+ * <P>
+ * 
+ * @author Peet
+ */
 
 public class Flame implements Runnable {
 	protected int x;

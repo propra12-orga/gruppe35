@@ -5,11 +5,12 @@ import java.util.ArrayList;
 import Bomb.Bomb;
 
 /**
- * @author Peet
  * 
- *         The Bomblist class keeps track of all the Bombs which are currently
- *         present. Its only purpose is to provide the GUI with their
- *         coordinates to draw them
+ * The Bomblist class keeps track of all the Bombs which are currently present.
+ * Its only purpose is to provide the GUI with their coordinates to draw them
+ * <P>
+ * 
+ * @author Peet
  */
 
 public class Bomblist {

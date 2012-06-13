@@ -1,9 +1,11 @@
 package main;
 
 /**
- * @author Peet
  * 
- *         Reserved for possible misc. global variables
+ * Reserved for possible misc. global variables
+ * <P>
+ * 
+ * @author Peet
  */
 
 public class Global {

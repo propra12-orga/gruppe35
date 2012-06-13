@@ -1,15 +1,15 @@
 package main;
 
 import java.util.ArrayList;
+import Character.Character;
 
 /**
- * @author Peet
+ * The Playerlist class keeps track of all the Characters which are currently
+ * present. At the moment only two Players are supported
+ * <P>
  * 
- *         The Playerlist class keeps track of all the Characters which are currently
- *         present. At the moment only one Player is supported
+ * @author Peet
  */
-
-import Character.Character;
 
 public class Playerlist {
 	public static ArrayList<Character> list = new ArrayList<Character>();

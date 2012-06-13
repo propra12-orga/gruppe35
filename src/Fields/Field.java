@@ -1,22 +1,28 @@
 package Fields;
 
-/**
- @author Peet
- This is the Field class, which provides the basis for all special types of fields that can appear in a Level.
- Each Field knows if it is "solid" ( = passable for Characters or fire), the "bomb" it might contain and flames it might contain.
- In case the Field is destroyed, it will transform to another Field specified by the "transformto" variable.
- Also all Characters contained in the "characterlist" will be killed and then removed from the list.
-
- enter() and leave() keep track of the Characters entering and leaving the field and interact with them.
- destruction() kills all characters on the field, and lets a possible bomb on the field explode
- */
-
 import java.util.LinkedList;
 import java.util.List;
 
 import Bomb.Bomb;
 import Character.Character;
 import Level.Level;
+
+/**
+ * This is the Field class, which provides the basis for all special types of
+ * fields that can appear in a Level. Each Field knows if it is "solid" ( =
+ * passable for Characters or fire), the "bomb" it might contain and flames it
+ * might contain. In case the Field is destroyed, it will transform to another
+ * Field specified by the "transformto" variable. Also all Characters contained
+ * in the "characterlist" will be killed and then removed from the list.
+ * 
+ * enter() and leave() keep track of the Characters entering and leaving the
+ * field and interact with them. destruction() kills all characters on the
+ * field, and lets a possible bomb on the field explode
+ * 
+ * <P>
+ * 
+ * @author Peet
+ */
 
 public class Field {
 	// Aenderung

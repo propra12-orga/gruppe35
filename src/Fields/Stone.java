@@ -1,11 +1,12 @@
 package Fields;
 
 /**
- * @author Peet
  * 
- *         The Stone class is a child of the Field class and is simply the type
- *         of field which is solid, and does not change even when bombs explode
- *         in its vicinity
+ * The Stone class is a child of the Field class and is simply the type of field
+ * which is solid, and does not change even when bombs explode in its vicinity
+ * <P>
+ * 
+ * @author Peet
  */
 
 public class Stone extends Field {

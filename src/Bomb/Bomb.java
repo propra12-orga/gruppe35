@@ -1,21 +1,3 @@
-/**
- * @author Peet
- * 
- *         This is the Bomb class. It is responsible for running a timer thread, that causes the bomb to explode when it expires.
- *         However, the bomb can also explode when another bomb in its vicinity explodes.
- *         
- *         The "owner" is the Character that has placed this bomb
- *         The "timer" is the time in seconds it takes until this bomb explodes
- *         The "range" is the range of the fire beam this bomb creates when it explodes
- *         "x" and "y" are the position in Field coordinates of this bomb in the level
- *         The "pixsizex" and "pixsizey" variables are important for the GUI for drawing only
- *         
- *         The destruction() method is called when the bomb explodes. Then the timer thread is stopped, the owner gets its bomb back, this bomb is stopped being drawn and the Flames are created that cause the destruction of the environment
- *         Flames can be stopped by solid obstacles or other bombs.
- *         The createFlame() method creates a new Flame on the destroyed Field and tells the Field that it just has been destroyed by a bomb.
-
- */
-
 package Bomb;
 
 import java.util.concurrent.TimeUnit;
@@ -24,6 +6,29 @@ import main.Bomblist;
 import Character.Character;
 import Fields.Field;
 import Level.Level;
+
+/**
+ * 
+ * This is the Bomb class. It is responsible for running a timer thread, that
+ * causes the bomb to explode when it expires. However, the bomb can also
+ * explode when another bomb in its vicinity explodes.
+ * 
+ * The "owner" is the Character that has placed this bomb The "timer" is the
+ * time in seconds it takes until this bomb explodes The "range" is the range of
+ * the fire beam this bomb creates when it explodes "x" and "y" are the position
+ * in Field coordinates of this bomb in the level The "pixsizex" and "pixsizey"
+ * variables are important for the GUI for drawing only
+ * 
+ * The destruction() method is called when the bomb explodes. Then the timer
+ * thread is stopped, the owner gets its bomb back, this bomb is stopped being
+ * drawn and the Flames are created that cause the destruction of the
+ * environment Flames can be stopped by solid obstacles or other bombs. The
+ * createFlame() method creates a new Flame on the destroyed Field and tells the
+ * Field that it just has been destroyed by a bomb.
+ * <P>
+ * 
+ * @author Peet
+ */
 
 public class Bomb implements Runnable {
 	protected Character owner;

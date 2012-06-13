@@ -2,17 +2,6 @@ package Level;
 
 import java.io.File;
 
-/**
- * @author Peet
- * 
- *         The Levellist class is responsible for loading and initializing Levels. It is also responsible for changing the Level in case of victory
- *     When the program is started, all File paths in the "Levels/" folder are loaded in the "levellist" array.
- *     The "activelevel" specifies which Level is played at the moment and the "activelevelindex" the corresponding index in the "levellist" array.
- *     
- *     The load() method reads out the XML file corresponding to a Level in the "Levels/" directory, which was hopefully created with the Leveleditor tool.
- *     The next() method makes advance to the next Level possible and will be called in case of victory
- */
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -31,6 +20,24 @@ import Fields.Exit;
 import Fields.Field;
 import Fields.Floor;
 import Fields.Stone;
+
+/**
+ * The Levellist class is responsible for loading and initializing Levels. It is
+ * also responsible for changing the Level in case of victory When the program
+ * is started, all File paths in the "Levels/" folder are loaded in the
+ * "levellist" array. The "activelevel" specifies which Level is played at the
+ * moment and the "activelevelindex" the corresponding index in the "levellist"
+ * array.
+ * 
+ * The load() method reads out the XML file corresponding to a Level in the
+ * "Levels/" directory, which was hopefully created with the Leveleditor tool.
+ * The next() method makes advance to the next Level possible and will be called
+ * in case of victory
+ * 
+ * <P>
+ * 
+ * @author Peet
+ */
 
 public class Levellist {
 	public static File[] levelList; // Liste

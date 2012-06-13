@@ -5,11 +5,14 @@ import java.util.ArrayList;
 import Bomb.Flame;
 
 /**
- * @author Peet
  * 
- *         The Flamelist class keeps track of all the Flames which are currently
- *         present. Its only purpose is to provide the GUI with their
- *         coordinates to draw them
+ * The Flamelist class keeps track of all the Flames which are currently
+ * present. Its only purpose is to provide the GUI with their coordinates to
+ * draw them
+ * 
+ * <P>
+ * 
+ * @author Peet
  */
 
 public class Flamelist {

@@ -1,16 +1,20 @@
 package Level;
 
+import Fields.Field;
+
 /**
+ * The Level class keeps track of alle the Fields and their positions and of all
+ * the spawnpoints. The spawnpoints are saved in the "spawnpoints" jagged array,
+ * where the first coordinate specifies the number and the second coordinate the
+ * x and y position The "xsize" and "ysize" variables define how many Fields the
+ * Level contains in each direction. The "locked" has no purpose yet, however it
+ * can be used in the future to make the player unlock Levels by completing
+ * former Levels.
+ * <P>
+ * 
  * @author Peet
  * 
- *         The Level class keeps track of alle the Fields and their positions and of all the spawnpoints.
- *         The spawnpoints are saved in the "spawnpoints" jagged array, where the first coordinate specifies the number and the second coordinate the x and y position
- *         The "xsize" and "ysize" variables define how many Fields the Level contains in each direction.
- *         The "locked" has no purpose yet, however it can be used in the future to make the player unlock Levels by completing former Levels.
- * 			
  */
-
-import Fields.Field;
 
 public class Level {
 	private int xsize;
