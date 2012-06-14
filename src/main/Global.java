@@ -22,10 +22,14 @@ public class Global {
 			"src/img/boden.jpg");
 	public static final Image mauer = Toolkit.getDefaultToolkit().getImage(
 			"src/img/mauer.jpg");
-	public static final Image mauersolid = Toolkit.getDefaultToolkit().getImage(
-			"src/img/mauersolid.jpg");
+	public static final Image mauersolid = Toolkit.getDefaultToolkit()
+			.getImage("src/img/mauersolid.jpg");
 	public static final Image bomb = Toolkit.getDefaultToolkit().getImage(
 			"src/img/bomb.gif");
 	public static final Image flame = Toolkit.getDefaultToolkit().getImage(
 			"src/img/fire_central.gif");
+	public static final Image flame_h = Toolkit.getDefaultToolkit().getImage(
+			"src/img/fire_horizontal.gif");
+	public static final Image flame_v = Toolkit.getDefaultToolkit().getImage(
+			"src/img/fire_vertical.gif");
 }

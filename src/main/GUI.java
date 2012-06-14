@@ -40,62 +40,27 @@ public class GUI extends JFrame implements KeyListener {
 				// super.paintComponent(g);
 				// g.
 
-				for (int x = 0; x < Levellist.activeLevel.getXsize(); x++) {
-					for (int y = 0; y < Levellist.activeLevel.getYsize(); y++) {
-						if (Levellist.activeLevel.getField(y, x).isSolid() == true) {
-							if (Levellist.activeLevel.getField(y, x)
-									.isTransformable() == null) {
-								g.drawImage(Global.mauersolid, y
-										* Global.sqsize, x * Global.sqsize,
-										Global.sqsize, Global.sqsize, this);
-
-							} else {
-								g.drawImage(Global.mauer, y * Global.sqsize, x
-										* Global.sqsize, Global.sqsize,
-										Global.sqsize, this);
-
-							}
-
-						} else {
-
-							g.drawImage(Global.boden, y * Global.sqsize, x
-									* Global.sqsize, Global.sqsize,
-									Global.sqsize, this);
-
-						}
-					}
-				}
+				// draw level
+				Levellist.activeLevel.drawComponent(g, panel);
+				// draw bombs
 				for (int i = 0; i < Bomblist.list.size(); i++) {
 					Bomblist.list.get(i).DrawComponent(g, panel);
 				}
+				// draw flames
 				for (int i = 0; i < Flamelist.list.size(); i++) {
 					Flamelist.list.get(i).DrawComponent(g, panel);
 				}
-				// male player1
+				// draw player1
 				g.drawImage(Global.image1, Playerlist.list.get(0).getDrawx(),
 						Playerlist.list.get(0).getDrawy(),
 						Playerlist.list.get(0).getPixsizex(), Playerlist.list
 								.get(0).getPixsizey(), this);
 
-				// male player2
+				// draw player2
 				g.drawImage(Global.image2, Playerlist.list.get(1).getDrawx(),
 						Playerlist.list.get(1).getDrawy(),
 						Playerlist.list.get(1).getPixsizex(), Playerlist.list
 								.get(1).getPixsizey(), this);
-				// evt.Bombe malen
-				// for (int i = 0; i < Bomblist.list.size(); i++) {
-				// g.drawImage(bomb, Bomblist.list.get(0).getDrawx(),
-				// Bomblist.list.get(i).getDrawy(),
-				// Bomblist.list.get(i).getPixsizex(), Bomblist.list
-				// .get(0).getPixsizey(), this);
-
-				// }
-				// evt.Flammen malen
-				// for(int i=0;i<Flamelist.list.size();i++){
-				// g.drawImage(flame, Flamelist.list.get(0).getDrawx(),
-				// Flamelist.list.get(i).getDrawy(),
-				// Flamelist.list.get(i).getPixsizex(), Flamelist.list
-				// .get(0).getPixsizey(), this);
 
 			}
 

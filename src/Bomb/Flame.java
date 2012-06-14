@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import main.Flamelist;
 import main.Global;
 import Fields.Field;
+import Level.Levellist;
 
 /**
  * This is the Flame class. It is responsible for running a timer thread, that
@@ -32,10 +33,28 @@ public class Flame implements Runnable {
 	protected int pixsizey = Global.sqsize;
 
 	public void DrawComponent(Graphics g, JPanel panel) {
-		g.drawImage(Global.boden, this.x * Global.sqsize, this.y * Global.sqsize, Global.sqsize,
-				Global.sqsize, panel);
-		g.drawImage(Global.flame, this.x * Global.sqsize, this.y * Global.sqsize,
-				this.getPixsizex(), this.getPixsizey(), panel);
+		g.drawImage(Global.boden, this.x * Global.sqsize, this.y
+				* Global.sqsize, Global.sqsize, Global.sqsize, panel);
+		if (Levellist.activeLevel.getField(this.x + 1, this.y).getFlame() != 0
+				&& Levellist.activeLevel.getField(this.x, this.y + 1)
+						.getFlame() == 0) {
+			g.drawImage(Global.flame_h, this.x * Global.sqsize, this.y
+					* Global.sqsize, this.getPixsizex(), this.getPixsizey(),
+					panel);
+		} else {
+			if (Levellist.activeLevel.getField(this.x, this.y + 1).getFlame() != 0
+					&& Levellist.activeLevel.getField(this.x + 1, this.y)
+							.getFlame() == 0) {
+				g.drawImage(Global.flame_v, this.x * Global.sqsize, this.y
+						* Global.sqsize, this.getPixsizex(),
+						this.getPixsizey(), panel);
+			} else {
+				g.drawImage(Global.flame, this.x * Global.sqsize, this.y
+						* Global.sqsize, this.getPixsizex(),
+						this.getPixsizey(), panel);
+			}
+		}
+
 	}
 
 	public int getPixsizex() {
