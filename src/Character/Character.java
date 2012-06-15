@@ -34,8 +34,8 @@ import Level.Levellist;
 public class Character {
 	protected String name;
 	protected double speed;
-	protected int pixsizex = (int)(Global.sqsize*0.5); //25
-	protected int pixsizey = (int)(Global.sqsize*0.8); //40
+	protected int pixsizex = (int) (Global.sqsize * 0.5); // 25
+	protected int pixsizey = (int) (Global.sqsize * 0.8); // 40
 	protected double posx;
 	protected double posy;
 	protected int maxbombs;
@@ -43,6 +43,7 @@ public class Character {
 	protected int bombrange;
 	protected int bombtimer;
 	protected int lifes;
+	protected boolean moving = false;
 
 	public int getPixsizex() {
 		return pixsizex;
@@ -114,6 +115,10 @@ public class Character {
 		return maxbombs;
 	}
 
+	public boolean getMoving() {
+		return moving;
+	}
+
 	public void setMaxbombs(int maxbombs) {
 		this.maxbombs = maxbombs;
 	}
@@ -150,6 +155,10 @@ public class Character {
 		this.lifes = lifes;
 	}
 
+	public void setMoving(boolean moving) {
+		this.moving = moving;
+	}
+
 	public void placebomb() {
 		if ((bombs < maxbombs)
 				&& (Levellist.activeLevel.getField((int) (posx), (int) (posy))
@@ -182,32 +191,33 @@ public class Character {
 		double newposy = (posy) + speed * diry;
 		int newx = (int) (newposx);
 		int newy = (int) (newposy);
-		// wird der Rand des Spielfeldes nicht verlassen?
-		if ((newposx > 0.0) && (newposx < Levellist.activeLevel.getXsize())
-				&& (newposy > 0.0)
-				&& (newposy < Levellist.activeLevel.getYsize())) {
-			// Würde ein neues Feld betreten?
-			if (((newx - oldx) != 0) || ((newy - oldy) != 0)) {
-				// Kann dieses Feld überhaupt betreten werden?
-				if (Levellist.activeLevel.getField(newx, newy).enter(this)) {
-					// Kann betreten werden
-					// Gehe weiter
+					// wird der Rand des Spielfeldes nicht verlassen?
+			if ((newposx > 0.0) && (newposx < Levellist.activeLevel.getXsize())
+					&& (newposy > 0.0)
+					&& (newposy < Levellist.activeLevel.getYsize())) {
+				// Würde ein neues Feld betreten?
+				if (((newx - oldx) != 0) || ((newy - oldy) != 0)) {
+					// Kann dieses Feld überhaupt betreten werden?
+					if (Levellist.activeLevel.getField(newx, newy).enter(this)) {
+						// Kann betreten werden
+						// Gehe weiter
+						posx = newposx;
+						posy = newposy;
+						// Verlasse altes Feld
+						Levellist.activeLevel.getField(oldx, oldy).leave(this);
+					} else {
+						// Kann nicht betreten werden
+					}
+
+				} else {
+					// Kein neues Feld wird betreten, gehe einfach weiter
 					posx = newposx;
 					posy = newposy;
-					// Verlasse altes Feld
-					Levellist.activeLevel.getField(oldx, oldy).leave(this);
-				} else {
-					// Kann nicht betreten werden
 				}
-
-			} else {
-				// Kein neues Feld wird betreten, gehe einfach weiter
-				posx = newposx;
-				posy = newposy;
 			}
 		}
 
-	}
+
 
 	public void spawn() {
 		posx = Levellist.activeLevel.getSpawnx();
@@ -218,4 +228,5 @@ public class Character {
 			System.out.println("Invalid Spawn point for " + name);
 		}
 	}
+
 }

@@ -4,8 +4,6 @@ import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -13,7 +11,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import Level.Levellist;
-import main.Global;
 
 //import main.Global;
 
@@ -49,6 +46,7 @@ public class GUI extends JFrame implements KeyListener {
 				// draw flames
 				for (int i = 0; i < Flamelist.list.size(); i++) {
 					Flamelist.list.get(i).DrawComponent(g, panel);
+
 				}
 				// draw player1
 				g.drawImage(Global.image1, Playerlist.list.get(0).getDrawx(),
@@ -101,24 +99,34 @@ public class GUI extends JFrame implements KeyListener {
 	}
 
 	public void keyReleased(KeyEvent e) {
+		if (e.getKeyCode() == 37 || e.getKeyCode() == 38
+				|| e.getKeyCode() == 39 || e.getKeyCode() == 40) {
+			Playerlist.list.get(0).setMoving(false);
+		}
 
 	}
 
 	public void keyPressed(KeyEvent e) {
 		// Rechts Spieler 1
 		if (39 == e.getKeyCode()) {
+			Playerlist.list.get(0).setMoving(true);
+
 			Playerlist.list.get(0).move(1, 0);
+
 		}
 		// Links Spieler 1
 		if (37 == e.getKeyCode()) {
+			Playerlist.list.get(0).setMoving(true);
 			Playerlist.list.get(0).move(-1, 0);
 		}
 		// Oben Spieler 1
 		if (40 == e.getKeyCode()) {
+			Playerlist.list.get(0).setMoving(true);
 			Playerlist.list.get(0).move(0, 1);
 		}
 		// Unten Spieler 1
 		if (38 == e.getKeyCode()) {
+			Playerlist.list.get(0).setMoving(true);
 			Playerlist.list.get(0).move(0, -1);
 		}
 		// Leertaste (Bombe) Spieler 1
@@ -157,4 +165,5 @@ public class GUI extends JFrame implements KeyListener {
 	public JPanel getPanel() {
 		return panel;
 	}
+
 }

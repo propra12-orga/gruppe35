@@ -40,9 +40,8 @@ public class Bomb implements Runnable {
 	protected int range;
 	protected int x;
 	protected int y;
-	protected int pixsizex = (int)(Global.sqsize*0.6); 
-	protected int pixsizey = (int)(Global.sqsize*0.6); 
-	
+	protected int pixsizex = (int) (Global.sqsize * 0.6);
+	protected int pixsizey = (int) (Global.sqsize * 0.6);
 
 	public int getPixsizex() {
 		return pixsizex;
@@ -83,11 +82,12 @@ public class Bomb implements Runnable {
 	}
 
 	public void DrawComponent(Graphics g, JPanel panel) {
-		g.drawImage(Global.boden, this.x * Global.sqsize, this.y * Global.sqsize, Global.sqsize,
-				Global.sqsize, panel);
-		g.drawImage(Global.bomb, this.getDrawx(), this.getDrawy() ,
+		g.drawImage(Global.boden, this.x * Global.sqsize, this.y
+				* Global.sqsize, Global.sqsize, Global.sqsize, panel);
+		g.drawImage(Global.bomb, this.getDrawx(), this.getDrawy(),
 				this.getPixsizex(), this.getPixsizey(), panel);
 	}
+
 	public synchronized void start() {
 		if (thread == null) {
 			thread = new Thread(this);
@@ -128,30 +128,30 @@ public class Bomb implements Runnable {
 		// Feld auf dem diese Bombe liegt
 		level.getField(x, y).setBomb(null); // Diese Bombe soll nur einmal
 											// explodieren
-		createFlame(x, y);
+		createFlame(x, y,true);
 
 		// x Richtung
 		for (int posx = x + 1; posx <= (x + range); posx++) {
 			// Erzeuge Flammen
-			if (!createFlame(posx, y))
+			if (!createFlame(posx, y,false))
 				break;
 		}
 		// -x Richtung
 		for (int posx = x - 1; posx >= (x - range); posx--) {
 			// Erzeuge Flammen
-			if (!createFlame(posx, y))
+			if (!createFlame(posx, y,false))
 				break;
 		}
 		// y Richtung
 		for (int posy = y + 1; posy <= (y + range); posy++) {
 			// Erzeuge Flammen
-			if (!createFlame(x, posy))
+			if (!createFlame(x, posy,false))
 				break;
 		}
 		// -y Richtung
 		for (int posy = y - 1; posy >= (y - range); posy--) {
 			// Erzeuge Flammen
-			if (!createFlame(x, posy))
+			if (!createFlame(x, posy,false))
 				break;
 		}
 
@@ -159,7 +159,7 @@ public class Bomb implements Runnable {
 		level = null; // Level dereferenzieren
 	}
 
-	private boolean createFlame(int x, int y) {
+	private boolean createFlame(int x, int y,boolean centerflame) {
 		Field field = level.getField(x, y);
 		if (field != null) {
 			field.destruction();
@@ -172,7 +172,7 @@ public class Bomb implements Runnable {
 			if ((field.isSolid()) || (field.getBomb() != null)) {
 				return (false);
 			}
-			Flame flame = new Flame(field, x, y);
+			Flame flame = new Flame(field, x, y, centerflame);
 			flame.start();
 
 			return (true);
