@@ -128,30 +128,30 @@ public class Bomb implements Runnable {
 		// Feld auf dem diese Bombe liegt
 		level.getField(x, y).setBomb(null); // Diese Bombe soll nur einmal
 											// explodieren
-		createFlame(x, y,true);
+		createFlame(x, y, true);
 
 		// x Richtung
 		for (int posx = x + 1; posx <= (x + range); posx++) {
 			// Erzeuge Flammen
-			if (!createFlame(posx, y,false))
+			if (!createFlame(posx, y, false))
 				break;
 		}
 		// -x Richtung
 		for (int posx = x - 1; posx >= (x - range); posx--) {
 			// Erzeuge Flammen
-			if (!createFlame(posx, y,false))
+			if (!createFlame(posx, y, false))
 				break;
 		}
 		// y Richtung
 		for (int posy = y + 1; posy <= (y + range); posy++) {
 			// Erzeuge Flammen
-			if (!createFlame(x, posy,false))
+			if (!createFlame(x, posy, false))
 				break;
 		}
 		// -y Richtung
 		for (int posy = y - 1; posy >= (y - range); posy--) {
 			// Erzeuge Flammen
-			if (!createFlame(x, posy,false))
+			if (!createFlame(x, posy, false))
 				break;
 		}
 
@@ -159,7 +159,7 @@ public class Bomb implements Runnable {
 		level = null; // Level dereferenzieren
 	}
 
-	private boolean createFlame(int x, int y,boolean centerflame) {
+	private boolean createFlame(int x, int y, boolean centerflame) {
 		Field field = level.getField(x, y);
 		if (field != null) {
 			field.destruction();

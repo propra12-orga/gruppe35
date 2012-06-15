@@ -1,5 +1,10 @@
 package Character;
 
+import java.awt.Graphics;
+import java.awt.Image;
+
+import javax.swing.JPanel;
+
 import main.Global;
 import main.Menu;
 import Bomb.Bomb;
@@ -44,6 +49,7 @@ public class Character {
 	protected int bombtimer;
 	protected int lifes;
 	protected boolean moving = false;
+	public Image characterImage;
 
 	public int getPixsizex() {
 		return pixsizex;
@@ -62,13 +68,14 @@ public class Character {
 	}
 
 	public Character(String name, double speed, int maxbombs, int bombrange,
-			int bombtimer, int lifes) {
+			int bombtimer, int lifes, Image characterImage) {
 		this.name = name;
 		this.speed = speed;
 		this.maxbombs = maxbombs;
 		this.bombrange = bombrange;
 		this.bombtimer = bombtimer;
 		this.lifes = lifes;
+		this.characterImage = characterImage;
 	}
 
 	public String getName() {
@@ -191,33 +198,31 @@ public class Character {
 		double newposy = (posy) + speed * diry;
 		int newx = (int) (newposx);
 		int newy = (int) (newposy);
-					// wird der Rand des Spielfeldes nicht verlassen?
-			if ((newposx > 0.0) && (newposx < Levellist.activeLevel.getXsize())
-					&& (newposy > 0.0)
-					&& (newposy < Levellist.activeLevel.getYsize())) {
-				// Würde ein neues Feld betreten?
-				if (((newx - oldx) != 0) || ((newy - oldy) != 0)) {
-					// Kann dieses Feld überhaupt betreten werden?
-					if (Levellist.activeLevel.getField(newx, newy).enter(this)) {
-						// Kann betreten werden
-						// Gehe weiter
-						posx = newposx;
-						posy = newposy;
-						// Verlasse altes Feld
-						Levellist.activeLevel.getField(oldx, oldy).leave(this);
-					} else {
-						// Kann nicht betreten werden
-					}
-
-				} else {
-					// Kein neues Feld wird betreten, gehe einfach weiter
+		// wird der Rand des Spielfeldes nicht verlassen?
+		if ((newposx > 0.0) && (newposx < Levellist.activeLevel.getXsize())
+				&& (newposy > 0.0)
+				&& (newposy < Levellist.activeLevel.getYsize())) {
+			// Würde ein neues Feld betreten?
+			if (((newx - oldx) != 0) || ((newy - oldy) != 0)) {
+				// Kann dieses Feld überhaupt betreten werden?
+				if (Levellist.activeLevel.getField(newx, newy).enter(this)) {
+					// Kann betreten werden
+					// Gehe weiter
 					posx = newposx;
 					posy = newposy;
+					// Verlasse altes Feld
+					Levellist.activeLevel.getField(oldx, oldy).leave(this);
+				} else {
+					// Kann nicht betreten werden
 				}
+
+			} else {
+				// Kein neues Feld wird betreten, gehe einfach weiter
+				posx = newposx;
+				posy = newposy;
 			}
 		}
-
-
+	}
 
 	public void spawn() {
 		posx = Levellist.activeLevel.getSpawnx();
@@ -227,6 +232,11 @@ public class Character {
 				this)) {
 			System.out.println("Invalid Spawn point for " + name);
 		}
+	}
+
+	public void DrawComponent(Graphics g, JPanel panel) {
+		g.drawImage(this.characterImage, this.getDrawx(), this.getDrawy(),
+				this.getPixsizex(), this.getPixsizey(), panel);
 	}
 
 }

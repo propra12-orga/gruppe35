@@ -48,17 +48,12 @@ public class GUI extends JFrame implements KeyListener {
 					Flamelist.list.get(i).DrawComponent(g, panel);
 
 				}
-				// draw player1
-				g.drawImage(Global.image1, Playerlist.list.get(0).getDrawx(),
-						Playerlist.list.get(0).getDrawy(),
-						Playerlist.list.get(0).getPixsizex(), Playerlist.list
-								.get(0).getPixsizey(), this);
 
-				// draw player2
-				g.drawImage(Global.image2, Playerlist.list.get(1).getDrawx(),
-						Playerlist.list.get(1).getDrawy(),
-						Playerlist.list.get(1).getPixsizex(), Playerlist.list
-								.get(1).getPixsizey(), this);
+				// draw player1
+				for (int i = 0; i < Playerlist.list.size(); i++) {
+					Playerlist.list.get(i).DrawComponent(g, panel);
+
+				}
 
 			}
 
