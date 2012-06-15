@@ -52,13 +52,8 @@ public class GUI extends JFrame implements KeyListener {
 				// draw player1
 				for (int i = 0; i < Playerlist.list.size(); i++) {
 					Playerlist.list.get(i).DrawComponent(g, panel);
-
 				}
-
 			}
-
-			// panel.update(g);
-			// }
 
 		};
 
@@ -102,52 +97,35 @@ public class GUI extends JFrame implements KeyListener {
 	}
 
 	public void keyPressed(KeyEvent e) {
-		// Rechts Spieler 1
-		if (39 == e.getKeyCode()) {
-			Playerlist.list.get(0).setMoving(true);
 
-			Playerlist.list.get(0).move(1, 0);
+		for (int i = 0; i < Playerlist.list.size(); i++) {
+			if (Playerlist.list.get(i).getControl().getRight() == e
+					.getKeyCode()) {
+				Playerlist.list.get(i).setMoving(true);
 
-		}
-		// Links Spieler 1
-		if (37 == e.getKeyCode()) {
-			Playerlist.list.get(0).setMoving(true);
-			Playerlist.list.get(0).move(-1, 0);
-		}
-		// Oben Spieler 1
-		if (40 == e.getKeyCode()) {
-			Playerlist.list.get(0).setMoving(true);
-			Playerlist.list.get(0).move(0, 1);
-		}
-		// Unten Spieler 1
-		if (38 == e.getKeyCode()) {
-			Playerlist.list.get(0).setMoving(true);
-			Playerlist.list.get(0).move(0, -1);
-		}
-		// Leertaste (Bombe) Spieler 1
-		if (10 == e.getKeyCode()) {
-			Playerlist.list.get(0).placebomb();
-		}
+				Playerlist.list.get(i).move(1, 0);
 
-		// Rechts Spieler 2
-		if (68 == e.getKeyCode()) {
-			Playerlist.list.get(1).move(1, 0);
-		}
-		// Links Spieler 2
-		if (65 == e.getKeyCode()) {
-			Playerlist.list.get(1).move(-1, 0);
-		}
-		// Oben Spieler 2
-		if (83 == e.getKeyCode()) {
-			Playerlist.list.get(1).move(0, 1);
-		}
-		// Unten Spieler 2
-		if (87 == e.getKeyCode()) {
-			Playerlist.list.get(1).move(0, -1);
-		}
-		// Leertaste (Bombe) Spieler 2
-		if (32 == e.getKeyCode()) {
-			Playerlist.list.get(1).placebomb();
+			}
+			// Links Spieler 1
+			if (Playerlist.list.get(i).getControl().getLeft() == e.getKeyCode()) {
+				Playerlist.list.get(i).setMoving(true);
+				Playerlist.list.get(i).move(-1, 0);
+			}
+			// Oben Spieler 1
+			if (Playerlist.list.get(i).getControl().getUp() == e.getKeyCode()) {
+				Playerlist.list.get(i).setMoving(true);
+				Playerlist.list.get(i).move(0, 1);
+			}
+			// Unten Spieler 1
+			if (Playerlist.list.get(i).getControl().getDown() == e.getKeyCode()) {
+				Playerlist.list.get(i).setMoving(true);
+				Playerlist.list.get(i).move(0, -1);
+			}
+			// Enter (Bombe) Spieler 1
+			if (Playerlist.list.get(i).getControl().getPlaceBomb() == e
+					.getKeyCode()) {
+				Playerlist.list.get(i).placebomb();
+			}
 		}
 
 		Graphics g = getGraphics();

@@ -49,6 +49,44 @@ public class Character {
 	protected int bombtimer;
 	protected int lifes;
 	protected boolean moving = false;
+	protected boolean movingUp = false;
+	protected boolean movingDown = false;
+	protected Control control;
+
+	public boolean isMovingUp() {
+		return movingUp;
+	}
+
+	public void setMovingUp(boolean movingUp) {
+		this.movingUp = movingUp;
+	}
+
+	public boolean isMovingDown() {
+		return movingDown;
+	}
+
+	public void setMovingDown(boolean movingDown) {
+		this.movingDown = movingDown;
+	}
+
+	public boolean isMovingRight() {
+		return movingRight;
+	}
+
+	public void setMovingRight(boolean movingRight) {
+		this.movingRight = movingRight;
+	}
+
+	public boolean isMovingLeft() {
+		return movingLeft;
+	}
+
+	public void setMovingLeft(boolean movingLeft) {
+		this.movingLeft = movingLeft;
+	}
+
+	protected boolean movingRight = false;
+	protected boolean movingLeft = false;
 	public Image characterImage;
 
 	public int getPixsizex() {
@@ -76,6 +114,15 @@ public class Character {
 		this.bombtimer = bombtimer;
 		this.lifes = lifes;
 		this.characterImage = characterImage;
+		this.control=new  Control(name);
+	}
+
+	public Control getControl() {
+		return control;
+	}
+
+	public void setControl(Control control) {
+		this.control = control;
 	}
 
 	public String getName() {
