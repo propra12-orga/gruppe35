@@ -66,6 +66,7 @@ public class Field {
 	public Field(boolean solid, Field transformto) {
 		this.solid = solid;
 		this.transformto = transformto;
+
 	}
 
 	public Bomb getBomb() {

@@ -6,10 +6,11 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.JPanel;
 
 import main.Bomblist;
+import main.Global;
+import main.Sound;
 import Character.Character;
 import Fields.Field;
 import Level.Level;
-import main.Global;
 
 /**
  * 
@@ -114,6 +115,15 @@ public class Bomb implements Runnable {
 	}
 
 	public void destruction() {
+		// try{
+		// File f = new File( "src/sounds/Explosion.wav" );
+		// final URL url=f.toURI().toURL();
+		// final AudioClip Exp_sound = Applet.newAudioClip( url );
+		// Exp_sound.play();
+		//
+		// } catch(Exception e1){
+		// e1.printStackTrace();
+		// }
 		stop(); // Stoppe den Thread
 		System.out.println("Boom!");
 		owner.setBombs(owner.getBombs() - 1); // Bombenanzahl des Besitzers
@@ -157,6 +167,8 @@ public class Bomb implements Runnable {
 
 		owner = null; // Besitzer dereferenzieren
 		level = null; // Level dereferenzieren
+
+		new Sound("src/sounds/Explosion.wav");
 	}
 
 	private boolean createFlame(int x, int y, boolean centerflame) {

@@ -32,4 +32,5 @@ public class Global {
 			"src/img/fire_horizontal.gif");
 	public static final Image flame_v = Toolkit.getDefaultToolkit().getImage(
 			"src/img/fire_vertical.gif");
+
 }
