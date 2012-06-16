@@ -114,7 +114,7 @@ public class Character {
 		this.bombtimer = bombtimer;
 		this.lifes = lifes;
 		this.characterImage = characterImage;
-		this.control=new  Control(name);
+		this.control = new Control(name);
 	}
 
 	public Control getControl() {

@@ -4,6 +4,8 @@ import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -53,6 +55,7 @@ public class GUI extends JFrame implements KeyListener {
 				for (int i = 0; i < Playerlist.list.size(); i++) {
 					Playerlist.list.get(i).DrawComponent(g, panel);
 				}
+				g.drawString(Playerlist.list.get(0).getName(), 0, 0);
 			}
 
 		};
@@ -84,14 +87,50 @@ public class GUI extends JFrame implements KeyListener {
 		this.setVisible(Menu.panelvisible);
 	}
 
+	javax.swing.Timer t = new javax.swing.Timer(10, new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			for (int i = 0; i < Playerlist.list.size(); i++) {
+				if (Playerlist.list.get(i).isMovingRight() == true)
+					Playerlist.list.get(i).move(1, 0);
+				if (Playerlist.list.get(i).isMovingLeft() == true)
+					Playerlist.list.get(i).move(-1, 0);
+				if (Playerlist.list.get(i).isMovingUp() == true)
+					Playerlist.list.get(i).move(0, 1);
+				if (Playerlist.list.get(i).isMovingDown() == true)
+					Playerlist.list.get(i).move(0, -1);
+			}
+		}
+	});
+
 	public void keyTyped(KeyEvent e) {
 
 	}
 
 	public void keyReleased(KeyEvent e) {
-		if (e.getKeyCode() == 37 || e.getKeyCode() == 38
-				|| e.getKeyCode() == 39 || e.getKeyCode() == 40) {
-			Playerlist.list.get(0).setMoving(false);
+		for (int i = 0; i < Playerlist.list.size(); i++) {
+
+			// Rechts Spieler
+			if (Playerlist.list.get(i).getControl().getRight() == e
+					.getKeyCode()) {
+				Playerlist.list.get(i).setMovingRight(false);
+
+			}
+			// Links Spieler
+			if (Playerlist.list.get(i).getControl().getLeft() == e.getKeyCode()) {
+				Playerlist.list.get(i).setMovingLeft(false);
+
+			}
+			// Oben Spieler
+			if (Playerlist.list.get(i).getControl().getUp() == e.getKeyCode()) {
+				Playerlist.list.get(i).setMovingUp(false);
+
+			}
+			// Unten Spieler
+			if (Playerlist.list.get(i).getControl().getDown() == e.getKeyCode()) {
+				Playerlist.list.get(i).setMovingDown(false);
+
+			}
+			t.start();
 		}
 
 	}
@@ -99,40 +138,41 @@ public class GUI extends JFrame implements KeyListener {
 	public void keyPressed(KeyEvent e) {
 
 		for (int i = 0; i < Playerlist.list.size(); i++) {
+
+			// Rechts Spieler
 			if (Playerlist.list.get(i).getControl().getRight() == e
 					.getKeyCode()) {
-				Playerlist.list.get(i).setMoving(true);
-
-				Playerlist.list.get(i).move(1, 0);
+				Playerlist.list.get(i).setMovingRight(true);
 
 			}
-			// Links Spieler 1
+			// Links Spieler
 			if (Playerlist.list.get(i).getControl().getLeft() == e.getKeyCode()) {
-				Playerlist.list.get(i).setMoving(true);
-				Playerlist.list.get(i).move(-1, 0);
+				Playerlist.list.get(i).setMovingLeft(true);
+
 			}
-			// Oben Spieler 1
+			// Oben Spieler
 			if (Playerlist.list.get(i).getControl().getUp() == e.getKeyCode()) {
-				Playerlist.list.get(i).setMoving(true);
-				Playerlist.list.get(i).move(0, 1);
+				Playerlist.list.get(i).setMovingUp(true);
+
 			}
-			// Unten Spieler 1
+			// Unten Spieler
 			if (Playerlist.list.get(i).getControl().getDown() == e.getKeyCode()) {
-				Playerlist.list.get(i).setMoving(true);
-				Playerlist.list.get(i).move(0, -1);
+				Playerlist.list.get(i).setMovingDown(true);
+
 			}
 			// Enter (Bombe) Spieler 1
 			if (Playerlist.list.get(i).getControl().getPlaceBomb() == e
 					.getKeyCode()) {
 				Playerlist.list.get(i).placebomb();
 			}
+			t.start();
 		}
 
 		Graphics g = getGraphics();
 		g.clearRect(0, 0, getWidth(), getHeight());
 		super.paint(g);
 		panel.repaint();
-		// displayInfo(e, String.valueOf(psx) + "  " + String.valueOf(psy));
+
 	}
 
 	public JPanel getPanel() {
