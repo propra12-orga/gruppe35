@@ -41,6 +41,7 @@ public class Menu extends JFrame {
 				for (int i = 0; i < Playerlist.list.size(); i++) {
 					Playerlist.list.get(i).spawn();
 				}
+
 				Menu.panelvisible = true;
 				javax.swing.SwingUtilities.invokeLater(new Runnable() {
 					public void run() {

@@ -48,9 +48,12 @@ public class Character {
 	protected int bombrange;
 	protected int bombtimer;
 	protected int lifes;
-	protected boolean moving = false;
 	protected boolean movingUp = false;
 	protected boolean movingDown = false;
+	protected boolean movingRight = false;
+	protected boolean movingLeft = false;
+	public Image characterImage;
+	public Image characterImageStanding;
 	protected Control control;
 
 	public boolean isMovingUp() {
@@ -85,10 +88,6 @@ public class Character {
 		this.movingLeft = movingLeft;
 	}
 
-	protected boolean movingRight = false;
-	protected boolean movingLeft = false;
-	public Image characterImage;
-
 	public int getPixsizex() {
 		return pixsizex;
 	}
@@ -106,15 +105,17 @@ public class Character {
 	}
 
 	public Character(String name, double speed, int maxbombs, int bombrange,
-			int bombtimer, int lifes, Image characterImage) {
+			int bombtimer, int lifes, Image characterImage,
+			Image characterImageStanding) {
 		this.name = name;
 		this.speed = speed;
 		this.maxbombs = maxbombs;
 		this.bombrange = bombrange;
 		this.bombtimer = bombtimer;
 		this.lifes = lifes;
-		this.characterImage = characterImage;
 		this.control = new Control(name);
+		this.characterImage = characterImage;
+		this.characterImageStanding = characterImageStanding;
 	}
 
 	public Control getControl() {
@@ -169,8 +170,13 @@ public class Character {
 		return maxbombs;
 	}
 
-	public boolean getMoving() {
-		return moving;
+	public boolean isMoving() {
+		if (this.movingRight || this.movingLeft || this.movingDown
+				|| this.movingUp) {
+			return (true);
+		} else {
+			return (false);
+		}
 	}
 
 	public void setMaxbombs(int maxbombs) {
@@ -207,10 +213,6 @@ public class Character {
 
 	public void setLifes(int lifes) {
 		this.lifes = lifes;
-	}
-
-	public void setMoving(boolean moving) {
-		this.moving = moving;
 	}
 
 	public void placebomb() {
@@ -282,8 +284,13 @@ public class Character {
 	}
 
 	public void DrawComponent(Graphics g, JPanel panel) {
-		g.drawImage(this.characterImage, this.getDrawx(), this.getDrawy(),
-				this.getPixsizex(), this.getPixsizey(), panel);
+		if (this.isMoving()) {
+			g.drawImage(this.characterImage, this.getDrawx(), this.getDrawy(),
+					this.getPixsizex(), this.getPixsizey(), panel);
+		} else {
+			g.drawImage(this.characterImageStanding, this.getDrawx(),
+					this.getDrawy(), this.getPixsizex(), this.getPixsizey(),
+					panel);
+		}
 	}
-
 }

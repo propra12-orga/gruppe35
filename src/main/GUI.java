@@ -55,7 +55,20 @@ public class GUI extends JFrame implements KeyListener {
 				for (int i = 0; i < Playerlist.list.size(); i++) {
 					Playerlist.list.get(i).DrawComponent(g, panel);
 				}
-				g.drawString(Playerlist.list.get(0).getName(), 0, 0);
+				
+				
+				g.drawRect(Global.sqsize * Levellist.activeLevel.getXsize(),
+						0,100,100);
+				for (int i = 0; i < Playerlist.list.size(); i++) {
+					g.drawString(Playerlist.list.get(i).getName(),
+							Global.sqsize * Levellist.activeLevel.getXsize()+10,
+							20+i*50);
+					g.drawString(
+							"Leben: "
+									+ String.valueOf(Playerlist.list.get(i)
+											.getLifes()), Global.sqsize
+									* Levellist.activeLevel.getXsize()+10, 40+i*50);
+				}
 			}
 
 		};
@@ -175,8 +188,8 @@ public class GUI extends JFrame implements KeyListener {
 
 	}
 
-	public JPanel getPanel() {
-		return panel;
-	}
+	// public JPanel getPanel() {
+	// return panel;
+	// }
 
 }

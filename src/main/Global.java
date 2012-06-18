@@ -18,6 +18,10 @@ public class Global {
 			"src/img/boltzmann2.gif");
 	public static final Image image2 = Toolkit.getDefaultToolkit().getImage(
 			"src/img/feynman.gif");
+	public static final Image image1standing = Toolkit.getDefaultToolkit()
+			.getImage("src/img/boltzmann2.gif");
+	public static final Image image2standing = Toolkit.getDefaultToolkit()
+			.getImage("src/img/feynman.gif");
 	public static final Image boden = Toolkit.getDefaultToolkit().getImage(
 			"src/img/boden.jpg");
 	public static final Image mauer = Toolkit.getDefaultToolkit().getImage(
