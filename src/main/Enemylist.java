@@ -2,7 +2,7 @@ package main;
 
 import java.util.ArrayList;
 
-import Enemy.Enemy;
+import Character.Enemy;
 
 public class Enemylist {
 	public static ArrayList<Enemy> list = new ArrayList<Enemy>();

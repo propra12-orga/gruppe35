@@ -14,7 +14,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import Character.Character;
+import Character.Player;
 import Fields.Earth;
 import Fields.Exit;
 import Fields.Field;
@@ -172,7 +172,7 @@ public class Levellist {
 	public static void next() {
 		// Charaktere von Feldern entfernen
 		for (int i = 0; i < Playerlist.list.size(); i++) {
-			Character character = Playerlist.list.get(i);
+			Player character = Playerlist.list.get(i);
 			activeLevel.getField((int) (character.getPosx()),
 					(int) (character.getPosy())).leave(character);
 		}

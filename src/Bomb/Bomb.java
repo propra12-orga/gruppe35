@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import main.Bomblist;
 import main.Global;
 import main.Sound;
-import Character.Character;
+import Character.Player;
 import Fields.Field;
 import Level.Level;
 
@@ -36,7 +36,7 @@ import Level.Level;
  */
 
 public class Bomb implements Runnable {
-	protected Character owner;
+	protected Player owner;
 	protected int timer;
 	protected int range;
 	protected int x;
@@ -71,7 +71,7 @@ public class Bomb implements Runnable {
 	private Thread thread = null;
 	Level level;
 
-	public Bomb(Level level, int x, int y, Character owner, int timer, int range) {
+	public Bomb(Level level, int x, int y, Player owner, int timer, int range) {
 		this.x = x;
 		this.y = y;
 		this.level = level;

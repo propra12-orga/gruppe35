@@ -51,7 +51,12 @@ public class GUI extends JFrame implements KeyListener {
 
 				}
 
-				// draw player1
+				// draw players
+				for (int i = 0; i < Playerlist.list.size(); i++) {
+					Playerlist.list.get(i).DrawComponent(g, panel);
+				}
+				
+				// draw enemies
 				for (int i = 0; i < Playerlist.list.size(); i++) {
 					Playerlist.list.get(i).DrawComponent(g, panel);
 				}

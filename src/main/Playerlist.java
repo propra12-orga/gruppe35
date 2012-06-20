@@ -1,7 +1,7 @@
 package main;
 
 import java.util.ArrayList;
-import Character.Character;
+import Character.Player;
 
 /**
  * The Playerlist class keeps track of all the Characters which are currently
@@ -12,13 +12,13 @@ import Character.Character;
  */
 
 public class Playerlist {
-	public static ArrayList<Character> list = new ArrayList<Character>();
+	public static ArrayList<Player> list = new ArrayList<Player>();
 
 	public static void load() {
 		list.clear();
-		Character player1 = new Character("Boltzmann", 0.05, 2, 2, 2, 3,
+		Player player1 = new Player("Boltzmann", 0.05, 2, 2, 2, 3,
 				Global.image1, Global.image1standing);
-		Character player2 = new Character("Feynman", 0.01, 2, 2, 2, 1,
+		Player player2 = new Player("Feynman", 0.01, 2, 2, 2, 1,
 				Global.image2, Global.image2standing);
 		//Character player3 = new Character("blabla",
 

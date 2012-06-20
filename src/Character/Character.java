@@ -6,87 +6,38 @@ import java.awt.Image;
 import javax.swing.JPanel;
 
 import main.Global;
-import main.Menu;
-import Bomb.Bomb;
 import Level.Levellist;
 
 /**
  * 
  * 
- * The Character class specifies the Player controlled Characters.
+ * The Character class is the parent class for Player and Enemy
  * 
- * "name" String specifies the Charakter name "speed" defines how fast the
- * Charakter can move "pixsizex" and "pixsizey" define the size of the Character
- * in Pixel which is important for drawing, but also for moving. "posx" and
- * "posy" specify the current position of the character "maxbombs" defines the
- * maximum number of bombs the player can have in the Level at the same time
- * "bombs" is the current number of active bombs "bombrange" is the range the
- * bombs placed by this Character possess "bombtimer" is the time in seconds it
- * takes for a bomb places by this Character to explode "lifes" is the number of
- * times this Character can die before it is game over
+ * "speed" defines how fast the Charakter can move "pixsizex" and "pixsizey"
+ * define the size of the Character in Pixel which is important for drawing, but
+ * also for moving. "posx" and "posy" specify the current position of the
+ * character
  * 
- * The placebomb() method allows the Character to create a new Bomb on the Field
- * it is standing on The kill() method is called to kill this character The
- * move() method is called whenever the Player presses the movement keys. It
- * then moves in the corresponding direction if no blocking terrain or other
- * problem occurs The spawn() method (re)places the Character in the Level in
- * the beginning or when it dies.
+ * The kill() method is called to kill this character The move() method is
+ * called whenever the Character is supposed to move. It then moves in the
+ * corresponding direction if no blocking terrain or other problem occurs The
+ * spawn() method (re)places the Character in the Level in the beginning or when
+ * it dies.
  * <P>
  * 
  * @author Peet
  */
 
 public class Character {
-	protected String name;
+
 	protected double speed;
-	protected int pixsizex = (int) (Global.sqsize * 0.5); // 25
-	protected int pixsizey = (int) (Global.sqsize * 0.8); // 40
+	protected int pixsizex;
+	protected int pixsizey;
 	protected double posx;
 	protected double posy;
-	protected int maxbombs;
-	protected int bombs = 0;
-	protected int bombrange;
-	protected int bombtimer;
-	protected int lifes;
-	protected boolean movingUp = false;
-	protected boolean movingDown = false;
-	protected boolean movingRight = false;
-	protected boolean movingLeft = false;
+
 	public Image characterImage;
 	public Image characterImageStanding;
-	protected Control control;
-
-	public boolean isMovingUp() {
-		return movingUp;
-	}
-
-	public void setMovingUp(boolean movingUp) {
-		this.movingUp = movingUp;
-	}
-
-	public boolean isMovingDown() {
-		return movingDown;
-	}
-
-	public void setMovingDown(boolean movingDown) {
-		this.movingDown = movingDown;
-	}
-
-	public boolean isMovingRight() {
-		return movingRight;
-	}
-
-	public void setMovingRight(boolean movingRight) {
-		this.movingRight = movingRight;
-	}
-
-	public boolean isMovingLeft() {
-		return movingLeft;
-	}
-
-	public void setMovingLeft(boolean movingLeft) {
-		this.movingLeft = movingLeft;
-	}
 
 	public int getPixsizex() {
 		return pixsizex;
@@ -104,34 +55,25 @@ public class Character {
 		this.pixsizey = pixsizey;
 	}
 
-	public Character(String name, double speed, int maxbombs, int bombrange,
-			int bombtimer, int lifes, Image characterImage,
+	public Character(double speed, Image characterImage,
 			Image characterImageStanding) {
-		this.name = name;
 		this.speed = speed;
-		this.maxbombs = maxbombs;
-		this.bombrange = bombrange;
-		this.bombtimer = bombtimer;
-		this.lifes = lifes;
-		this.control = new Control(name);
 		this.characterImage = characterImage;
 		this.characterImageStanding = characterImageStanding;
+		pixsizex = (int) (Global.sqsize * 0.5); // 25
+		pixsizey = (int) (Global.sqsize * 0.8); // 40
 	}
 
-	public Control getControl() {
-		return control;
+	public Character() {
+		speed = 0.0;
+		this.characterImage = null;
+		this.characterImageStanding = null;
+		pixsizex = 0;
+		pixsizey = 0;
 	}
 
-	public void setControl(Control control) {
-		this.control = control;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
+	public boolean isMoving() {
+		return (true);
 	}
 
 	public double getSpeed() {
@@ -166,78 +108,9 @@ public class Character {
 		this.posy = posy;
 	}
 
-	public int getMaxbombs() {
-		return maxbombs;
-	}
-
-	public boolean isMoving() {
-		if (this.movingRight || this.movingLeft || this.movingDown
-				|| this.movingUp) {
-			return (true);
-		} else {
-			return (false);
-		}
-	}
-
-	public void setMaxbombs(int maxbombs) {
-		this.maxbombs = maxbombs;
-	}
-
-	public int getBombs() {
-		return bombs;
-	}
-
-	public void setBombs(int bombs) {
-		this.bombs = bombs;
-	}
-
-	public int getBombrange() {
-		return bombrange;
-	}
-
-	public void setBombrange(int bombrange) {
-		this.bombrange = bombrange;
-	}
-
-	public int getBombtimer() {
-		return bombtimer;
-	}
-
-	public void setBombtimer(int bombtimer) {
-		this.bombtimer = bombtimer;
-	}
-
-	public int getLifes() {
-		return lifes;
-	}
-
-	public void setLifes(int lifes) {
-		this.lifes = lifes;
-	}
-
-	public void placebomb() {
-		if ((bombs < maxbombs)
-				&& (Levellist.activeLevel.getField((int) (posx), (int) (posy))
-						.getBomb() == null)) {
-			bombs++;
-			Bomb bomb = new Bomb(Levellist.activeLevel, (int) (posx),
-					(int) (posy), this, bombtimer, bombrange);
-			bomb.start();
-		}
-	}
-
 	public void kill() {
-		System.out.println(this.name + " dies!");
-		lifes--;
 		// Verlasse Feld
 		Levellist.activeLevel.getField((int) (posx), (int) (posy)).leave(this);
-		if (lifes <= 0) {
-			System.out.println("Game over for " + this.name);
-			Menu.panelvisible = false;
-			Menu.feld.initialize();
-		} else {
-			spawn();
-		}
 	}
 
 	public void move(int dirx, int diry) {
@@ -273,13 +146,13 @@ public class Character {
 		}
 	}
 
-	public void spawn() {
-		posx = Levellist.activeLevel.getSpawnx();
-		posy = Levellist.activeLevel.getSpawny();
-		System.out.println(name + " spawns at " + posx + "," + posy);
+	public void spawn(double spawnx, double spawny) {
+		posx = spawnx;
+		posy = spawny;
 		if (!Levellist.activeLevel.getField((int) (posx), (int) (posy)).enter(
 				this)) {
-			System.out.println("Invalid Spawn point for " + name);
+			System.out.println("Invalid Spawn point at " + (int) (posx) + ", "
+					+ (int) (posy));
 		}
 	}
 
