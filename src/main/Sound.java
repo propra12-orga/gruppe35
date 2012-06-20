@@ -6,8 +6,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URL;
 
-import javax.sound.sampled.Clip;
-
 public class Sound {
 
 	public Sound(String URL, boolean loop) {

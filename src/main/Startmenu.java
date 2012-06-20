@@ -4,6 +4,8 @@ import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -12,8 +14,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class Startmenu extends JFrame {
+	static boolean IntroStopped=false;
 	JPanel startpanel;
-	int panelSize = 400;
+	static int panelSizeX = 400;
+	static int panelSizeY = 400;
+	static boolean playsound;
 	Container cp = this.getContentPane();
 	JButton SinglePlayer = new JButton("SinglePlayer");
 	JButton MultiPlayer = new JButton("MultiPlayer");
@@ -33,6 +38,11 @@ public class Startmenu extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("Hallo");
+				Startmenu.IntroStopped=true;
+				Startmenu.playsound=true;
+					
+							
+			
 			}
 		}
 
@@ -49,6 +59,10 @@ public class Startmenu extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("Multi");
+				Startmenu.IntroStopped=true;
+				Startmenu.playsound=true;
+				
+				
 			}
 		}
 
@@ -65,6 +79,9 @@ public class Startmenu extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("Levelmachen");
+				Startmenu.IntroStopped=true;
+				Startmenu.playsound=true;
+			
 			}
 		}
 
@@ -73,8 +90,15 @@ public class Startmenu extends JFrame {
 			private static final long serialVersionUID = 1L;
 
 			public void paintComponent(Graphics g) {
-				super.paintComponent(g);
-				g.drawImage(Global.boden, 0, 0, 400, 400, this);
+				if (!Startmenu.IntroStopped)
+				g.drawImage(Global.intro, 0, 0, Startmenu.panelSizeX, Startmenu.panelSizeY-50, this);
+				else{
+				g.drawImage(Global.intro2, 0, 0, Startmenu.panelSizeX, Startmenu.panelSizeY-50, this);
+				if (Startmenu.playsound==true)
+				new Sound("src/sounds/DelayExp.wav",false);
+				Startmenu.playsound=false;
+				}	
+				
 			}
 
 		};
@@ -90,7 +114,7 @@ public class Startmenu extends JFrame {
 
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.pack();
-		this.setSize(400, 400);
+		this.setSize(Startmenu.panelSizeX,Startmenu.panelSizeY);
 		this.setVisible(true);
 
 	}
@@ -100,6 +124,7 @@ public class Startmenu extends JFrame {
 	}
 
 	public static void main(String args[]) {
+		new Sound("src/sounds/blabal.wav",true);
 		final Startmenu KLaus = new Startmenu();
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
