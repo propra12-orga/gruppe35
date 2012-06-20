@@ -6,9 +6,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URL;
 
+import javax.sound.sampled.Clip;
+
 public class Sound {
 
-	public Sound(String URL) {
+	public Sound(String URL, boolean loop) {
 		File urlFile = new File(URL);
 
 		try {
@@ -18,8 +20,15 @@ public class Sound {
 			URL url = urlFile.toURI().toURL();
 			AudioClip sound = Applet.newAudioClip(url);
 
-			sound.play();
+			if (!loop) {
+				sound.play();
+
+				// sound.stop();
+			} else {
+				sound.loop();
+			}
 			Thread.sleep(1000);
+
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}

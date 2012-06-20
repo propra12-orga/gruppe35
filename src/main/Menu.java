@@ -43,9 +43,11 @@ public class Menu extends JFrame {
 				}
 
 				Menu.panelvisible = true;
+				//new Sound("src/sounds/background.wav",true);
 				javax.swing.SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
 						Menu.feld.initialize();
+						
 					}
 				});
 
@@ -88,7 +90,7 @@ public class Menu extends JFrame {
 		}
 
 		Menu menu = new Menu();
-		menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 	}
 }

@@ -168,7 +168,7 @@ public class Bomb implements Runnable {
 		owner = null; // Besitzer dereferenzieren
 		level = null; // Level dereferenzieren
 
-		new Sound("src/sounds/Explosion.wav");
+		new Sound("src/sounds/Explosion.wav",false);
 	}
 
 	private boolean createFlame(int x, int y, boolean centerflame) {

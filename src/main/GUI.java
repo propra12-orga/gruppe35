@@ -27,7 +27,7 @@ public class GUI extends JFrame implements KeyListener {
 	}
 
 	public void initialize() {
-
+		
 		Container cp = this.getContentPane();
 
 		panel = new JPanel() {
@@ -38,8 +38,8 @@ public class GUI extends JFrame implements KeyListener {
 			public void paintComponent(Graphics g) {
 				// super.paintComponent(g);
 				// g.
-
 				// draw level
+				
 				Levellist.activeLevel.drawComponent(g, panel);
 				// draw bombs
 				for (int i = 0; i < Bomblist.list.size(); i++) {
@@ -149,7 +149,7 @@ public class GUI extends JFrame implements KeyListener {
 	}
 
 	public void keyPressed(KeyEvent e) {
-
+		
 		for (int i = 0; i < Playerlist.list.size(); i++) {
 
 			// Rechts Spieler
