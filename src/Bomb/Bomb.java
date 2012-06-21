@@ -44,6 +44,9 @@ public class Bomb implements Runnable {
 	protected int pixsizex = (int) (Global.sqsize * 0.6);
 	protected int pixsizey = (int) (Global.sqsize * 0.6);
 
+	private Thread thread = null;
+	Level level;
+
 	public int getPixsizex() {
 		return pixsizex;
 	}
@@ -67,9 +70,6 @@ public class Bomb implements Runnable {
 	public void setPixsizey(int pixsizey) {
 		this.pixsizey = pixsizey;
 	}
-
-	private Thread thread = null;
-	Level level;
 
 	public Bomb(Level level, int x, int y, Player owner, int timer, int range) {
 		this.x = x;
@@ -168,7 +168,7 @@ public class Bomb implements Runnable {
 		owner = null; // Besitzer dereferenzieren
 		level = null; // Level dereferenzieren
 
-		new Sound("src/sounds/Explosion.wav",false);
+		new Sound("src/sounds/Explosion.wav", false);
 	}
 
 	private boolean createFlame(int x, int y, boolean centerflame) {

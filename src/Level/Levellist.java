@@ -6,6 +6,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import main.Bomblist;
+import main.Enemylist;
 import main.Flamelist;
 import main.Menu;
 import main.Playerlist;
@@ -180,8 +181,17 @@ public class Levellist {
 			activeLevelIndex++;
 			load(activeLevelIndex); // Neues Level laden
 			activeLevel.setLocked(false); // Neues Level freischalten
+			//Bomben anhalten
+			for(int i=0; i < Bomblist.list.size(); i++) {
+				Bomblist.list.get(i).stop(); //Bombthreads stoppen
+			}
 			Bomblist.list.clear(); // Alle Bomben nicht mehr zeichnen
 			Flamelist.list.clear(); // Alle Flammen nicht mehr zeichnen
+			//Gegner anhalten
+			for(int i=0; i < Enemylist.list.size(); i++) {
+				Enemylist.list.get(i).stop(); //Enemythreads stoppen
+			}
+			Enemylist.list.clear(); // Alle Enemies nicht mehr zeichnen
 			// Charactere neu spawnen
 			for (int i = 0; i < Playerlist.list.size(); i++) {
 				Playerlist.list.get(i).spawn();
