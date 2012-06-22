@@ -79,7 +79,6 @@ public class Levellist {
 			Document document = db.parse(file);
 			Element rootElement = document.getDocumentElement();
 			rootElement.normalize();
-			System.out.println("Root element " + rootElement.getNodeName());
 
 			// Besorge Levelgröße aus RootElement
 			int xsize = Integer.parseInt(rootElement.getAttribute("xsize"));
@@ -157,6 +156,7 @@ public class Levellist {
 					// Offener Ausgang
 					level.setField(x, y, exit);
 				} else {
+
 					// Versteckter Ausgang
 					field.setTransformto(exit);
 				}
@@ -201,7 +201,7 @@ public class Levellist {
 			
 			//Gegner spawnen
 			System.out.println("BLABLA");
-			Enemy enemy = new Seeker(2.5,2.5);
+			Enemy enemy = new Seeker(0.5,2.5);
 			enemy.spawn();
 
 		} else {

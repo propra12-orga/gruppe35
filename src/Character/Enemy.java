@@ -1,5 +1,6 @@
 package Character;
 
+import java.awt.Image;
 import java.util.concurrent.TimeUnit;
 
 import main.Enemylist;
@@ -14,8 +15,8 @@ import Level.Levellist;
  * 
  * If an enemy dies it is simply removed from the game
  * 
- * A thread calls the enemies AI every 100 milliseconds.
- * The AI is controlled by the AIaction() function. It defines what the Enemy actually does
+ * A thread calls the enemies AI every 100 milliseconds. The AI is controlled by
+ * the AIaction() function. It defines what the Enemy actually does
  * 
  * <P>
  * 
@@ -24,21 +25,22 @@ import Level.Levellist;
 
 public class Enemy extends Character implements Runnable {
 
-	double spawnx;
-	double spawny;
+	private double spawnx;
+	private double spawny;
 	private Thread thread = null;
 
-	public Enemy(double spawnx, double spawny) {
-		super();
+	public Enemy(double spawnx, double spawny, double speed,
+			Image characterImage, Image characterImageStanding) {
+		super(speed, characterImage, characterImageStanding);
 		this.spawnx = spawnx;
 		this.spawny = spawny;
 	}
-	
+
 	public synchronized void stop() {
 		if (thread != null)
 			thread = null;
 	}
-	
+
 	public synchronized void start() {
 		if (thread == null) {
 			thread = new Thread(this);
@@ -48,7 +50,7 @@ public class Enemy extends Character implements Runnable {
 			}
 		}
 	}
-	
+
 	public void run() {
 		while (thread != null) {
 			try {
@@ -58,11 +60,12 @@ public class Enemy extends Character implements Runnable {
 			AIaction();
 		}
 	}
-	
-	private void AIaction(){}
+
+	protected void AIaction() {
+	}
 
 	public void kill() {
-		//Stoppe thread
+		// Stoppe thread
 		stop();
 		// Verlasse Feld
 		Levellist.activeLevel.getField((int) (posx), (int) (posy)).leave(this);
@@ -70,7 +73,7 @@ public class Enemy extends Character implements Runnable {
 		synchronized (Enemylist.list) {
 			Enemylist.list.remove(this);
 		}
-		
+
 	}
 
 	public void spawn() {

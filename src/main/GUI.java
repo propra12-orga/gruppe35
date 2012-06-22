@@ -23,7 +23,7 @@ public class GUI extends JFrame implements KeyListener {
 
 	public GUI() {
 
-		super("BeispielFrame");
+		super("Boltzmann - Total Destruction");
 	}
 
 	public void initialize() {
@@ -57,8 +57,8 @@ public class GUI extends JFrame implements KeyListener {
 				}
 				
 				// draw enemies
-				for (int i = 0; i < Playerlist.list.size(); i++) {
-					Playerlist.list.get(i).DrawComponent(g, panel);
+				for (int i = 0; i < Enemylist.list.size(); i++) {
+					Enemylist.list.get(i).DrawComponent(g, panel);
 				}
 				
 				

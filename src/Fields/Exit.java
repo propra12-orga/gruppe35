@@ -1,5 +1,6 @@
 package Fields;
 
+import Character.Character;
 import Character.Player;
 import Level.Levellist;
 
@@ -16,15 +17,15 @@ import Level.Levellist;
 
 public class Exit extends Field {
 
-	public boolean enter(Player player) {
-		System.out.println("Wird als player aufgefasst!");
-		Levellist.next();
-		return (false);
-	}
-	
+	@Override
 	public boolean enter(Character character) {
-		System.out.println("Wird als char aufgefasst!");
-		return (false);
+		if (character instanceof Player) {
+			Levellist.next();
+			return (false);
+		} else {
+
+			return (super.enter(character));
+		}
 	}
 
 	// Kopiere dieses Feld

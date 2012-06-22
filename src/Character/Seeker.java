@@ -8,10 +8,11 @@ import main.Playerlist;
 /**
  * 
  * Seeker Enemies search for the nearest Player Character and try to approach it
- * They use a Pathfinder to get the shortest path to the Player
- * If there exists no path or it is already very close, it just tries to move towards the Player
+ * They use a Pathfinder to get the shortest path to the Player If there exists
+ * no path or it is already very close, it just tries to move towards the Player
  * 
- * When the Graphics of the Seeker and the Player overlap, the Seeker kills the Player
+ * When the Graphics of the Seeker and the Player overlap, the Seeker kills the
+ * Player
  * 
  * <P>
  * 
@@ -26,13 +27,12 @@ public class Seeker extends Enemy {
 	int destx, desty;
 
 	public Seeker(double spawnx, double spawny) {
-		super(spawnx, spawny);
-		this.characterImage = Global.seeker;
-		this.characterImageStanding = Global.seekerstanding;
+		super(spawnx, spawny, 0.05, Global.seeker, Global.seekerstanding);
 	}
 
 	// @Override
-	public void AIaction() {
+	protected void AIaction() {
+		System.out.println("AIaction() called!");
 		// Seek for nearest player as target
 		int targetdist = 100;
 		Player target = null;
@@ -48,59 +48,61 @@ public class Seeker extends Enemy {
 			}
 		}
 
-		// Get Pixel distance between this enemy and the target
+		if (target != null) {
 
-		int pixdistx = Math
-				.abs((int) ((target.getPosx() - this.posx) * Global.sqsize))
-				- (target.getPixsizey() + this.pixsizey) / 2;
-		int pixdisty = Math
-				.abs((int) ((target.getPosy() - this.posy) * Global.sqsize))
-				- (target.getPixsizey() + this.pixsizey) / 2;
-		if (pixdistx < 0 || pixdisty < 0) {
-			target.kill();
-		} else {
-			if (targetdist > 1) {
-				// Detect fastest route to target
-				if (pathfinder.find((int) (posx), (int) (posy),
-						(int) (target.getPosy()), (int) (target.getPosy()))) {
-					// Path to target exists
-					path = pathfinder.getPath();
+			// Get Pixel distance between this enemy and the target
+
+			int pixdistx = Math
+					.abs((int) ((target.getPosx() - this.posx) * Global.sqsize))
+					- (target.getPixsizey() + this.pixsizey) / 2;
+			int pixdisty = Math
+					.abs((int) ((target.getPosy() - this.posy) * Global.sqsize))
+					- (target.getPixsizey() + this.pixsizey) / 2;
+			if (pixdistx < 0 || pixdisty < 0) {
+				target.kill();
+			} else {
+				if (targetdist > 1) {
+					// Detect fastest route to target
+					if (pathfinder.find((int) (posx), (int) (posy),
+							(int) (target.getPosy()), (int) (target.getPosy()))) {
+						// Path to target exists
+						path = pathfinder.getPath();
+						int[] step = path.pop();
+						destx = step[0];
+						desty = step[1];
+
+					} else {
+						// Use the old path (automatically)
+					}
+				}
+			}
+
+			// Movement
+			int dirx = 0;
+			int diry = 0;
+			if (path == null || path.empty() || targetdist <= 1) {
+				// No path given or already close to target, just try to move
+				// towards target
+				// Decrease the larger of x and y distance first
+				if (pixdistx > pixdisty) {
+					dirx = (int) (Math.signum(this.posx - target.getPosx()));
+				} else {
+					diry = (int) (Math.signum(this.posy - target.getPosy()));
+				}
+			} else {
+				// Move along calculated path
+				int x = (int) (this.posx);
+				int y = (int) (this.posy);
+				if (x == destx && y == desty) {
 					int[] step = path.pop();
 					destx = step[0];
 					desty = step[1];
-
-				} else {
-					// Use the old path (automatically)
 				}
+				dirx = destx - x;
+				diry = desty - y;
 			}
+
+			move(dirx, diry);
 		}
-
-		// Movement
-		int dirx = 0;
-		int diry = 0;
-		if (path == null || path.empty() || targetdist <= 1) {
-			// No path given or already close to target, just try to move
-			// towards target
-			// Decrease the larger of x and y distance first
-			if (pixdistx > pixdisty) {
-				dirx = (int) (Math.signum(this.posx - target.getPosx()));
-			} else {
-				diry = (int) (Math.signum(this.posy - target.getPosy()));
-			}
-		} else {
-			// Move along calculated path
-			int x = (int) (this.posx);
-			int y = (int) (this.posy);
-			if (x == destx && y == desty) {
-				int[] step = path.pop();
-				destx = step[0];
-				desty = step[1];
-			}
-			dirx = destx - x;
-			diry = desty - y;
-		}
-
-		move(dirx, diry);
-
 	}
 }
