@@ -67,11 +67,15 @@ public class Enemy extends Character implements Runnable {
 		// Verlasse Feld
 		Levellist.activeLevel.getField((int) (posx), (int) (posy)).leave(this);
 		// Nicht mehr zeichnen
-		Enemylist.list.remove(this);
+		synchronized (Enemylist.list) {
+			Enemylist.list.remove(this);
+		}
+		
 	}
 
 	public void spawn() {
 		spawn(spawnx, spawny);
+		start();
 	}
 
 }

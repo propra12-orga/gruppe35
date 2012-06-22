@@ -1,6 +1,6 @@
 package Fields;
 
-import Character.Character;
+import Character.Player;
 import Level.Levellist;
 
 /**
@@ -16,8 +16,13 @@ import Level.Levellist;
 
 public class Exit extends Field {
 
-	public boolean enter(Character character) {
+	public boolean enter(Player player) {
 		Levellist.next();
+		return (false);
+	}
+	
+	public boolean enter(Character character) {
+		System.out.println("Wird als char aufgefasst!");
 		return (false);
 	}
 

@@ -115,60 +115,62 @@ public class Bomb implements Runnable {
 	}
 
 	public void destruction() {
-		// try{
-		// File f = new File( "src/sounds/Explosion.wav" );
-		// final URL url=f.toURI().toURL();
-		// final AudioClip Exp_sound = Applet.newAudioClip( url );
-		// Exp_sound.play();
-		//
-		// } catch(Exception e1){
-		// e1.printStackTrace();
-		// }
-		stop(); // Stoppe den Thread
-		System.out.println("Boom!");
-		owner.setBombs(owner.getBombs() - 1); // Bombenanzahl des Besitzers
-												// anpassen
-		// Nicht mehr zeichnen
-		synchronized (Bomblist.list) {
-			Bomblist.list.remove(this);
-		}
-		// Zerstörung von Feldern und Bomben in Reichweite und Erzeugung von
-		// Flammen
+		if (thread != null) {
+			// try{
+			// File f = new File( "src/sounds/Explosion.wav" );
+			// final URL url=f.toURI().toURL();
+			// final AudioClip Exp_sound = Applet.newAudioClip( url );
+			// Exp_sound.play();
+			//
+			// } catch(Exception e1){
+			// e1.printStackTrace();
+			// }
+			stop(); // Stoppe den Thread
+			System.out.println("Boom!");
+			owner.setBombs(owner.getBombs() - 1); // Bombenanzahl des Besitzers
+													// anpassen
+			// Nicht mehr zeichnen
+			synchronized (Bomblist.list) {
+				Bomblist.list.remove(this);
+			}
+			// Zerstörung von Feldern und Bomben in Reichweite und Erzeugung von
+			// Flammen
 
-		// Feld auf dem diese Bombe liegt
-		level.getField(x, y).setBomb(null); // Diese Bombe soll nur einmal
-											// explodieren
-		createFlame(x, y, true);
+			// Feld auf dem diese Bombe liegt
+			level.getField(x, y).setBomb(null); // Diese Bombe soll nur einmal
+												// explodieren
+			createFlame(x, y, true);
 
-		// x Richtung
-		for (int posx = x + 1; posx <= (x + range); posx++) {
-			// Erzeuge Flammen
-			if (!createFlame(posx, y, false))
-				break;
-		}
-		// -x Richtung
-		for (int posx = x - 1; posx >= (x - range); posx--) {
-			// Erzeuge Flammen
-			if (!createFlame(posx, y, false))
-				break;
-		}
-		// y Richtung
-		for (int posy = y + 1; posy <= (y + range); posy++) {
-			// Erzeuge Flammen
-			if (!createFlame(x, posy, false))
-				break;
-		}
-		// -y Richtung
-		for (int posy = y - 1; posy >= (y - range); posy--) {
-			// Erzeuge Flammen
-			if (!createFlame(x, posy, false))
-				break;
-		}
+			// x Richtung
+			for (int posx = x + 1; posx <= (x + range); posx++) {
+				// Erzeuge Flammen
+				if (!createFlame(posx, y, false))
+					break;
+			}
+			// -x Richtung
+			for (int posx = x - 1; posx >= (x - range); posx--) {
+				// Erzeuge Flammen
+				if (!createFlame(posx, y, false))
+					break;
+			}
+			// y Richtung
+			for (int posy = y + 1; posy <= (y + range); posy++) {
+				// Erzeuge Flammen
+				if (!createFlame(x, posy, false))
+					break;
+			}
+			// -y Richtung
+			for (int posy = y - 1; posy >= (y - range); posy--) {
+				// Erzeuge Flammen
+				if (!createFlame(x, posy, false))
+					break;
+			}
 
-		owner = null; // Besitzer dereferenzieren
-		level = null; // Level dereferenzieren
+			owner = null; // Besitzer dereferenzieren
+			level = null; // Level dereferenzieren
 
-		new Sound("src/sounds/Explosion.wav", false);
+			new Sound("src/sounds/Explosion.wav", false);
+		}
 	}
 
 	private boolean createFlame(int x, int y, boolean centerflame) {

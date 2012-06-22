@@ -2,8 +2,10 @@ package Character;
 
 import java.awt.Image;
 
+import main.Enemylist;
 import main.Global;
 import main.Menu;
+import main.Playerlist;
 import Bomb.Bomb;
 import Level.Levellist;
 
@@ -182,6 +184,10 @@ public class Player extends Character {
 		Levellist.activeLevel.getField((int) (posx), (int) (posy)).leave(this);
 		if (lifes <= 0) {
 			System.out.println("Game over for " + this.name);
+			synchronized (Enemylist.list) {
+				Playerlist.list.remove(this);
+			}
+			
 			Menu.panelvisible = false;
 			Menu.feld.initialize();
 		} else {

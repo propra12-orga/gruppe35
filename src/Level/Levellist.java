@@ -15,7 +15,9 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import Character.Enemy;
 import Character.Player;
+import Character.Seeker;
 import Fields.Earth;
 import Fields.Exit;
 import Fields.Field;
@@ -196,6 +198,11 @@ public class Levellist {
 			for (int i = 0; i < Playerlist.list.size(); i++) {
 				Playerlist.list.get(i).spawn();
 			}
+			
+			//Gegner spawnen
+			System.out.println("BLABLA");
+			Enemy enemy = new Seeker(2.5,2.5);
+			enemy.spawn();
 
 		} else {
 			System.out.println("This was the last level, you have won!");

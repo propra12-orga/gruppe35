@@ -40,5 +40,10 @@ public class Global {
 			"src/img/intro.gif");
 	public static final Image intro2 = Toolkit.getDefaultToolkit().getImage(
 			"src/img/intro2.gif");
+	
+	public static final Image seeker = Toolkit.getDefaultToolkit().getImage(
+			"src/img/heart.gif");
+	public static final Image seekerstanding = Toolkit.getDefaultToolkit().getImage(
+			"src/img/heart.gif");
 
 }

@@ -60,7 +60,7 @@ public class Pathfinder {
 		}
 		//Endknoten bestimmen
 		endNode = nodes[xd][yd];
-		
+
 		// Startknoten hinzufügen
 		openlist.add(nodes[xo][yo]);
 
@@ -140,7 +140,7 @@ public class Pathfinder {
 
 		}
 	}
-	
+
 	public Stack<int[]> getPath(){
 		Stack<int[]> path = new Stack<int[]>();
 		Node currentNode = endNode;
@@ -148,11 +148,11 @@ public class Pathfinder {
 			int[] step = new int[2];
 			step[0] = currentNode.x;
 			step[1] = currentNode.y;
-			
+
 			path.push(step);
 			currentNode = currentNode.predecessor;
 		}
-		
+
 		return(path);
 	}
 }
