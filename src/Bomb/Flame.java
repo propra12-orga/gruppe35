@@ -1,6 +1,7 @@
 package Bomb;
 
 import java.awt.Graphics;
+import java.awt.Image;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.JPanel;
@@ -8,7 +9,6 @@ import javax.swing.JPanel;
 import main.Flamelist;
 import main.Global;
 import Fields.Field;
-import Level.Levellist;
 
 /**
  * This is the Flame class. It is responsible for running a timer thread, that
@@ -31,38 +31,11 @@ public class Flame implements Runnable {
 	protected int y;
 	protected int pixsizex = Global.sqsize;
 	protected int pixsizey = Global.sqsize;
-	protected boolean centerflame;
+	protected Image image;
 
 	public void DrawComponent(Graphics g, JPanel panel) {
-		if (this.isCenterFlame() == false) {
-			g.drawImage(Global.boden, this.x * Global.sqsize, this.y
-					* Global.sqsize, Global.sqsize, Global.sqsize, panel);
-			if ((Levellist.activeLevel.getField(this.x + 1, this.y).getFlame() != 0 || Levellist.activeLevel
-					.getField(this.x - 1, this.y).getFlame() != 0)
-					&& (Levellist.activeLevel.getField(this.x, this.y + 1)
-							.getFlame() == 0 || Levellist.activeLevel.getField(
-							this.x, this.y - 1).getFlame() == 0)) {
-				g.drawImage(Global.flame_h, this.x * Global.sqsize, this.y
-						* Global.sqsize, this.getPixsizex(),
-						this.getPixsizey(), panel);
-			} else {
-				if ((Levellist.activeLevel.getField(this.x, this.y + 1)
-						.getFlame() != 0 || Levellist.activeLevel.getField(
-						this.x, this.y - 1).getFlame() != 0)
-						&& (Levellist.activeLevel.getField(this.x + 1, this.y)
-								.getFlame() == 0 || Levellist.activeLevel
-								.getField(this.x - 1, this.y).getFlame() == 0)) {
-					g.drawImage(Global.flame_v, this.x * Global.sqsize, this.y
-							* Global.sqsize, this.getPixsizex(),
-							this.getPixsizey(), panel);
-				}
-			}
-		} else {
-			g.drawImage(Global.flame, this.x * Global.sqsize, this.y
-					* Global.sqsize, this.getPixsizex(), this.getPixsizey(),
-					panel);
-		}
-
+		g.drawImage(this.image, this.getDrawx(), this.getDrawy(),
+				this.getPixsizex(), this.getPixsizey(), panel);
 	}
 
 	public int getPixsizex() {
@@ -93,15 +66,27 @@ public class Flame implements Runnable {
 		return ((int) (y * Global.sqsize + (Global.sqsize - pixsizey) * 0.5));
 	}
 
-	public boolean isCenterFlame() {
-		return centerflame;
-	}
-
-	public Flame(Field field, int x, int y, boolean centerflame) {
+	public Flame(Field field, int x, int y, int dir) {
 		this.field = field;
 		this.x = x;
 		this.y = y;
-		this.centerflame = centerflame;
+		
+		switch (dir) {
+		case 0:
+			//center
+			this.image = Global.flame;
+			break;
+		case 1: case 3:
+			//horizontal
+			this.image = Global.flame_h;
+			break;
+		case 2: case 4:
+			//vertikal
+			this.image = Global.flame_v;
+			break;
+
+		default:
+		}
 	}
 
 	public void start() {

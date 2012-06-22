@@ -139,43 +139,45 @@ public class Bomb implements Runnable {
 			// Feld auf dem diese Bombe liegt
 			level.getField(x, y).setBomb(null); // Diese Bombe soll nur einmal
 												// explodieren
-			createFlame(x, y, true);
+			createFlame(x, y, 0);
 
 			// x Richtung
 			for (int posx = x + 1; posx <= (x + range); posx++) {
 				// Erzeuge Flammen
-				if (!createFlame(posx, y, false))
+				if (!createFlame(posx, y, 1))
 					break;
 			}
 			// -x Richtung
 			for (int posx = x - 1; posx >= (x - range); posx--) {
 				// Erzeuge Flammen
-				if (!createFlame(posx, y, false))
+				if (!createFlame(posx, y, 3))
 					break;
 			}
 			// y Richtung
 			for (int posy = y + 1; posy <= (y + range); posy++) {
 				// Erzeuge Flammen
-				if (!createFlame(x, posy, false))
+				if (!createFlame(x, posy, 2))
 					break;
 			}
 			// -y Richtung
 			for (int posy = y - 1; posy >= (y - range); posy--) {
 				// Erzeuge Flammen
-				if (!createFlame(x, posy, false))
+				if (!createFlame(x, posy, 4))
 					break;
 			}
 
 			owner = null; // Besitzer dereferenzieren
 			level = null; // Level dereferenzieren
 
-			new Sound("src/sounds/Explosion.wav", false);
+			//new Sound("src/sounds/Explosion.wav", false);
 		}
 	}
 
-	private boolean createFlame(int x, int y, boolean centerflame) {
+	private boolean createFlame(int x, int y, int dir) {
 		Field field = level.getField(x, y);
 		if (field != null) {
+			boolean isBombed = (field.getBomb() != null );
+			
 			field.destruction();
 			// Falls das Feld zerstörbar ist, wird es in ein anderes umgewandelt
 			field.transform(level, x, y);
@@ -183,10 +185,10 @@ public class Bomb implements Runnable {
 			// Flamme
 			// erzeugt
 
-			if ((field.isSolid()) || (field.getBomb() != null)) {
+			if ((field.isSolid()) || isBombed) {
 				return (false);
 			}
-			Flame flame = new Flame(field, x, y, centerflame);
+			Flame flame = new Flame(field, x, y, dir);
 			flame.start();
 
 			return (true);

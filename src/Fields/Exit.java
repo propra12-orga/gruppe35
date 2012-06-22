@@ -17,6 +17,7 @@ import Level.Levellist;
 public class Exit extends Field {
 
 	public boolean enter(Player player) {
+		System.out.println("Wird als player aufgefasst!");
 		Levellist.next();
 		return (false);
 	}
