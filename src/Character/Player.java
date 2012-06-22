@@ -1,11 +1,10 @@
 package Character;
 
 import java.awt.Image;
+import java.util.Timer;
+import java.util.TimerTask;
 
-import main.Enemylist;
 import main.Global;
-import main.Menu;
-import main.Playerlist;
 import Bomb.Bomb;
 import Level.Levellist;
 
@@ -42,13 +41,19 @@ public class Player extends Character {
 	protected int bombrange;
 	protected int bombtimer;
 	protected int lifes;
-	
+
 	protected boolean movingUp = false;
 	protected boolean movingDown = false;
 	protected boolean movingRight = false;
 	protected boolean movingLeft = false;
-	
+
 	protected Control control;
+
+	class Respawn extends TimerTask {
+		public void run() {
+			Player.this.spawn();
+		}
+	}
 
 	public boolean isMovingUp() {
 		return movingUp;
@@ -81,24 +86,21 @@ public class Player extends Character {
 	public void setMovingLeft(boolean movingLeft) {
 		this.movingLeft = movingLeft;
 	}
-	
 
 	public Player(String name, double speed, int maxbombs, int bombrange,
 			int bombtimer, int lifes, Image characterImage,
-			Image characterImageStanding) {
+			Image characterImageStanding, Image characterImageDead) {
+		super(speed, characterImage, characterImageStanding, characterImageDead);
 		this.name = name;
-		this.speed = speed;
 		this.maxbombs = maxbombs;
 		this.bombrange = bombrange;
 		this.bombtimer = bombtimer;
 		this.lifes = lifes;
 		this.control = new Control(name);
-		this.characterImage = characterImage;
-		this.characterImageStanding = characterImageStanding;
-		
-	    pixsizex = (int) (Global.sqsize * 0.5); // 25
+
+		pixsizex = (int) (Global.sqsize * 0.5); // 25
 		pixsizey = (int) (Global.sqsize * 0.8); // 40
-		
+
 	}
 
 	public Control getControl() {
@@ -167,36 +169,39 @@ public class Player extends Character {
 	}
 
 	public void placebomb() {
-		if ((bombs < maxbombs)
-				&& (Levellist.activeLevel.getField((int) (posx), (int) (posy))
-						.getBomb() == null)) {
-			bombs++;
-			Bomb bomb = new Bomb(Levellist.activeLevel, (int) (posx),
-					(int) (posy), this, bombtimer, bombrange);
-			bomb.start();
+		if (!dead) {
+			if ((bombs < maxbombs)
+					&& (Levellist.activeLevel.getField((int) (posx),
+							(int) (posy)).getBomb() == null)) {
+				bombs++;
+				Bomb bomb = new Bomb(Levellist.activeLevel, (int) (posx),
+						(int) (posy), this, bombtimer, bombrange);
+				bomb.start();
+			}
 		}
 	}
 
 	public void kill() {
-		System.out.println(this.name + " dies!");
-		lifes--;
-		// Verlasse Feld
-		Levellist.activeLevel.getField((int) (posx), (int) (posy)).leave(this);
-		if (lifes <= 0) {
-			System.out.println("Game over for " + this.name);
-			synchronized (Enemylist.list) {
-				Playerlist.list.remove(this);
+		if (!dead) {
+			System.out.println(this.name + " dies!");
+			dead = true;
+			lifes--;
+			// Verlasse Feld
+			Levellist.activeLevel.getField((int) (posx), (int) (posy)).leave(
+					this);
+			if (lifes <= 0) {
+				System.out.println("Game over for " + this.name);
+			} else {
+				// Respawn nach 2 Sekunden
+				Timer timer = new Timer();
+				timer.schedule(new Respawn(), 2000);
 			}
-			
-			Menu.panelvisible = false;
-			Menu.feld.initialize();
-		} else {
-			spawn();
 		}
 	}
 
 	public void spawn() {
-		spawn(Levellist.activeLevel.getSpawnx(),Levellist.activeLevel.getSpawny());
+		spawn(Levellist.activeLevel.getSpawnx(),
+				Levellist.activeLevel.getSpawny());
 	}
 
 }

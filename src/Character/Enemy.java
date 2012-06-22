@@ -1,6 +1,8 @@
 package Character;
 
 import java.awt.Image;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 import main.Enemylist;
@@ -28,10 +30,21 @@ public class Enemy extends Character implements Runnable {
 	private double spawnx;
 	private double spawny;
 	private Thread thread = null;
+	
+	class Decay extends TimerTask  
+	{
+	    public void run()  
+	  {
+	    synchronized (Enemylist.list) {
+		 Enemylist.list.remove(Enemy.this);
+		}
+	  }
+	}
 
 	public Enemy(double spawnx, double spawny, double speed,
-			Image characterImage, Image characterImageStanding) {
-		super(speed, characterImage, characterImageStanding);
+			Image characterImage, Image characterImageStanding,
+			Image characterImageDead) {
+		super(speed, characterImage, characterImageStanding, characterImageDead);
 		this.spawnx = spawnx;
 		this.spawny = spawny;
 	}
@@ -69,11 +82,11 @@ public class Enemy extends Character implements Runnable {
 		stop();
 		// Verlasse Feld
 		Levellist.activeLevel.getField((int) (posx), (int) (posy)).leave(this);
-		// Nicht mehr zeichnen
-		synchronized (Enemylist.list) {
-			Enemylist.list.remove(this);
-		}
-
+		// Tot
+		dead = true;
+		// Nach 2 Sekunden verwesen
+		Timer timer = new Timer();
+		timer.schedule(new Decay(), 2000);
 	}
 
 	public void spawn() {

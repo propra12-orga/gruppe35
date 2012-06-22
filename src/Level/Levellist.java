@@ -200,9 +200,11 @@ public class Levellist {
 			}
 			
 			//Gegner spawnen
-			System.out.println("BLABLA");
+			/*
+			System.out.println("GEGNERS");
 			Enemy enemy = new Seeker(0.5,2.5);
 			enemy.spawn();
+			*/
 
 		} else {
 			System.out.println("This was the last level, you have won!");

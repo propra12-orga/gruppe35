@@ -17,9 +17,9 @@ public class Playerlist {
 	public static void load() {
 		list.clear();
 		Player player1 = new Player("Boltzmann", 0.05, 2, 2, 2, 3,
-				Global.image1, Global.image1standing);
+				Global.image1, Global.image1standing, Global.image1dead);
 		Player player2 = new Player("Feynman", 0.01, 2, 2, 2, 1,
-				Global.image2, Global.image2standing);
+				Global.image2, Global.image2standing, Global.image2dead);
 		//Character player3 = new Character("blabla",
 
 		list.add(player1);

@@ -22,6 +22,10 @@ public class Global {
 			.getImage("src/img/boltzmann2.gif");
 	public static final Image image2standing = Toolkit.getDefaultToolkit()
 			.getImage("src/img/feynman.gif");
+	public static final Image image1dead = Toolkit.getDefaultToolkit()
+			.getImage("src/img/boltzmann2_dead.gif");
+	public static final Image image2dead = Toolkit.getDefaultToolkit()
+			.getImage("src/img/feynman_dead.gif");
 	public static final Image boden = Toolkit.getDefaultToolkit().getImage(
 			"src/img/boden.jpg");
 	public static final Image mauer = Toolkit.getDefaultToolkit().getImage(
@@ -44,5 +48,7 @@ public class Global {
 			"src/img/heart.gif");
 	public static final Image seekerstanding = Toolkit.getDefaultToolkit().getImage(
 			"src/img/heart.gif");
+	public static final Image seekerdead = Toolkit.getDefaultToolkit().getImage(
+			"src/img/heart_dead.gif");
 
 }

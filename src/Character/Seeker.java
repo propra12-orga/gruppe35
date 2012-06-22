@@ -27,7 +27,7 @@ public class Seeker extends Enemy {
 	int destx, desty;
 
 	public Seeker(double spawnx, double spawny) {
-		super(spawnx, spawny, 0.05, Global.seeker, Global.seekerstanding);
+		super(spawnx, spawny, 0.05, Global.seeker, Global.seekerstanding, Global.seekerdead);
 	}
 
 	// @Override

@@ -100,8 +100,12 @@ public class Bomb implements Runnable {
 	}
 
 	public synchronized void stop() {
-		if (thread != null)
+		if (thread != null){
+			owner.setBombs(owner.getBombs() - 1); // Bombenanzahl des Besitzers
+			// anpassen
 			thread = null;
+		}
+			
 	}
 
 	public void run() {
@@ -125,10 +129,9 @@ public class Bomb implements Runnable {
 			// } catch(Exception e1){
 			// e1.printStackTrace();
 			// }
-			stop(); // Stoppe den Thread
+			stop(); // Stoppe den Thread und passe Bombenzahl des Besitzers an
 			System.out.println("Boom!");
-			owner.setBombs(owner.getBombs() - 1); // Bombenanzahl des Besitzers
-													// anpassen
+			
 			// Nicht mehr zeichnen
 			synchronized (Bomblist.list) {
 				Bomblist.list.remove(this);

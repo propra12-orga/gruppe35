@@ -35,9 +35,11 @@ public class Character {
 	protected int pixsizey;
 	protected double posx;
 	protected double posy;
+	protected boolean dead = false;
 
 	public Image characterImage;
 	public Image characterImageStanding;
+	public Image characterImageDead;
 
 	public int getPixsizex() {
 		return pixsizex;
@@ -56,10 +58,11 @@ public class Character {
 	}
 
 	public Character(double speed, Image characterImage,
-			Image characterImageStanding) {
+			Image characterImageStanding, Image characterImageDead) {
 		this.speed = speed;
 		this.characterImage = characterImage;
 		this.characterImageStanding = characterImageStanding;
+		this.characterImageDead = characterImageDead;
 		pixsizex = (int) (Global.sqsize * 0.5); // 25
 		pixsizey = (int) (Global.sqsize * 0.8); // 40
 	}
@@ -111,37 +114,40 @@ public class Character {
 	public void kill() {
 		// Verlasse Feld
 		Levellist.activeLevel.getField((int) (posx), (int) (posy)).leave(this);
+		dead = true;
 	}
 
 	public void move(int dirx, int diry) {
-		int oldx = (int) (posx);
-		int oldy = (int) (posy);
-		double newposx = (posx) + speed * dirx;
-		double newposy = (posy) + speed * diry;
-		int newx = (int) (newposx);
-		int newy = (int) (newposy);
-		// wird der Rand des Spielfeldes nicht verlassen?
-		if ((newposx > 0.0) && (newposx < Levellist.activeLevel.getXsize())
-				&& (newposy > 0.0)
-				&& (newposy < Levellist.activeLevel.getYsize())) {
-			// Würde ein neues Feld betreten?
-			if (((newx - oldx) != 0) || ((newy - oldy) != 0)) {
-				// Kann dieses Feld überhaupt betreten werden?
-				if (Levellist.activeLevel.getField(newx, newy).enter(this)) {
-					// Kann betreten werden
-					// Gehe weiter
+		if (!dead) {
+			int oldx = (int) (posx);
+			int oldy = (int) (posy);
+			double newposx = (posx) + speed * dirx;
+			double newposy = (posy) + speed * diry;
+			int newx = (int) (newposx);
+			int newy = (int) (newposy);
+			// wird der Rand des Spielfeldes nicht verlassen?
+			if ((newposx > 0.0) && (newposx < Levellist.activeLevel.getXsize())
+					&& (newposy > 0.0)
+					&& (newposy < Levellist.activeLevel.getYsize())) {
+				// Würde ein neues Feld betreten?
+				if (((newx - oldx) != 0) || ((newy - oldy) != 0)) {
+					// Kann dieses Feld überhaupt betreten werden?
+					if (Levellist.activeLevel.getField(newx, newy).enter(this)) {
+						// Kann betreten werden
+						// Gehe weiter
+						posx = newposx;
+						posy = newposy;
+						// Verlasse altes Feld
+						Levellist.activeLevel.getField(oldx, oldy).leave(this);
+					} else {
+						// Kann nicht betreten werden
+					}
+
+				} else {
+					// Kein neues Feld wird betreten, gehe einfach weiter
 					posx = newposx;
 					posy = newposy;
-					// Verlasse altes Feld
-					Levellist.activeLevel.getField(oldx, oldy).leave(this);
-				} else {
-					// Kann nicht betreten werden
 				}
-
-			} else {
-				// Kein neues Feld wird betreten, gehe einfach weiter
-				posx = newposx;
-				posy = newposy;
 			}
 		}
 	}
@@ -154,18 +160,25 @@ public class Character {
 			System.out.println("Invalid Spawn point at " + (int) (posx) + ", "
 					+ (int) (posy));
 		}
-		System.out.println("Spawn at" + (int) (posx) + ", "
-				+ (int) (posy));
+		System.out.println("Spawn at" + (int) (posx) + ", " + (int) (posy));
+		dead = false;
 	}
 
 	public void DrawComponent(Graphics g, JPanel panel) {
-		if (this.isMoving()) {
-			g.drawImage(this.characterImage, this.getDrawx(), this.getDrawy(),
-					this.getPixsizex(), this.getPixsizey(), panel);
-		} else {
-			g.drawImage(this.characterImageStanding, this.getDrawx(),
+		if (this.dead) {
+			g.drawImage(this.characterImageDead, this.getDrawx(),
 					this.getDrawy(), this.getPixsizex(), this.getPixsizey(),
 					panel);
+		} else {
+			if (this.isMoving()) {
+				g.drawImage(this.characterImage, this.getDrawx(),
+						this.getDrawy(), this.getPixsizex(),
+						this.getPixsizey(), panel);
+			} else {
+				g.drawImage(this.characterImageStanding, this.getDrawx(),
+						this.getDrawy(), this.getPixsizex(),
+						this.getPixsizey(), panel);
+			}
 		}
 	}
 }
