@@ -27,7 +27,8 @@ public class Seeker extends Enemy {
 	int destx, desty;
 
 	public Seeker(double spawnx, double spawny) {
-		super(spawnx, spawny, 0.05, Global.seeker, Global.seekerstanding, Global.seekerdead);
+		super(spawnx, spawny, 0.05, Global.seeker, Global.seekerstanding,
+				Global.seekerdead);
 	}
 
 	// @Override
@@ -39,6 +40,8 @@ public class Seeker extends Enemy {
 
 		for (int i = 0; i < Playerlist.list.size(); i++) {
 			Player player = Playerlist.list.get(i);
+			if (player.isDead())
+				continue;
 			int newtargetdist = Math
 					.abs((int) (player.getPosx() - (int) (posx))
 							+ Math.abs((int) (player.getPosy() - (int) (posy))));

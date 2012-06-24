@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -18,6 +20,8 @@ import Level.Levellist;
 
 public class GUI extends JFrame implements KeyListener {
 	public JPanel panel;
+	public Runnable runnable = null;
+	WindowListener windowListener = null;
 
 	private static final long serialVersionUID = 1L;
 
@@ -27,7 +31,43 @@ public class GUI extends JFrame implements KeyListener {
 	}
 
 	public void initialize() {
-		
+		if (windowListener == null) {
+			windowListener = new WindowListener() {
+				public void windowClosed(WindowEvent arg0) {
+					System.out.println("Window close event occur");
+				}
+
+				public void windowActivated(WindowEvent arg0) {
+					// System.out.println("Window Activated");
+				}
+
+				public void windowClosing(WindowEvent arg0) {
+					System.out.println("Window Closing");
+					GUI.this.setVisible(false);
+					// Stop running or drawing anything
+					Levellist.terminate();
+
+				}
+
+				public void windowDeactivated(WindowEvent arg0) {
+					// System.out.println("Window Deactivated");
+				}
+
+				public void windowDeiconified(WindowEvent arg0) {
+					// System.out.println("Window Deiconified");
+				}
+
+				public void windowIconified(WindowEvent arg0) {
+					// System.out.println("Window Iconified");
+				}
+
+				public void windowOpened(WindowEvent arg0) {
+					// System.out.println("Window Opened");
+				}
+			};
+			addWindowListener(windowListener);
+		}
+
 		Container cp = this.getContentPane();
 
 		panel = new JPanel() {
@@ -39,8 +79,9 @@ public class GUI extends JFrame implements KeyListener {
 				// super.paintComponent(g);
 				// g.
 				// draw level
-				
-				Levellist.activeLevel.drawComponent(g, panel);
+
+				if (Levellist.activeLevel != null)
+					Levellist.activeLevel.drawComponent(g, panel);
 				// draw bombs
 				for (int i = 0; i < Bomblist.list.size(); i++) {
 					Bomblist.list.get(i).DrawComponent(g, panel);
@@ -55,24 +96,24 @@ public class GUI extends JFrame implements KeyListener {
 				for (int i = 0; i < Playerlist.list.size(); i++) {
 					Playerlist.list.get(i).DrawComponent(g, panel);
 				}
-				
+
 				// draw enemies
 				for (int i = 0; i < Enemylist.list.size(); i++) {
 					Enemylist.list.get(i).DrawComponent(g, panel);
 				}
-				
-				
-				g.drawRect(Global.sqsize * Levellist.activeLevel.getXsize(),
-						0,100,100);
+
+				g.drawRect(Global.sqsize * Levellist.activeLevel.getXsize(), 0,
+						100, 100);
 				for (int i = 0; i < Playerlist.list.size(); i++) {
 					g.drawString(Playerlist.list.get(i).getName(),
-							Global.sqsize * Levellist.activeLevel.getXsize()+10,
-							20+i*50);
+							Global.sqsize * Levellist.activeLevel.getXsize()
+									+ 10, 20 + i * 50);
 					g.drawString(
 							"Leben: "
 									+ String.valueOf(Playerlist.list.get(i)
 											.getLifes()), Global.sqsize
-									* Levellist.activeLevel.getXsize()+10, 40+i*50);
+									* Levellist.activeLevel.getXsize() + 10,
+							40 + i * 50);
 				}
 			}
 
@@ -96,7 +137,7 @@ public class GUI extends JFrame implements KeyListener {
 
 		cp.add(panel, panelc);
 
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
 		this.pack();
 		this.setSize(Levellist.activeLevel.getXsize() * Global.sqsize * 2,
@@ -154,7 +195,7 @@ public class GUI extends JFrame implements KeyListener {
 	}
 
 	public void keyPressed(KeyEvent e) {
-		
+
 		for (int i = 0; i < Playerlist.list.size(); i++) {
 
 			// Rechts Spieler

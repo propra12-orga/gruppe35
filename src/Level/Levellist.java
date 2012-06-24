@@ -8,16 +8,13 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import main.Bomblist;
 import main.Enemylist;
 import main.Flamelist;
-import main.Menu;
 import main.Playerlist;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import Character.Enemy;
 import Character.Player;
-import Character.Seeker;
 import Fields.Earth;
 import Fields.Exit;
 import Fields.Field;
@@ -183,33 +180,49 @@ public class Levellist {
 			activeLevelIndex++;
 			load(activeLevelIndex); // Neues Level laden
 			activeLevel.setLocked(false); // Neues Level freischalten
-			//Bomben anhalten
-			for(int i=0; i < Bomblist.list.size(); i++) {
-				Bomblist.list.get(i).stop(); //Bombthreads stoppen
+			// Bomben anhalten
+			for (int i = 0; i < Bomblist.list.size(); i++) {
+				Bomblist.list.get(i).stop(); // Bombthreads stoppen
 			}
 			Bomblist.list.clear(); // Alle Bomben nicht mehr zeichnen
 			Flamelist.list.clear(); // Alle Flammen nicht mehr zeichnen
-			//Gegner anhalten
-			for(int i=0; i < Enemylist.list.size(); i++) {
-				Enemylist.list.get(i).stop(); //Enemythreads stoppen
+			// Gegner anhalten
+			for (int i = 0; i < Enemylist.list.size(); i++) {
+				Enemylist.list.get(i).stop(); // Enemythreads stoppen
 			}
 			Enemylist.list.clear(); // Alle Enemies nicht mehr zeichnen
 			// Charactere neu spawnen
 			for (int i = 0; i < Playerlist.list.size(); i++) {
 				Playerlist.list.get(i).spawn();
 			}
-			
-			//Gegner spawnen
+
+			// Gegner spawnen
 			/*
-			System.out.println("GEGNERS");
-			Enemy enemy = new Seeker(0.5,2.5);
-			enemy.spawn();
-			*/
+			 * System.out.println("GEGNERS"); Enemy enemy = new Seeker(0.5,2.5);
+			 * enemy.spawn();
+			 */
 
 		} else {
 			System.out.println("This was the last level, you have won!");
-			Menu.panelvisible = false;
-			Menu.feld.initialize();
 		}
+	}
+
+	public static void terminate() {
+		// Bomben anhalten
+		for (int i = 0; i < Bomblist.list.size(); i++) {
+			Bomblist.list.get(i).stop(); // Bombthreads stoppen
+		}
+		Bomblist.list.clear(); // Alle Bomben nicht mehr zeichnen
+		Flamelist.list.clear(); // Alle Flammen nicht mehr zeichnen
+		// Gegner anhalten
+		for (int i = 0; i < Enemylist.list.size(); i++) {
+			Enemylist.list.get(i).stop(); // Enemythreads stoppen
+		}
+		Enemylist.list.clear(); // Alle Enemies nicht mehr zeichnen
+		// Charactere löschen
+		Playerlist.list.clear();
+		//Level auf null setzen
+		activeLevel = null;
+		activeLevelIndex = 0;
 	}
 }
