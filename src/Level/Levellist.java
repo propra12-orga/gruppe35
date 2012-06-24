@@ -14,7 +14,9 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import Character.Enemy;
 import Character.Player;
+import Character.Seeker;
 import Fields.Earth;
 import Fields.Exit;
 import Fields.Field;
@@ -197,10 +199,11 @@ public class Levellist {
 			}
 
 			// Gegner spawnen
-			/*
-			 * System.out.println("GEGNERS"); Enemy enemy = new Seeker(0.5,2.5);
-			 * enemy.spawn();
-			 */
+			
+			 System.out.println("GEGNERS"); 
+			 Enemy enemy = new Seeker(0.5,2.5);
+			 enemy.spawn();
+			 
 
 		} else {
 			System.out.println("This was the last level, you have won!");

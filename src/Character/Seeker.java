@@ -61,7 +61,7 @@ public class Seeker extends Enemy {
 			int pixdisty = Math
 					.abs((int) ((target.getPosy() - this.posy) * Global.sqsize))
 					- (target.getPixsizey() + this.pixsizey) / 2;
-			if (pixdistx < 0 || pixdisty < 0) {
+			if (pixdistx < 0 && pixdisty < 0) {
 				target.kill();
 			} else {
 				if (targetdist > 1) {
@@ -88,9 +88,9 @@ public class Seeker extends Enemy {
 				// towards target
 				// Decrease the larger of x and y distance first
 				if (pixdistx > pixdisty) {
-					dirx = (int) (Math.signum(this.posx - target.getPosx()));
+					dirx = (int) (Math.signum(target.getPosx() - this.posx));
 				} else {
-					diry = (int) (Math.signum(this.posy - target.getPosy()));
+					diry = (int) (Math.signum(target.getPosy() - this.posy));
 				}
 			} else {
 				// Move along calculated path
