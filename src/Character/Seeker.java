@@ -27,24 +27,24 @@ public class Seeker extends Enemy {
 	int destx, desty;
 
 	public Seeker(double spawnx, double spawny) {
-		super(spawnx, spawny, 0.05, Global.seeker, Global.seekerstanding,
+		super(spawnx, spawny, 0.03, Global.seeker, Global.seekerstanding,
 				Global.seekerdead);
 	}
 
 	// @Override
 	protected void AIaction() {
-		System.out.println("AIaction() called!");
 		// Seek for nearest player as target
 		int targetdist = 100;
 		Player target = null;
+		
 
 		for (int i = 0; i < Playerlist.list.size(); i++) {
 			Player player = Playerlist.list.get(i);
 			if (player.isDead())
 				continue;
 			int newtargetdist = Math
-					.abs((int) (player.getPosx() - (int) (posx))
-							+ Math.abs((int) (player.getPosy() - (int) (posy))));
+					.abs((int) (player.getPosx()) - (int) (posx))
+							+ Math.abs((int) (player.getPosy()) - (int) (posy));
 			if (newtargetdist < targetdist) {
 				targetdist = newtargetdist;
 				target = player;
@@ -61,18 +61,19 @@ public class Seeker extends Enemy {
 			int pixdisty = Math
 					.abs((int) ((target.getPosy() - this.posy) * Global.sqsize))
 					- (target.getPixsizey() + this.pixsizey) / 2;
+			
+			boolean newpath = false;
+			
 			if (pixdistx < 0 && pixdisty < 0) {
 				target.kill();
 			} else {
-				if (targetdist > 1) {
+				if (targetdist >= 1) {
 					// Detect fastest route to target
 					if (pathfinder.find((int) (posx), (int) (posy),
-							(int) (target.getPosy()), (int) (target.getPosy()))) {
+							(int) (target.getPosx()), (int) (target.getPosy()))) {
 						// Path to target exists
 						path = pathfinder.getPath();
-						int[] step = path.pop();
-						destx = step[0];
-						desty = step[1];
+						newpath = true;
 
 					} else {
 						// Use the old path (automatically)
@@ -94,13 +95,16 @@ public class Seeker extends Enemy {
 				}
 			} else {
 				// Move along calculated path
+				
 				int x = (int) (this.posx);
 				int y = (int) (this.posy);
-				if (x == destx && y == desty) {
+				
+				if(newpath || (x == destx && y == desty)){
 					int[] step = path.pop();
 					destx = step[0];
 					desty = step[1];
 				}
+			
 				dirx = destx - x;
 				diry = desty - y;
 			}
