@@ -93,7 +93,7 @@ public class Startmenu extends JFrame {
 				else{
 				g.drawImage(Global.intro2, 0, 0, Startmenu.panelSizeX, Startmenu.panelSizeY-50, this);
 				if (Startmenu.playsound==true)
-				new Sound("src/sounds/DelayExp.wav",false);
+				new Sound("src/sounds/DelayExp.wav",4000).start();
 				Startmenu.playsound=false;
 				}	
 				
@@ -122,7 +122,7 @@ public class Startmenu extends JFrame {
 	}
 
 	public static void main(String args[]) {
-		new Sound("src/sounds/blabal.wav",true);
+		new Sound("src/sounds/blabal.wav",-1).start();
 		final Startmenu KLaus = new Startmenu();
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
