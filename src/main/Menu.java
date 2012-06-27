@@ -38,6 +38,7 @@ public class Menu extends JFrame {
 				Levellist.load(0);
 				// Player laden
 				Playerlist.load();
+				
 				for (int i = 0; i < Playerlist.list.size(); i++) {
 					Playerlist.list.get(i).spawn();
 				}
@@ -94,6 +95,7 @@ public class Menu extends JFrame {
 		}
 
 		Menu menu = new Menu();
+		new Sound("src/sounds/blabal.wav",0).start();
 		menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 	}
