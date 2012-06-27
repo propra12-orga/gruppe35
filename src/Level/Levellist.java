@@ -172,16 +172,13 @@ public class Levellist {
 	}
 
 	public static void next() {
-		// Charaktere von Feldern entfernen
-		for (int i = 0; i < Playerlist.list.size(); i++) {
-			Player character = Playerlist.list.get(i);
-			activeLevel.getField((int) (character.getPosx()),
-					(int) (character.getPosy())).leave(character);
-		}
 		if (activeLevelIndex < levelList.length - 1) {
-			activeLevelIndex++;
-			load(activeLevelIndex); // Neues Level laden
-			activeLevel.setLocked(false); // Neues Level freischalten
+			// Charaktere von Feldern entfernen
+			for (int i = 0; i < Playerlist.list.size(); i++) {
+				Player character = Playerlist.list.get(i);
+				activeLevel.getField((int) (character.getPosx()),
+						(int) (character.getPosy())).leave(character);
+			}
 			// Bomben anhalten
 			for (int i = 0; i < Bomblist.list.size(); i++) {
 				Bomblist.list.get(i).stop(); // Bombthreads stoppen
@@ -193,17 +190,20 @@ public class Levellist {
 				Enemylist.list.get(i).stop(); // Enemythreads stoppen
 			}
 			Enemylist.list.clear(); // Alle Enemies nicht mehr zeichnen
+
+			// Neues Level laden
+			activeLevelIndex++; // Index erhöhen
+			load(activeLevelIndex); // Neues Level laden
+			activeLevel.setLocked(false); // Neues Level freischalten
+
 			// Charactere neu spawnen
 			for (int i = 0; i < Playerlist.list.size(); i++) {
 				Playerlist.list.get(i).spawn();
 			}
 
 			// Gegner spawnen
-			
-			 System.out.println("GEGNERS"); 
-			 Enemy enemy = new Seeker(0.5,2.5);
-			 enemy.spawn();
-			 
+			Enemy enemy = new Seeker(0.5, 2.5);
+			enemy.spawn();
 
 		} else {
 			System.out.println("This was the last level, you have won!");
@@ -224,7 +224,7 @@ public class Levellist {
 		Enemylist.list.clear(); // Alle Enemies nicht mehr zeichnen
 		// Charactere löschen
 		Playerlist.list.clear();
-		//Level auf null setzen
+		// Level auf null setzen
 		activeLevel = null;
 		activeLevelIndex = 0;
 	}

@@ -70,18 +70,20 @@ public class Flame implements Runnable {
 		this.field = field;
 		this.x = x;
 		this.y = y;
-		
+
 		switch (dir) {
 		case 0:
-			//center
+			// center
 			this.image = Global.flame;
 			break;
-		case 1: case 3:
-			//horizontal
+		case 1:
+		case 3:
+			// horizontal
 			this.image = Global.flame_h;
 			break;
-		case 2: case 4:
-			//vertikal
+		case 2:
+		case 4:
+			// vertikal
 			this.image = Global.flame_v;
 			break;
 

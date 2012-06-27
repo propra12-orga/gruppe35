@@ -93,10 +93,12 @@ public class Field {
 		transformto = field;
 	}
 
-	public void transform(Level level, int x, int y) {
+	public boolean transform(Level level, int x, int y) {
 		if (transformto != null) {
 			level.setField(x, y, transformto);
+			return(true);
 		}
+		return(false);
 	}
 
 	public boolean enter(Character character) {

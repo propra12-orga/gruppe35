@@ -100,12 +100,12 @@ public class Bomb implements Runnable {
 	}
 
 	public synchronized void stop() {
-		if (thread != null){
+		if (thread != null) {
 			owner.setBombs(owner.getBombs() - 1); // Bombenanzahl des Besitzers
 			// anpassen
 			thread = null;
 		}
-			
+
 	}
 
 	public void run() {
@@ -131,7 +131,7 @@ public class Bomb implements Runnable {
 			// }
 			stop(); // Stoppe den Thread und passe Bombenzahl des Besitzers an
 			System.out.println("Boom!");
-			
+
 			// Nicht mehr zeichnen
 			synchronized (Bomblist.list) {
 				Bomblist.list.remove(this);
@@ -173,28 +173,39 @@ public class Bomb implements Runnable {
 			level = null; // Level dereferenzieren
 
 			new Sound("src/sounds/Explosion.wav", 1000).start();
-			
+
 		}
 	}
 
 	private boolean createFlame(int x, int y, int dir) {
 		Field field = level.getField(x, y);
 		if (field != null) {
-			boolean isBombed = (field.getBomb() != null );
-			
+			boolean isBombed = (field.getBomb() != null); // Liegt Bombe auf
+															// Feld?
+			boolean isSolid = field.isSolid(); // Ist Feld fest?
 			field.destruction();
 			// Falls das Feld zerstörbar ist, wird es in ein anderes umgewandelt
-			field.transform(level, x, y);
-			// Falls das Feld solid ist oder eine Bombe beinhaltet wird keine
+			boolean transformed = field.transform(level, x, y);
+			if (isBombed)
+				return (false); // Feld hat Bombe beinhaltet, erzeuge keine
+								// Flamme
+			if (transformed) {
+				// Feld wurde transformiert, lade neues Feld
+				field = level.getField(x, y);
+			}
+
+			// Falls das neue Feld solid ist wird keine
 			// Flamme
 			// erzeugt
 
-			if ((field.isSolid()) || isBombed) {
+			if (field.isSolid())
 				return (false);
-			}
+			// Alle Hürden genommen um Flamme zu erzeugen
 			Flame flame = new Flame(field, x, y, dir);
 			flame.start();
-
+			// Falls altes Feld fest war, werden keine weiteren Flammen erzeugt
+			if (isSolid)
+				return (false);
 			return (true);
 		} else {
 			return (false);
