@@ -1,5 +1,7 @@
 package Fields;
 
+import main.Global;
+
 /**
  * 
  * The Floor class is a child of the Field class and is the typical passable
@@ -26,5 +28,6 @@ public class Floor extends Field {
 	public Floor() {
 		this.solid = false;
 		this.transformto = null;
+		this.image = Global.boden;
 	}
 }

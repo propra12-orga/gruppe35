@@ -1,5 +1,7 @@
 package Fields;
 
+import main.Global;
+
 /**
  * 
  * 
@@ -25,6 +27,7 @@ public class Earth extends Field {
 	public Earth() {
 		this.solid = true;
 		this.transformto = new Floor();
+		this.image = Global.mauer;
 	}
 
 }

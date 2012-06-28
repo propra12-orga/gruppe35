@@ -77,33 +77,17 @@ public class Level {
 		if ((x >= 0) && (x < xsize) && (y >= 0) && (y < ysize)) {
 			return (field[x][y]);
 		} else {
-			return (new Field(true, null));
+			return (null);
 		}
 	}
 
 	public void drawComponent(Graphics g, JPanel panel) {
-		for (int x = 0; x < this.getXsize(); x++) {
-			for (int y = 0; y < this.getYsize(); y++) {
-				if (this.getField(y, x).isSolid() == true) {
-					if (this.getField(y, x).isTransformable() == null) {
-						g.drawImage(Global.mauersolid, y * Global.sqsize, x
-								* Global.sqsize, Global.sqsize, Global.sqsize,
-								panel);
-					} else {
-						g.drawImage(Global.mauer, y * Global.sqsize, x
-								* Global.sqsize, Global.sqsize, Global.sqsize,
-								panel);
-
-					}
-
-				} else {
-
-					g.drawImage(Global.boden, y * Global.sqsize, x
-							* Global.sqsize, Global.sqsize, Global.sqsize,
-							panel);
-
-				}
+		for (int y = 0; y < this.getXsize(); y++) {
+			for (int x = 0; x < this.getYsize(); x++) {
+				g.drawImage(this.getField(x, y).getImage(), x * Global.sqsize,
+						y * Global.sqsize, Global.sqsize, Global.sqsize, panel);
 			}
 		}
 	}
+
 }

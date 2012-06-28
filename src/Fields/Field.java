@@ -1,5 +1,6 @@
 package Fields;
 
+import java.awt.Image;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -34,9 +35,14 @@ public class Field {
 	protected Bomb bomb = null; // Eventuelle Bombe auf diesem Feld
 	protected int flame = 0; // Flammen auf diesem Feld
 	protected Field transformto;
+	protected Image image; // Grafik
 
 	public Field isTransformable() {
 		return transformto;
+	}
+
+	public Image getImage() {
+		return (image);
 	}
 
 	public boolean isSolid() {
@@ -60,13 +66,13 @@ public class Field {
 	}
 
 	public Field() {
-		this(false, null);
+		this(false, null, null);
 	}
 
-	public Field(boolean solid, Field transformto) {
+	public Field(boolean solid, Field transformto, Image image) {
 		this.solid = solid;
 		this.transformto = transformto;
-
+		this.image = image;
 	}
 
 	public Bomb getBomb() {
@@ -96,9 +102,9 @@ public class Field {
 	public boolean transform(Level level, int x, int y) {
 		if (transformto != null) {
 			level.setField(x, y, transformto);
-			return(true);
+			return (true);
 		}
-		return(false);
+		return (false);
 	}
 
 	public boolean enter(Character character) {
@@ -133,7 +139,7 @@ public class Field {
 
 	// Copy Constructor
 	public Field(Field field) {
-		this(field.solid, field.transformto);
+		this(field.solid, field.transformto, field.image);
 	}
 
 }

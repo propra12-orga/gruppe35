@@ -1,5 +1,7 @@
 package Fields;
 
+import main.Global;
+
 /**
  * 
  * The Stone class is a child of the Field class and is simply the type of field
@@ -25,5 +27,6 @@ public class Stone extends Field {
 	public Stone() {
 		this.solid = true;
 		this.transformto = null;
+		this.image = Global.mauersolid;
 	}
 }

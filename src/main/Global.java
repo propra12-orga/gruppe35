@@ -32,6 +32,8 @@ public class Global {
 			"src/img/mauer.jpg");
 	public static final Image mauersolid = Toolkit.getDefaultToolkit()
 			.getImage("src/img/mauersolid.jpg");
+	public static final Image exit = Toolkit.getDefaultToolkit()
+			.getImage("src/img/exit.gif");
 	public static final Image bomb = Toolkit.getDefaultToolkit().getImage(
 			"src/img/bomb.gif");
 	public static final Image flame = Toolkit.getDefaultToolkit().getImage(
