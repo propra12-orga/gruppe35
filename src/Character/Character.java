@@ -171,6 +171,7 @@ public class Character {
 		System.out.println("Spawn at" + (int) (posx) + ", " + (int) (posy));
 		dead = false;
 	}
+	
 
 	public void DrawComponent(Graphics g, JPanel panel) {
 		if (this.dead) {

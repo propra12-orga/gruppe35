@@ -52,5 +52,12 @@ public class Global {
 			"src/img/heart.gif");
 	public static final Image seekerdead = Toolkit.getDefaultToolkit().getImage(
 			"src/img/heart_dead.gif");
+	public static final Image Tup = Toolkit.getDefaultToolkit().getImage(
+			"src/img/Powerup_Tup.gif");
+	public static final Image Rup = Toolkit.getDefaultToolkit().getImage(
+			"src/img/Powerup_Rup.gif");
+	public static final Image Bup = Toolkit.getDefaultToolkit().getImage(
+			"src/img/Powerup_Bup.gif");
+	
 
 }

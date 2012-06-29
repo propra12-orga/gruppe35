@@ -28,6 +28,7 @@ public class Earth extends Field {
 		this.solid = true;
 		this.transformto = new Floor();
 		this.image = Global.mauer;
+		this.spawnsPowerup = true;
 	}
 
 }

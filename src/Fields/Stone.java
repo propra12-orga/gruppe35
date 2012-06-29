@@ -28,5 +28,6 @@ public class Stone extends Field {
 		this.solid = true;
 		this.transformto = null;
 		this.image = Global.mauersolid;
+		this.spawnsPowerup = false;
 	}
 }

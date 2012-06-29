@@ -9,6 +9,7 @@ import main.Bomblist;
 import main.Enemylist;
 import main.Flamelist;
 import main.Playerlist;
+import main.Poweruplist;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -190,6 +191,8 @@ public class Levellist {
 				Enemylist.list.get(i).stop(); // Enemythreads stoppen
 			}
 			Enemylist.list.clear(); // Alle Enemies nicht mehr zeichnen
+			
+			Poweruplist.list.clear(); //Alle Powerups nicht mehr zeichnen
 
 			// Neues Level laden
 			activeLevelIndex++; // Index erhöhen
@@ -222,8 +225,11 @@ public class Levellist {
 			Enemylist.list.get(i).stop(); // Enemythreads stoppen
 		}
 		Enemylist.list.clear(); // Alle Enemies nicht mehr zeichnen
+		
+		Poweruplist.list.clear(); //Alle Powerups nicht mehr zeichnen
 		// Charactere löschen
 		Playerlist.list.clear();
+		
 		// Level auf null setzen
 		activeLevel = null;
 		activeLevelIndex = 0;

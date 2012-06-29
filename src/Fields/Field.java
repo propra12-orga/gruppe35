@@ -6,7 +6,9 @@ import java.util.List;
 
 import Bomb.Bomb;
 import Character.Character;
+import Character.Player;
 import Level.Level;
+import Powerup.Powerup;
 
 /**
  * This is the Field class, which provides the basis for all special types of
@@ -36,6 +38,8 @@ public class Field {
 	protected int flame = 0; // Flammen auf diesem Feld
 	protected Field transformto;
 	protected Image image; // Grafik
+	protected Powerup powerup = null;
+	protected boolean spawnsPowerup;
 
 	public Field isTransformable() {
 		return transformto;
@@ -66,13 +70,15 @@ public class Field {
 	}
 
 	public Field() {
-		this(false, null, null);
+		this(false, null, null, false);
 	}
 
-	public Field(boolean solid, Field transformto, Image image) {
+	public Field(boolean solid, Field transformto, Image image,
+			boolean spawnsPowerup) {
 		this.solid = solid;
 		this.transformto = transformto;
 		this.image = image;
+		this.spawnsPowerup = spawnsPowerup;
 	}
 
 	public Bomb getBomb() {
@@ -101,7 +107,13 @@ public class Field {
 
 	public boolean transform(Level level, int x, int y) {
 		if (transformto != null) {
+
 			level.setField(x, y, transformto);
+			if (spawnsPowerup) {
+				level.getField(x, y).powerup = Powerup.random(x, y, 0.5); // Eventuell
+				// Powerup
+				// spawnen
+			}
 			return (true);
 		}
 		return (false);
@@ -117,6 +129,12 @@ public class Field {
 			} else {
 				synchronized (characterlist) {
 					characterlist.add(character);
+				}
+				if (character instanceof Player) {
+					if (powerup != null) {
+						powerup.pickup((Player) (character));
+						powerup = null;
+					}
 				}
 				return (true);
 			}
@@ -139,7 +157,7 @@ public class Field {
 
 	// Copy Constructor
 	public Field(Field field) {
-		this(field.solid, field.transformto, field.image);
+		this(field.solid, field.transformto, field.image, field.spawnsPowerup);
 	}
 
 }

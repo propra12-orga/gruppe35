@@ -29,5 +29,6 @@ public class Floor extends Field {
 		this.solid = false;
 		this.transformto = null;
 		this.image = Global.boden;
+		this.spawnsPowerup = false;
 	}
 }

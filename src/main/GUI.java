@@ -101,6 +101,11 @@ public class GUI extends JFrame implements KeyListener {
 				for (int i = 0; i < Enemylist.list.size(); i++) {
 					Enemylist.list.get(i).DrawComponent(g, panel);
 				}
+				
+				// draw Powerups
+				for (int i = 0; i < Poweruplist.list.size(); i++) {
+					Poweruplist.list.get(i).DrawComponent(g, panel);
+				}
 
 				g.drawRect(Global.sqsize * Levellist.activeLevel.getXsize(), 0,
 						100, 100);
