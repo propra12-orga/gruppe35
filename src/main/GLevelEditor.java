@@ -15,8 +15,15 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
+import javax.swing.JTextField;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import Fields.Earth;
 import Fields.Exit;
@@ -36,16 +43,20 @@ public class GLevelEditor extends JFrame {
 	static JButton MultiPlayer = new JButton("MultiPlayer");
 	static JButton editLevel = new JButton("EditLevel");
 	static JButton setExit = new JButton("setExit");
+	static JButton save = new JButton("SaveLevel");
 	static JSpinner XSpinner;
 	static JSpinner YSpinner;
+	JTextField namefield;
 	JLabel labelx;
 	JLabel labely;
+	JLabel labelname;
 	JLabel EditOrSetExit;
 	boolean editLevelbool = true;
 	boolean exitExistent = false;
 	Container cp = this.getContentPane();
 	static boolean Singleplayer = true;
 	Level level;
+	String levelname;
 	int frameSizeX = Startmenu.panelSizeX;
 	int frameSizeY = Startmenu.panelSizeY;
 
@@ -71,10 +82,12 @@ public class GLevelEditor extends JFrame {
 		EditorPanel.setVisible(false);
 		setExit.setVisible(false);
 		editLevel.setVisible(false);
+		save.setVisible(false);
 
+		// SinglePlayerButton
 		GridBagConstraints spc = new GridBagConstraints();
 		spc.gridx = 0;
-		spc.gridy = 2;
+		spc.gridy = 3;
 		// spc.gridwidth = 2;
 		spc.fill = GridBagConstraints.HORIZONTAL;
 		spc.weightx = 1.0;
@@ -90,7 +103,10 @@ public class GLevelEditor extends JFrame {
 				YSpinner.setVisible(false);
 				labely.setVisible(false);
 				labelx.setVisible(false);
+				labelname.setVisible(false);
+				namefield.setVisible(false);
 
+				levelname = namefield.getText();
 				xsize = Integer.valueOf(XSpinner.getValue().toString());
 				ysize = Integer.valueOf(YSpinner.getValue().toString());
 				EditorPanel.setSize(xsize * Global.sqsize, xsize
@@ -100,13 +116,15 @@ public class GLevelEditor extends JFrame {
 				editLevel.setVisible(true);
 				EditOrSetExit.setVisible(true);
 				createEmptyLevel();
+				save.setVisible(true);
 
 			}
 		});
 
+		// MultiplayerButton
 		GridBagConstraints mpc = new GridBagConstraints();
 		mpc.gridx = 1;
-		mpc.gridy = 2;
+		mpc.gridy = 3;
 		// mpc.gridwidth = 2;
 		mpc.fill = GridBagConstraints.HORIZONTAL;
 		mpc.weightx = 1.0;
@@ -122,18 +140,24 @@ public class GLevelEditor extends JFrame {
 				YSpinner.setVisible(false);
 				labely.setVisible(false);
 				labelx.setVisible(false);
+				labelname.setVisible(false);
+				namefield.setVisible(false);
+
+				levelname = namefield.getText();
 				xsize = Integer.valueOf(XSpinner.getValue().toString());
 				ysize = Integer.valueOf(YSpinner.getValue().toString());
 				EditorPanel.setSize(xsize * Global.sqsize, xsize
 						* Global.sqsize);
 				EditorPanel.repaint();
 				EditorPanel.setVisible(true);
+				save.setVisible(true);
 
 				createEmptyLevel();
 
 			}
 		});
 
+		// setExit Button
 		GridBagConstraints se = new GridBagConstraints();
 		se.gridx = 0;
 		se.gridy = 4;
@@ -152,6 +176,8 @@ public class GLevelEditor extends JFrame {
 		}
 
 		);
+
+		// EditLevelButton
 		GridBagConstraints el = new GridBagConstraints();
 		el.gridx = 0;
 		el.gridy = 3;
@@ -171,47 +197,89 @@ public class GLevelEditor extends JFrame {
 
 		);
 
+		// saveLevel Button
+		GridBagConstraints sl = new GridBagConstraints();
+		sl.gridx = 0;
+		sl.gridy = 5;
+		// mpc.gridwidth = 2;
+		sl.fill = GridBagConstraints.HORIZONTAL;
+		sl.weightx = 1.0;
+		// cp.setLayout(new GridBagLayout());
+		cp.add(save, sl);
+		save.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// Konsitenzprüfung
+				//
+				// Speichern
+
+			}
+		});
+
+		// Spinner for XSize
 		SpinnerModel modelx = new SpinnerNumberModel(3, 3, 20, 1);
 		XSpinner = new JSpinner(modelx);
 		GridBagConstraints spinnerx = new GridBagConstraints();
 		spinnerx.gridx = 0;
-		spinnerx.gridy = 1;
+		spinnerx.gridy = 2;
 		// spc.gridwidth = 2;
 		spinnerx.fill = GridBagConstraints.BOTH;
 		// spinner.weightx = 1.0;
 		cp.add(XSpinner, spinnerx);
 		XSpinner.setVisible(true);
 
-		SpinnerModel modely = new SpinnerNumberModel(3, 3, 20, 1);
-		YSpinner = new JSpinner(modely);
-		GridBagConstraints spinnery = new GridBagConstraints();
-		spinnery.gridx = 1;
-		spinnery.gridy = 1;
-		// spc.gridwidth = 2;
-		spinnery.fill = GridBagConstraints.BOTH;
-		// spinner.weighty = 1.0;
-		cp.add(YSpinner, spinnery);
-		YSpinner.setVisible(true);
-
 		labelx = new JLabel("X-Size");
 		GridBagConstraints lx = new GridBagConstraints();
-		lx.gridx = 0;
-		lx.gridy = 0;
+		lx.gridx = 1;
+		lx.gridy = 1;
 		// spc.gridwidth = 2;
 		lx.fill = GridBagConstraints.BOTH;
 		// spinner.weightx = 1.0;
 		cp.add(labelx, lx);
 		labelx.setVisible(true);
 
+		// Spinner for Ysize
+		SpinnerModel modely = new SpinnerNumberModel(3, 3, 20, 1);
+		YSpinner = new JSpinner(modely);
+		GridBagConstraints spinnery = new GridBagConstraints();
+		spinnery.gridx = 1;
+		spinnery.gridy = 2;
+		// spc.gridwidth = 2;
+		spinnery.fill = GridBagConstraints.BOTH;
+		// spinner.weighty = 1.0;
+		cp.add(YSpinner, spinnery);
+		YSpinner.setVisible(true);
+
 		labely = new JLabel("Y-Size");
 		GridBagConstraints ly = new GridBagConstraints();
-		ly.gridx = 1;
-		ly.gridy = 0;
+		ly.gridx = 0;
+		ly.gridy = 1;
 		// spc.gridwidth = 2;
 		ly.fill = GridBagConstraints.BOTH;
 		// spinner.weightx = 1.0;
 		cp.add(labely, ly);
 		labely.setVisible(true);
+
+		// Textfield for Level name
+		namefield = new JTextField("NewLevel");
+		GridBagConstraints nf = new GridBagConstraints();
+		nf.gridx = 1;
+		nf.gridy = 0;
+		// spc.gridwidth = 2;
+		nf.fill = GridBagConstraints.BOTH;
+		// spinner.weighty = 1.0;
+		cp.add(namefield, nf);
+		namefield.setVisible(true);
+
+		labelname = new JLabel("   Level name : ");
+		GridBagConstraints ln = new GridBagConstraints();
+		ln.gridx = 0;
+		ln.gridy = 0;
+		// spc.gridwidth = 2;
+		ln.fill = GridBagConstraints.BOTH;
+		// spinner.weightx = 1.0;
+		cp.add(labelname, ln);
+		labelname.setVisible(true);
 
 		EditOrSetExit = new JLabel("EditLevel");
 		GridBagConstraints EoE = new GridBagConstraints();
@@ -223,6 +291,7 @@ public class GLevelEditor extends JFrame {
 		cp.add(EditOrSetExit, EoE);
 		EditOrSetExit.setVisible(false);
 
+		// Panel
 		GridBagConstraints pa = new GridBagConstraints();
 		pa.gridx = 0;
 		pa.gridy = 1;
@@ -233,6 +302,7 @@ public class GLevelEditor extends JFrame {
 		// cp.setLayout(new GridBagLayout());
 		cp.add(EditorPanel, pa);
 
+		// MouseListener
 		GLevelEditor.EditorPanel.addMouseListener(new MouseListener() {
 			public void mouseClicked(MouseEvent e) {
 				int mousefield[] = new int[2];
@@ -252,19 +322,16 @@ public class GLevelEditor extends JFrame {
 			@Override
 			public void mouseExited(MouseEvent arg0) {
 				// TODO Auto-generated method stub
-
 			}
 
 			@Override
 			public void mousePressed(MouseEvent arg0) {
 				// TODO Auto-generated method stub
-
 			}
 
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
 				// TODO Auto-generated method stub
-
 			}
 		});
 
@@ -293,6 +360,7 @@ public class GLevelEditor extends JFrame {
 		Field exit = new Exit();
 
 		if (editLevelbool) {
+			new Sound("src/sounds/plobb.wav",100).start();
 			if (level.getField(x, y).isTransformable() == null) {
 				if (!level.getField(x, y).isExit()) {
 					if (!level.getField(x, y).isSolid()) {
@@ -313,7 +381,7 @@ public class GLevelEditor extends JFrame {
 		} else {
 
 			if (!exitExistent) {
-
+				
 				if (level.getField(x, y).isSolid()) {
 					if (level.getField(x, y).isTransformable() != null) {
 						level.getField(x, y).setTransformto(exit);
@@ -327,17 +395,32 @@ public class GLevelEditor extends JFrame {
 
 				}
 				exitExistent = true;
+				new Sound("src/sounds/platsch.wav",200).start();
 
 			} else {
-				if (level.getField(x, y).isExit()||level.getField(x, y).isTransformable().isExit()) {
+				if (level.getField(x, y).isExit()
+						|| (level.getField(x, y).isTransformable() != null && level
+								.getField(x, y).isTransformable().isExit())) {
 					level.setField(x, y, floor);
 					level.getField(x, y).markAsExit(false);
 					exitExistent = false;
+					new Sound("src/sounds/plingg.wav",200).start();
 					EditorPanel.repaint();
 				}
 			}
 		}
-		
+
+	}
+
+	public void saveLevel() throws ParserConfigurationException {
+		// Create document
+		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory
+				.newInstance();
+		DocumentBuilder documentBuilder = documentBuilderFactory
+				.newDocumentBuilder();
+		Document document = documentBuilder.newDocument();
+		Element rootElement = document.createElement(levelname);
+		document.appendChild(rootElement);
 	}
 
 	public static void main(String args[]) {
