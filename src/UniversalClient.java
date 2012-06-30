@@ -57,9 +57,9 @@ class UniversalClient extends JFrame implements KeyListener {
 				+ "geben Sie ihre Daten ein");
 		InputStream in = sock.getInputStream();
 		out = sock.getOutputStream();
-		BufferedReader keyboard = new BufferedReader(
+		BufferedReader keyboard = new BufferedReader(new InputStreamReader(
+				System.in));
 
-		new InputStreamReader(System.in));
 		// Empfangsthread starten
 		(new ReceiveThread(in, "Server: ")).start();
 
@@ -77,15 +77,26 @@ class UniversalClient extends JFrame implements KeyListener {
 				}
 			});
 			// die Zeile an den Server senden
-			out.write((str + '\n').getBytes());
+
+			if (Kram.c_up == 1) {
+				out.write(("pressed" + '\n').getBytes());
+				System.out.println("Pfeiltaste hoch geschickt!");
+				Kram.c_up = 0;
+			}
+
+			else
+				out.write(("unpressed" + '\n').getBytes());
+
+			// out.write(Kram.c_up);
 		}
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if (40 == e.getKeyCode()) {
-			
+
 			Kram.up = true;
+			Kram.c_up = 1;
 		}
 
 	}
@@ -117,7 +128,11 @@ class ReceiveThread extends Thread {
 		this.in = new BufferedReader(new InputStreamReader(in));
 		this.message = message;
 	}
-
+	
+	public String give() throws IOException{
+		return in.readLine();
+	}
+	
 	public void run() {
 		try {
 			while (true) {
@@ -125,8 +140,8 @@ class ReceiveThread extends Thread {
 				String str = in.readLine();
 				// die Zeile ausgeben
 				if (str != null)
-					System.out.println(message + str);
-
+					//System.out.println(message + str);
+					System.out.println("will ich nich sehen!" + '\n');
 			}
 		} catch (SocketException e) {
 			error("Verbindung wurde getrennt");

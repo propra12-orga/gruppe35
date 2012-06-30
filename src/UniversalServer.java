@@ -1,5 +1,6 @@
 // Dieses Programm arbeitet als Server und sendet
 // die Benutzereingaben an die Clients
+import java.io.BufferedReader;
 import java.io.CharArrayReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,42 +29,32 @@ class UniversalServer {
 		// BufferedReader keyboard = new BufferedReader(
 		// new InputStreamReader(System.in));
 		// new KeyListener());
-		InputStreamReader keyboard = new InputStreamReader(System.in);
+		//String str;
+		BufferedReader keyboard = new BufferedReader(new InputStreamReader(
+				System.in));
 		// CharArrayReader keyboard = new CharArrayReader(Kram.buf);
 		// (new ReceiveThrea())
 		(new ReceiveThread(in, "Client: ")).start();
+		String str3 = (new ReceiveThread(in, "Client: ")).give();
+		System.out.println(str3 + '\n');
 		while (true) {
 			// eine Zeile einlesen
-			int a = keyboard.read();
-			String str = Integer.toString(a);
-			if (str.equalsIgnoreCase("quit")) {
+			String str2 = keyboard.readLine();
+			
+			if (str2.equalsIgnoreCase("quit")) {
 				sock.close();
 				System.exit(1);
 			}
-
-			if (Kram.up == true) {
-				Kram.c_up++;
-				Kram.up = false;
+			//System.out.print(garbage);
+			if (Kram.c_up == 1){
+				System.out.println("Pfeiltaste hoch angekommen!");
+				Kram.c_up = 0;
 			}
-			if (Kram.left == true) {
-				Kram.c_left++;
-				Kram.left = false;
-			}
-			if (Kram.down == true) {
-				Kram.c_down++;
-				Kram.down = false;
-			}
-			if (Kram.right == true) {
-				Kram.c_right++;
-				Kram.right = false;
-			}
-			out.write(Kram.c_up);
-			out.write(Kram.c_left);
-			out.write(Kram.c_down);
-			out.write(Kram.c_right);
+			// die Zeile an den Client senden
+			out.write((str2 + '\n').getBytes());
 		}
 
-		// die Zeile an den Client senden
-
+		
+		
 	}
 }
