@@ -13,6 +13,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -57,8 +58,8 @@ class UniversalClient extends JFrame implements KeyListener {
 				+ "geben Sie ihre Daten ein");
 		InputStream in = sock.getInputStream();
 		out = sock.getOutputStream();
-		BufferedReader keyboard = new BufferedReader(new InputStreamReader(
-				System.in));
+		// BufferedReader keyboard = new BufferedReader(new InputStreamReader(
+		// System.in));
 
 		// Empfangsthread starten
 		(new ReceiveThread(in, "Server: ")).start();
@@ -66,11 +67,11 @@ class UniversalClient extends JFrame implements KeyListener {
 		final UniversalClient peter = new UniversalClient();
 		while (true) {
 			// eine Zeile einlesen
-			String str = keyboard.readLine();
-			if (str.equalsIgnoreCase("quit")) {
-				sock.close();
-				System.exit(1);
-			}
+			// String str = keyboard.readLine();
+			// if (str.equalsIgnoreCase("quit")) {
+			// sock.close();
+			// System.exit(1);
+			// }
 			javax.swing.SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
 					peter.initialize();
@@ -79,14 +80,22 @@ class UniversalClient extends JFrame implements KeyListener {
 			// die Zeile an den Server senden
 
 			if (Kram.c_up == 1) {
-				out.write(("pressed" + '\n').getBytes());
+				out.write(("pressed").getBytes());
 				System.out.println("Pfeiltaste hoch geschickt!");
 				Kram.c_up = 0;
 			}
 
-			else
-				out.write(("unpressed" + '\n').getBytes());
-
+			else {
+				out.write(("unpressed").getBytes());
+				System.out.println("NIX hoch geschickt!");
+			}
+			
+			try {
+				TimeUnit.MILLISECONDS.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			// out.write(Kram.c_up);
 		}
 	}
@@ -128,20 +137,20 @@ class ReceiveThread extends Thread {
 		this.in = new BufferedReader(new InputStreamReader(in));
 		this.message = message;
 	}
-	
-	public String give() throws IOException{
+
+	public String give() throws IOException {
 		return in.readLine();
 	}
-	
+
 	public void run() {
 		try {
 			while (true) {
 				// eine Zeile empfangen
 				String str = in.readLine();
 				// die Zeile ausgeben
-				if (str != null)
-					//System.out.println(message + str);
-					System.out.println("will ich nich sehen!" + '\n');
+				// if (str != null)
+				// System.out.println(message + str);
+				// System.out.println("will ich nich sehen!" + '\n');
 			}
 		} catch (SocketException e) {
 			error("Verbindung wurde getrennt");

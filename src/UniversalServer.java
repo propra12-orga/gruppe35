@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.TimeUnit;
 
 class UniversalServer {
 	static ServerSocket server = null;
@@ -29,32 +30,38 @@ class UniversalServer {
 		// BufferedReader keyboard = new BufferedReader(
 		// new InputStreamReader(System.in));
 		// new KeyListener());
-		//String str;
-		BufferedReader keyboard = new BufferedReader(new InputStreamReader(
-				System.in));
+		// String str;
+		// BufferedReader keyboard = new BufferedReader(new InputStreamReader(
+		// System.in));
 		// CharArrayReader keyboard = new CharArrayReader(Kram.buf);
 		// (new ReceiveThrea())
-		(new ReceiveThread(in, "Client: ")).start();
-		String str3 = (new ReceiveThread(in, "Client: ")).give();
+		ReceiveThread a = (new ReceiveThread(in, "Client: "));
+		a.start();
+		String str3 = a.give();
 		System.out.println(str3 + '\n');
 		while (true) {
+			System.out.println(str3 + '\n');
 			// eine Zeile einlesen
-			String str2 = keyboard.readLine();
-			
-			if (str2.equalsIgnoreCase("quit")) {
-				sock.close();
-				System.exit(1);
-			}
-			//System.out.print(garbage);
-			if (Kram.c_up == 1){
+			// String str2 = keyboard.readLine();
+
+			// if (str2.equalsIgnoreCase("quit")) {
+			// sock.close();
+			// System.exit(1);
+			// }
+			// System.out.print(garbage);
+			if (str3 == "pressed") {
 				System.out.println("Pfeiltaste hoch angekommen!");
-				Kram.c_up = 0;
+				//Kram.c_up = 0;
 			}
 			// die Zeile an den Client senden
-			out.write((str2 + '\n').getBytes());
+			out.write((str3 + '\n').getBytes());
+			try {
+				TimeUnit.MILLISECONDS.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
-		
-		
 	}
 }
