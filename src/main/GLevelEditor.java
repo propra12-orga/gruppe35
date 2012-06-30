@@ -34,10 +34,15 @@ public class GLevelEditor extends JFrame {
 
 	static JButton SinglePlayer = new JButton("SinglePlayer");
 	static JButton MultiPlayer = new JButton("MultiPlayer");
+	static JButton editLevel = new JButton("EditLevel");
+	static JButton setExit = new JButton("setExit");
 	static JSpinner XSpinner;
 	static JSpinner YSpinner;
 	JLabel labelx;
 	JLabel labely;
+	JLabel EditOrSetExit;
+	boolean editLevelbool = true;
+	boolean exitExistent = false;
 	Container cp = this.getContentPane();
 	static boolean Singleplayer = true;
 	Level level;
@@ -64,6 +69,8 @@ public class GLevelEditor extends JFrame {
 			}
 		};
 		EditorPanel.setVisible(false);
+		setExit.setVisible(false);
+		editLevel.setVisible(false);
 
 		GridBagConstraints spc = new GridBagConstraints();
 		spc.gridx = 0;
@@ -89,10 +96,14 @@ public class GLevelEditor extends JFrame {
 				EditorPanel.setSize(xsize * Global.sqsize, xsize
 						* Global.sqsize);
 				EditorPanel.setVisible(true);
+				setExit.setVisible(true);
+				editLevel.setVisible(true);
+				EditOrSetExit.setVisible(true);
 				createEmptyLevel();
 
 			}
 		});
+
 		GridBagConstraints mpc = new GridBagConstraints();
 		mpc.gridx = 1;
 		mpc.gridy = 2;
@@ -117,7 +128,43 @@ public class GLevelEditor extends JFrame {
 						* Global.sqsize);
 				EditorPanel.repaint();
 				EditorPanel.setVisible(true);
+
 				createEmptyLevel();
+
+			}
+		});
+
+		GridBagConstraints se = new GridBagConstraints();
+		se.gridx = 0;
+		se.gridy = 4;
+		// mpc.gridwidth = 2;
+		se.fill = GridBagConstraints.HORIZONTAL;
+		se.weightx = 1.0;
+		// cp.setLayout(new GridBagLayout());
+		cp.add(setExit, se);
+		setExit.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				EditOrSetExit.setText("SetExit");
+				editLevelbool = false;
+
+			}
+		}
+
+		);
+		GridBagConstraints el = new GridBagConstraints();
+		el.gridx = 0;
+		el.gridy = 3;
+		// mpc.gridwidth = 2;
+		el.fill = GridBagConstraints.HORIZONTAL;
+		el.weightx = 1.0;
+		// cp.setLayout(new GridBagLayout());
+		cp.add(editLevel, el);
+		editLevel.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				EditOrSetExit.setText("EditLevel");
+				editLevelbool = true;
 
 			}
 		}
@@ -166,9 +213,19 @@ public class GLevelEditor extends JFrame {
 		cp.add(labely, ly);
 		labely.setVisible(true);
 
+		EditOrSetExit = new JLabel("EditLevel");
+		GridBagConstraints EoE = new GridBagConstraints();
+		EoE.gridx = 0;
+		EoE.gridy = 0;
+		// spc.gridwidth = 2;
+		EoE.fill = GridBagConstraints.BOTH;
+		// spinner.weightx = 1.0;
+		cp.add(EditOrSetExit, EoE);
+		EditOrSetExit.setVisible(false);
+
 		GridBagConstraints pa = new GridBagConstraints();
 		pa.gridx = 0;
-		pa.gridy = 0;
+		pa.gridy = 1;
 		// pa.gridwidth = 2;
 		pa.fill = GridBagConstraints.BOTH;
 		pa.weightx = 1.0;
@@ -181,7 +238,9 @@ public class GLevelEditor extends JFrame {
 				int mousefield[] = new int[2];
 				mousefield[0] = (int) (e.getX() / Global.sqsize);
 				mousefield[1] = (int) (e.getY() / Global.sqsize);
-				changeField(mousefield[0], mousefield[1]);
+				if (0 <= mousefield[0] && mousefield[0] <= xsize - 1
+						&& 0 <= mousefield[1] && mousefield[1] <= ysize - 1)
+					changeField(mousefield[0], mousefield[1]);
 
 			}
 
@@ -231,22 +290,54 @@ public class GLevelEditor extends JFrame {
 		Field floor = new Floor(); // Boden
 		Field stone = new Stone(); // Unzerstörbarer Block
 		Field earth = new Earth(); // Zerstörbarer Block
+		Field exit = new Exit();
 
-		if (level.getField(x, y).isTransformable() == null) {
-			if (level.getField(x, y).isSolid() == false) {
-				level.setField(x, y, earth);
-				System.out.println("Erde");
-				EditorPanel.repaint();
+		if (editLevelbool) {
+			if (level.getField(x, y).isTransformable() == null) {
+				if (!level.getField(x, y).isExit()) {
+					if (!level.getField(x, y).isSolid()) {
+						level.setField(x, y, earth);
+						EditorPanel.repaint();
+					} else {
+						level.setField(x, y, floor);
+						EditorPanel.repaint();
+					}
+				}
 			} else {
-				level.setField(x, y, floor);
-				System.out.println("Boden");
-				EditorPanel.repaint();
+				if (!level.getField(x, y).isTransformable().isExit()) {
+					level.setField(x, y, stone);
+					EditorPanel.repaint();
+				}
 			}
+
 		} else {
-			level.setField(x, y, stone);
-			System.out.println("Stein");
-			EditorPanel.repaint();
+
+			if (!exitExistent) {
+
+				if (level.getField(x, y).isSolid()) {
+					if (level.getField(x, y).isTransformable() != null) {
+						level.getField(x, y).setTransformto(exit);
+						EditorPanel.repaint();
+					}
+
+				} else {
+					level.setField(x, y, exit);
+					level.getField(x, y).markAsExit(true);
+					EditorPanel.repaint();
+
+				}
+				exitExistent = true;
+
+			} else {
+				if (level.getField(x, y).isExit()||level.getField(x, y).isTransformable().isExit()) {
+					level.setField(x, y, floor);
+					level.getField(x, y).markAsExit(false);
+					exitExistent = false;
+					EditorPanel.repaint();
+				}
+			}
 		}
+		
 	}
 
 	public static void main(String args[]) {

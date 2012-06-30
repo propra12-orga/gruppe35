@@ -40,6 +40,7 @@ public class Field {
 	protected Image image; // Grafik
 	protected Powerup powerup = null;
 	protected boolean spawnsPowerup;
+	public boolean exit;
 
 	public Field isTransformable() {
 		return transformto;
@@ -49,6 +50,9 @@ public class Field {
 		return (image);
 	}
 
+	public boolean isExit(){
+		return exit;
+	}
 	public boolean isSolid() {
 		return solid;
 	}
@@ -63,6 +67,9 @@ public class Field {
 
 	public void setSolid(boolean solid) {
 		this.solid = solid;
+	}
+	public void markAsExit(boolean exit){
+		this.exit=exit;
 	}
 
 	public List<Character> getCharacterlist() {

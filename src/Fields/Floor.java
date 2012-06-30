@@ -13,6 +13,7 @@ import main.Global;
  */
 
 public class Floor extends Field {
+	
 
 	// Kopiere dieses Feld
 	public Floor copy() {
@@ -30,5 +31,6 @@ public class Floor extends Field {
 		this.transformto = null;
 		this.image = Global.boden;
 		this.spawnsPowerup = false;
+		this.exit=false;
 	}
 }

@@ -13,6 +13,8 @@ import main.Global;
  */
 
 public class Earth extends Field {
+	
+
 	// Kopiere dieses Feld
 	public Earth copy() {
 		return new Earth(this);
@@ -29,6 +31,7 @@ public class Earth extends Field {
 		this.transformto = new Floor();
 		this.image = Global.mauer;
 		this.spawnsPowerup = true;
+		this.exit=false;
 	}
 
 }

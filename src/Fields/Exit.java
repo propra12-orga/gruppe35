@@ -17,7 +17,7 @@ import Level.Levellist;
  */
 
 public class Exit extends Field {
-
+	
 	@Override
 	public boolean enter(Character character) {
 		if (character instanceof Player) {
@@ -45,6 +45,7 @@ public class Exit extends Field {
 		this.transformto = null;
 		this.image = Global.exit;
 		this.spawnsPowerup = false;
+		this.exit=true;
 	}
 
 }
