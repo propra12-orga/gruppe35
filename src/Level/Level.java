@@ -82,10 +82,11 @@ public class Level {
 	}
 
 	public void drawComponent(Graphics g, JPanel panel) {
-		for (int y = 0; y < this.getXsize(); y++) {
-			for (int x = 0; x < this.getYsize(); x++) {
+		for (int y = 0; y < this.getYsize(); y++) {
+			for (int x = 0; x < this.getXsize(); x++) {
 				g.drawImage(this.getField(x, y).getImage(), x * Global.sqsize,
 						y * Global.sqsize, Global.sqsize, Global.sqsize, panel);
+			
 			}
 		}
 	}

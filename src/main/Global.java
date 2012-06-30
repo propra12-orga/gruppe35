@@ -13,7 +13,7 @@ import java.awt.Toolkit;
 
 public class Global {
 	public static int sqsize = 100;
-	// Bilder laden
+			// Bilder laden
 	public static final Image image1 = Toolkit.getDefaultToolkit().getImage(
 			"src/img/boltzmann2.gif");
 	public static final Image image2 = Toolkit.getDefaultToolkit().getImage(
