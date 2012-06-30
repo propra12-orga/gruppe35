@@ -22,6 +22,7 @@ public class Startmenu extends JFrame {
 	JButton MultiPlayer = new JButton("MultiPlayer");
 	JButton LevelEditor = new JButton("LevelEditor");
 
+
 	public void intitialize() {
 
 		GridBagConstraints spc = new GridBagConstraints();
@@ -79,6 +80,15 @@ public class Startmenu extends JFrame {
 				System.out.println("Levelmachen");
 				Startmenu.IntroStopped=true;
 				Startmenu.playsound=true;
+				//startpanel.setVisible(false);
+				
+				
+				final GLevelEditor KLaus = new GLevelEditor();
+				javax.swing.SwingUtilities.invokeLater(new Runnable() {
+					public void run() {
+						KLaus.intitialize();
+					}
+				});
 			
 			}
 		}
