@@ -41,8 +41,8 @@ import Level.Level;
 public class GLevelEditor extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	static int xsize=0;
-	static int ysize=0;
+	static int xsize = 0;
+	static int ysize = 0;
 	static JPanel EditorPanel;
 
 	static JButton SinglePlayer = new JButton("SinglePlayer");
@@ -50,6 +50,7 @@ public class GLevelEditor extends JFrame {
 	static JButton editLevel = new JButton("EditLevel");
 	static JButton setExit = new JButton("setExit");
 	static JButton save = new JButton("SaveLevel");
+	static JButton stonegrid = new JButton("addStoneGrid");
 	static JSpinner XSpinner;
 	static JSpinner YSpinner;
 	JTextField namefield;
@@ -59,6 +60,7 @@ public class GLevelEditor extends JFrame {
 	JLabel EditOrSetExit;
 	boolean editLevelbool = true;
 	boolean exitExistent = false;
+	boolean stoneGridOn=false;
 	int exitPosition[] = new int[2];
 	int spawnpoints[][];
 	Container cp = this.getContentPane();
@@ -71,7 +73,7 @@ public class GLevelEditor extends JFrame {
 	public void intitialize() {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// this.pack();
-		 //this.setSize(new Dimension(frameSizeX, frameSizeY));
+		// this.setSize(new Dimension(frameSizeX, frameSizeY));
 
 		GLevelEditor.EditorPanel = new JPanel() {
 
@@ -88,15 +90,15 @@ public class GLevelEditor extends JFrame {
 		};
 		EditorPanel.setVisible(false);
 		setExit.setVisible(false);
+		stonegrid.setVisible(false);
 		editLevel.setVisible(false);
 		save.setVisible(false);
-		
 
 		// SinglePlayerButton
 		GridBagConstraints spc = new GridBagConstraints();
 		spc.gridx = 0;
 		spc.gridy = 3;
-		 spc.gridwidth = 1;
+		spc.gridwidth = 1;
 		spc.fill = GridBagConstraints.HORIZONTAL;
 		spc.weightx = 1.0;
 		cp.setLayout(new GridBagLayout());
@@ -118,7 +120,7 @@ public class GLevelEditor extends JFrame {
 				xsize = Integer.valueOf(XSpinner.getValue().toString());
 				ysize = Integer.valueOf(YSpinner.getValue().toString());
 				EditorPanel.setSize(xsize * Global.sqsize, ysize
-						* Global.sqsize);			
+						* Global.sqsize);
 
 				EditorPanel.setVisible(true);
 				setExit.setVisible(true);
@@ -126,14 +128,12 @@ public class GLevelEditor extends JFrame {
 				EditOrSetExit.setVisible(true);
 				createEmptyLevel();
 				save.setVisible(true);
+				stonegrid.setVisible(true);
 				resizeFrame();
 
 			}
 
-			private void setResizeable(boolean b) {
-				// TODO Auto-generated method stub
-				
-			}
+			
 		});
 
 		// MultiplayerButton
@@ -161,20 +161,20 @@ public class GLevelEditor extends JFrame {
 				levelname = namefield.getText();
 				xsize = Integer.valueOf(XSpinner.getValue().toString());
 				ysize = Integer.valueOf(YSpinner.getValue().toString());
-				
+
 				EditorPanel.setSize(xsize * Global.sqsize, xsize
 						* Global.sqsize);
 				EditorPanel.repaint();
 				EditorPanel.setVisible(true);
 				save.setVisible(true);
+				stonegrid.setVisible(true);
 				createEmptyLevel();
 
-				
 				resizeFrame();
 
 			}
 		});
-	
+
 		// setExit Button
 		GridBagConstraints se = new GridBagConstraints();
 		se.gridx = 1;
@@ -182,7 +182,7 @@ public class GLevelEditor extends JFrame {
 		se.gridwidth = 1;
 		se.fill = GridBagConstraints.HORIZONTAL;
 		se.weightx = 1.0;
-		//cp.setLayout(new GridBagLayout());
+		// cp.setLayout(new GridBagLayout());
 		cp.add(setExit, se);
 		setExit.addActionListener(new ActionListener() {
 			@Override
@@ -218,11 +218,11 @@ public class GLevelEditor extends JFrame {
 		// saveLevel Button
 		GridBagConstraints sl = new GridBagConstraints();
 		sl.gridx = 0;
-		sl.gridy = 2;
+		sl.gridy = 3;
 		sl.gridwidth = 2;
 		sl.fill = GridBagConstraints.HORIZONTAL;
-		//sl.weightx = 1.0;
-		//cp1.setLayout(new GridBagLayout());
+		// sl.weightx = 1.0;
+		// cp1.setLayout(new GridBagLayout());
 		cp.add(save, sl);
 		save.addActionListener(new ActionListener() {
 			@Override
@@ -260,9 +260,23 @@ public class GLevelEditor extends JFrame {
 
 			}
 		});
+		GridBagConstraints sg = new GridBagConstraints();
+		sg.gridx = 0;
+		sg.gridy = 2;
+		sg.gridwidth = 2;
+		sg.fill = GridBagConstraints.HORIZONTAL;
+		// sl.weightx = 1.0;
+		// cp1.setLayout(new GridBagLayout());
+		cp.add(stonegrid, sg);
+		stonegrid.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				createStoneGrid();
+			}
+		});
 
 		// Spinner for XSize
-		SpinnerModel modelx = new SpinnerNumberModel(3, 3, 20, 1);
+		SpinnerModel modelx = new SpinnerNumberModel(9, 3, 20, 1);
 		XSpinner = new JSpinner(modelx);
 		GridBagConstraints spinnerx = new GridBagConstraints();
 		spinnerx.gridx = 0;
@@ -284,7 +298,7 @@ public class GLevelEditor extends JFrame {
 		labelx.setVisible(true);
 
 		// Spinner for Ysize
-		SpinnerModel modely = new SpinnerNumberModel(3, 3, 20, 1);
+		SpinnerModel modely = new SpinnerNumberModel(9, 3, 20, 1);
 		YSpinner = new JSpinner(modely);
 		GridBagConstraints spinnery = new GridBagConstraints();
 		spinnery.gridx = 1;
@@ -322,7 +336,7 @@ public class GLevelEditor extends JFrame {
 		ln.gridy = 0;
 		// spc.gridwidth = 2;
 		ln.fill = GridBagConstraints.HORIZONTAL;
-		//spinner.weightx = 1.0;
+		// spinner.weightx = 1.0;
 		cp.add(labelname, ln);
 		labelname.setVisible(true);
 
@@ -340,12 +354,12 @@ public class GLevelEditor extends JFrame {
 		GridBagConstraints pa = new GridBagConstraints();
 		pa.fill = GridBagConstraints.BOTH;
 		pa.gridx = 0;
-		pa.gridy = 3;
-		pa.gridwidth =2;
-		pa.gridheight= 4;
+		pa.gridy = 4;
+		pa.gridwidth = 2;
+		pa.gridheight = 4;
 		pa.weightx = 1.0;
 		pa.weighty = 4.0;
-		//cp.setLayout(new GridBagLayout());
+		// cp.setLayout(new GridBagLayout());
 		cp.add(EditorPanel, pa);
 
 		// MouseListener
@@ -382,14 +396,15 @@ public class GLevelEditor extends JFrame {
 		});
 		this.setVisible(true);
 		resizeFrame();
-		
+
 	}
 
 	public void resizeFrame() {
-		if (xsize!=0)
-		this.setSize((xsize+1)*Global.sqsize,(ysize+1)*Global.sqsize+80);
+		if (xsize != 0)
+			this.setSize((xsize + 1) * Global.sqsize, (ysize + 1)
+					* Global.sqsize + 120);
 		else
-		this.pack();
+			this.pack();
 	}
 
 	public void createEmptyLevel() {
@@ -415,6 +430,35 @@ public class GLevelEditor extends JFrame {
 		}
 
 	}
+
+	public void createStoneGrid() {
+		new Sound("src/sounds/plobb.wav", 200).start();
+		Field floor = new Floor(); // Boden
+		Field stone = new Stone(); // Unzerstörbarer Block
+		
+			
+			createEmptyLevel();
+			EditorPanel.repaint();
+			exitExistent = false;
+			if (!stoneGridOn){
+			
+			for (int y = 1; y < ysize; y = y + 2) {
+				for (int x = 1; x < xsize; x = x + 2) {
+					level.setField(x, y, stone);
+					EditorPanel.validate();
+				}
+			}
+			level.setField(spawnpoints[0][0],spawnpoints[0][1] , floor);
+			EditorPanel.repaint();
+			if (!Singleplayer){
+				level.setField(spawnpoints[1][0],spawnpoints[1][1] , floor);
+				EditorPanel.repaint();
+			}
+			stoneGridOn=true;
+			}else{stoneGridOn=false;}
+			
+		}
+	
 
 	private void changeField(int x, int y) {
 		Field floor = new Floor(); // Boden
