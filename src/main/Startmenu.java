@@ -14,8 +14,8 @@ import javax.swing.JPanel;
 public class Startmenu extends JFrame {
 	static boolean IntroStopped=false;
 	JPanel startpanel;
-	static int panelSizeX = 400;
-	static int panelSizeY = 400;
+	static int panelSizeX = 600;
+	static int panelSizeY = 600;
 	static boolean playsound;
 	Container cp = this.getContentPane();
 	JButton SinglePlayer = new JButton("SinglePlayer");

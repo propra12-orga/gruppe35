@@ -41,8 +41,8 @@ import Level.Level;
 public class GLevelEditor extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	static int xsize;
-	static int ysize;
+	static int xsize=0;
+	static int ysize=0;
 	static JPanel EditorPanel;
 
 	static JButton SinglePlayer = new JButton("SinglePlayer");
@@ -70,9 +70,8 @@ public class GLevelEditor extends JFrame {
 
 	public void intitialize() {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.pack();
-		this.setSize(new Dimension(frameSizeX, frameSizeY));
-		this.setVisible(true);
+		// this.pack();
+		 //this.setSize(new Dimension(frameSizeX, frameSizeY));
 
 		GLevelEditor.EditorPanel = new JPanel() {
 
@@ -91,12 +90,13 @@ public class GLevelEditor extends JFrame {
 		setExit.setVisible(false);
 		editLevel.setVisible(false);
 		save.setVisible(false);
+		
 
 		// SinglePlayerButton
 		GridBagConstraints spc = new GridBagConstraints();
 		spc.gridx = 0;
 		spc.gridy = 3;
-		// spc.gridwidth = 2;
+		 spc.gridwidth = 1;
 		spc.fill = GridBagConstraints.HORIZONTAL;
 		spc.weightx = 1.0;
 		cp.setLayout(new GridBagLayout());
@@ -117,10 +117,8 @@ public class GLevelEditor extends JFrame {
 				levelname = namefield.getText();
 				xsize = Integer.valueOf(XSpinner.getValue().toString());
 				ysize = Integer.valueOf(YSpinner.getValue().toString());
-				EditorPanel.setSize(xsize * Global.sqsize, xsize
-						* Global.sqsize);
-
-				frameSizeX = xsize;
+				EditorPanel.setSize(xsize * Global.sqsize, ysize
+						* Global.sqsize);			
 
 				EditorPanel.setVisible(true);
 				setExit.setVisible(true);
@@ -128,7 +126,13 @@ public class GLevelEditor extends JFrame {
 				EditOrSetExit.setVisible(true);
 				createEmptyLevel();
 				save.setVisible(true);
+				resizeFrame();
 
+			}
+
+			private void setResizeable(boolean b) {
+				// TODO Auto-generated method stub
+				
 			}
 		});
 
@@ -157,25 +161,28 @@ public class GLevelEditor extends JFrame {
 				levelname = namefield.getText();
 				xsize = Integer.valueOf(XSpinner.getValue().toString());
 				ysize = Integer.valueOf(YSpinner.getValue().toString());
+				
 				EditorPanel.setSize(xsize * Global.sqsize, xsize
 						* Global.sqsize);
 				EditorPanel.repaint();
 				EditorPanel.setVisible(true);
 				save.setVisible(true);
-
 				createEmptyLevel();
+
+				
+				resizeFrame();
 
 			}
 		});
-
+	
 		// setExit Button
 		GridBagConstraints se = new GridBagConstraints();
-		se.gridx = 0;
-		se.gridy = 4;
-		// mpc.gridwidth = 2;
+		se.gridx = 1;
+		se.gridy = 1;
+		se.gridwidth = 1;
 		se.fill = GridBagConstraints.HORIZONTAL;
 		se.weightx = 1.0;
-		// cp.setLayout(new GridBagLayout());
+		//cp.setLayout(new GridBagLayout());
 		cp.add(setExit, se);
 		setExit.addActionListener(new ActionListener() {
 			@Override
@@ -191,8 +198,8 @@ public class GLevelEditor extends JFrame {
 		// EditLevelButton
 		GridBagConstraints el = new GridBagConstraints();
 		el.gridx = 0;
-		el.gridy = 3;
-		// mpc.gridwidth = 2;
+		el.gridy = 1;
+		el.gridwidth = 1;
 		el.fill = GridBagConstraints.HORIZONTAL;
 		el.weightx = 1.0;
 		// cp.setLayout(new GridBagLayout());
@@ -211,17 +218,17 @@ public class GLevelEditor extends JFrame {
 		// saveLevel Button
 		GridBagConstraints sl = new GridBagConstraints();
 		sl.gridx = 0;
-		sl.gridy = 5;
-		// mpc.gridwidth = 2;
+		sl.gridy = 2;
+		sl.gridwidth = 2;
 		sl.fill = GridBagConstraints.HORIZONTAL;
-		sl.weightx = 1.0;
-		// cp.setLayout(new GridBagLayout());
+		//sl.weightx = 1.0;
+		//cp1.setLayout(new GridBagLayout());
 		cp.add(save, sl);
 		save.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// Konsitenzprüfung
-				//
+
 				// Speichern
 				if (Singleplayer && exitExistent) {
 					try {
@@ -261,7 +268,7 @@ public class GLevelEditor extends JFrame {
 		spinnerx.gridx = 0;
 		spinnerx.gridy = 2;
 		// spc.gridwidth = 2;
-		spinnerx.fill = GridBagConstraints.BOTH;
+		spinnerx.fill = GridBagConstraints.HORIZONTAL;
 		// spinner.weightx = 1.0;
 		cp.add(XSpinner, spinnerx);
 		XSpinner.setVisible(true);
@@ -271,7 +278,7 @@ public class GLevelEditor extends JFrame {
 		lx.gridx = 1;
 		lx.gridy = 1;
 		// spc.gridwidth = 2;
-		lx.fill = GridBagConstraints.BOTH;
+		lx.fill = GridBagConstraints.HORIZONTAL;
 		// spinner.weightx = 1.0;
 		cp.add(labelx, lx);
 		labelx.setVisible(true);
@@ -283,7 +290,7 @@ public class GLevelEditor extends JFrame {
 		spinnery.gridx = 1;
 		spinnery.gridy = 2;
 		// spc.gridwidth = 2;
-		spinnery.fill = GridBagConstraints.BOTH;
+		spinnery.fill = GridBagConstraints.HORIZONTAL;
 		// spinner.weighty = 1.0;
 		cp.add(YSpinner, spinnery);
 		YSpinner.setVisible(true);
@@ -293,7 +300,7 @@ public class GLevelEditor extends JFrame {
 		ly.gridx = 0;
 		ly.gridy = 1;
 		// spc.gridwidth = 2;
-		ly.fill = GridBagConstraints.BOTH;
+		ly.fill = GridBagConstraints.HORIZONTAL;
 		// spinner.weightx = 1.0;
 		cp.add(labely, ly);
 		labely.setVisible(true);
@@ -304,7 +311,7 @@ public class GLevelEditor extends JFrame {
 		nf.gridx = 1;
 		nf.gridy = 0;
 		// spc.gridwidth = 2;
-		nf.fill = GridBagConstraints.BOTH;
+		nf.fill = GridBagConstraints.HORIZONTAL;
 		// spinner.weighty = 1.0;
 		cp.add(namefield, nf);
 		namefield.setVisible(true);
@@ -314,8 +321,8 @@ public class GLevelEditor extends JFrame {
 		ln.gridx = 0;
 		ln.gridy = 0;
 		// spc.gridwidth = 2;
-		ln.fill = GridBagConstraints.BOTH;
-		// spinner.weightx = 1.0;
+		ln.fill = GridBagConstraints.HORIZONTAL;
+		//spinner.weightx = 1.0;
 		cp.add(labelname, ln);
 		labelname.setVisible(true);
 
@@ -324,20 +331,21 @@ public class GLevelEditor extends JFrame {
 		EoE.gridx = 0;
 		EoE.gridy = 0;
 		// spc.gridwidth = 2;
-		EoE.fill = GridBagConstraints.BOTH;
+		EoE.fill = GridBagConstraints.HORIZONTAL;
 		// spinner.weightx = 1.0;
 		cp.add(EditOrSetExit, EoE);
 		EditOrSetExit.setVisible(false);
 
 		// Panel
 		GridBagConstraints pa = new GridBagConstraints();
-		pa.gridx = 0;
-		pa.gridy = 1;
-		// pa.gridwidth = 2;
 		pa.fill = GridBagConstraints.BOTH;
+		pa.gridx = 0;
+		pa.gridy = 3;
+		pa.gridwidth =2;
+		pa.gridheight= 4;
 		pa.weightx = 1.0;
-		pa.weighty = 1.0;
-		// cp.setLayout(new GridBagLayout());
+		pa.weighty = 4.0;
+		//cp.setLayout(new GridBagLayout());
 		cp.add(EditorPanel, pa);
 
 		// MouseListener
@@ -372,7 +380,16 @@ public class GLevelEditor extends JFrame {
 				// TODO Auto-generated method stub
 			}
 		});
+		this.setVisible(true);
+		resizeFrame();
+		
+	}
 
+	public void resizeFrame() {
+		if (xsize!=0)
+		this.setSize((xsize+1)*Global.sqsize,(ysize+1)*Global.sqsize+80);
+		else
+		this.pack();
 	}
 
 	public void createEmptyLevel() {
