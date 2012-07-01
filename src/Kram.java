@@ -1,4 +1,4 @@
-import java.io.InputStream;
+
 
 public class Kram {
 	// public static InputStream in;
@@ -11,5 +11,6 @@ public class Kram {
 	public static int c_left = 0;
 	public static int c_down = 0;
 	public static int c_right = 0;
+	public static boolean initializer = false;
 
 }

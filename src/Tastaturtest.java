@@ -39,6 +39,7 @@ public class Tastaturtest extends JFrame implements KeyListener {
 		// Schedule a job for event dispatch thread:
 		// creating and showing this application's GUI.
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				createAndShowGUI();
 			}
@@ -76,14 +77,17 @@ public class Tastaturtest extends JFrame implements KeyListener {
 		this.psy = 1;
 	}
 
+	@Override
 	public void keyTyped(KeyEvent e) {
 
 	}
 
+	@Override
 	public void keyReleased(KeyEvent e) {
 
 	}
 
+	@Override
 	public void keyPressed(KeyEvent e) {
 		laufen(e.getKeyCode());
 		displayInfo(e, String.valueOf(psx) + "  " + String.valueOf(psy));

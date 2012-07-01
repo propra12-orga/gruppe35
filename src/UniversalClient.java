@@ -8,11 +8,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.net.SocketException;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.JFrame;
@@ -26,10 +25,12 @@ class UniversalClient extends JFrame implements KeyListener {
 
 	public static OutputStream out;
 	public JPanel panel;
+	public static int dataset_up[] = { 0 };
 
 	public void initialize() {
 		Container cp = this.getContentPane();
 		panel = new JPanel() {
+			@Override
 			public void paintComponent(Graphics g) {
 
 			}
@@ -48,64 +49,78 @@ class UniversalClient extends JFrame implements KeyListener {
 		this.setVisible(true);
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
 		// if (args.length != 2)
 		// error("Verwendung: java UniversalClient " + "<server> <port>");
 
-		Socket sock = new Socket("localhost", 5000);
+		ObjectInputStream ois = null;
+		ObjectOutputStream oos = null;
 
-		System.out.println("Verbindung hergestellt, "
-				+ "geben Sie ihre Daten ein");
-		InputStream in = sock.getInputStream();
-		out = sock.getOutputStream();
-		// BufferedReader keyboard = new BufferedReader(new InputStreamReader(
-		// System.in));
+		
+		new ArrayMultiplier();
+		
 
-		// Empfangsthread starten
-		(new ReceiveThread(in, "Server: ")).start();
+		try {
+
+			Socket sock = new Socket("localhost", 4000);
+			ois = new ObjectInputStream(sock.getInputStream());
+			System.out.println("Ich lauf im Kreis");
+			oos = new ObjectOutputStream(sock.getOutputStream());
+		} catch (Exception e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+
+		System.out.println("Verbindung hergestellt (ICH BIN CLIENT)");
+
+		SerializedObject so1 = new SerializedObject();
+		SerializedObject result = null;
+		// int keypressed;
+
+		int positionen[] = new int[4];
+		so1.setArray(dataset_up);
 
 		final UniversalClient peter = new UniversalClient();
 		while (true) {
-			// eine Zeile einlesen
-			// String str = keyboard.readLine();
-			// if (str.equalsIgnoreCase("quit")) {
-			// sock.close();
-			// System.exit(1);
-			// }
+
 			javax.swing.SwingUtilities.invokeLater(new Runnable() {
+				@Override
 				public void run() {
 					peter.initialize();
 				}
 			});
-			// die Zeile an den Server senden
 
-			if (Kram.c_up == 1) {
-				out.write(("pressed").getBytes());
-				System.out.println("Pfeiltaste hoch geschickt!");
-				Kram.c_up = 0;
+			oos.writeObject(so1);
+			oos.flush();
+
+			try {
+				result = (SerializedObject) ois.readObject();
+			} catch (ClassNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
 
-			else {
-				out.write(("unpressed").getBytes());
-				System.out.println("NIX hoch geschickt!");
-			}
-			
+			positionen = result.getArray();
+
+			for (int i = 0; i < positionen.length; i++)
+				System.out.print(positionen[i] + '\n');
+
 			try {
 				TimeUnit.MILLISECONDS.sleep(500);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			// out.write(Kram.c_up);
+
 		}
+		// out.close();
+		// in.close();
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if (40 == e.getKeyCode()) {
-
-			Kram.up = true;
-			Kram.c_up = 1;
+			dataset_up[0]++;
 		}
 
 	}
@@ -130,33 +145,6 @@ class ReceiveThread extends Thread {
 	static void error(String message) {
 		System.err.println(message);
 		System.exit(1);
-	}
-
-	public ReceiveThread(InputStream in, String message) {
-		super();
-		this.in = new BufferedReader(new InputStreamReader(in));
-		this.message = message;
-	}
-
-	public String give() throws IOException {
-		return in.readLine();
-	}
-
-	public void run() {
-		try {
-			while (true) {
-				// eine Zeile empfangen
-				String str = in.readLine();
-				// die Zeile ausgeben
-				// if (str != null)
-				// System.out.println(message + str);
-				// System.out.println("will ich nich sehen!" + '\n');
-			}
-		} catch (SocketException e) {
-			error("Verbindung wurde getrennt");
-		} catch (IOException e) {
-			error(e.toString());
-		}
 	}
 
 }
