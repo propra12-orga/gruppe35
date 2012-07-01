@@ -320,7 +320,7 @@ public class GLevelEditor extends JFrame {
 		labely.setVisible(true);
 
 		// Textfield for Level name
-		namefield = new JTextField("NewLevel");
+		namefield = new JTextField("Level0");
 		GridBagConstraints nf = new GridBagConstraints();
 		nf.gridx = 1;
 		nf.gridy = 0;
@@ -416,8 +416,8 @@ public class GLevelEditor extends JFrame {
 			spawnpoints = new int[2][2];
 			spawnpoints[0][0] = 0;
 			spawnpoints[0][1] = 0;
-			spawnpoints[1][0] = xsize - 1;
-			spawnpoints[1][1] = ysize - 1;
+			spawnpoints[1][0] = xsize-1 ;
+			spawnpoints[1][1] = ysize-1 ;
 		}
 
 		level = new Level(xsize, ysize, spawnpoints);
@@ -493,18 +493,23 @@ public class GLevelEditor extends JFrame {
 					if (level.getField(x, y).isTransformable() != null) {
 						level.getField(x, y).setTransformto(exit);
 						EditorPanel.repaint();
+						exitPosition[0] = x;
+						exitPosition[1] = y;
+						exitExistent = true;
+						new Sound("src/sounds/platsch.wav", 200).start();
 					}
 
 				} else {
 					level.setField(x, y, exit);
 					level.getField(x, y).markAsExit(true);
 					EditorPanel.repaint();
+					exitPosition[0] = x;
+					exitPosition[1] = y;
+					exitExistent = true;
+					new Sound("src/sounds/platsch.wav", 200).start();
 
 				}
-				exitPosition[0] = x;
-				exitPosition[1] = y;
-				exitExistent = true;
-				new Sound("src/sounds/platsch.wav", 200).start();
+				
 
 			} else {
 				if (level.getField(x, y).isExit()
