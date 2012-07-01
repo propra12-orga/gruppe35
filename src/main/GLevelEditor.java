@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -21,6 +22,11 @@ import javax.swing.SpinnerNumberModel;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -53,6 +59,8 @@ public class GLevelEditor extends JFrame {
 	JLabel EditOrSetExit;
 	boolean editLevelbool = true;
 	boolean exitExistent = false;
+	int exitPosition[] = new int[2];
+	int spawnpoints[][];
 	Container cp = this.getContentPane();
 	static boolean Singleplayer = true;
 	Level level;
@@ -111,6 +119,9 @@ public class GLevelEditor extends JFrame {
 				ysize = Integer.valueOf(YSpinner.getValue().toString());
 				EditorPanel.setSize(xsize * Global.sqsize, xsize
 						* Global.sqsize);
+
+				frameSizeX = xsize;
+
 				EditorPanel.setVisible(true);
 				setExit.setVisible(true);
 				editLevel.setVisible(true);
@@ -212,6 +223,33 @@ public class GLevelEditor extends JFrame {
 				// Konsitenzprüfung
 				//
 				// Speichern
+				if (Singleplayer && exitExistent) {
+					try {
+						saveLevel();
+					} catch (ParserConfigurationException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (TransformerException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					System.exit(0);
+				}
+				if (Singleplayer && !exitExistent) {
+					new Sound("src/sounds/pleaseOpen.wav", 2000).start();
+				}
+				if (!Singleplayer) {
+					try {
+						saveLevel();
+					} catch (ParserConfigurationException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (TransformerException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					System.exit(0);
+				}
 
 			}
 		});
@@ -338,9 +376,17 @@ public class GLevelEditor extends JFrame {
 	}
 
 	public void createEmptyLevel() {
-		int spawnpoints[][] = new int[1][2];
-		spawnpoints[0][0] = 0;
-		spawnpoints[0][1] = 0;
+		if (Singleplayer) {
+			spawnpoints = new int[1][2];
+			spawnpoints[0][0] = 0;
+			spawnpoints[0][1] = 0;
+		} else {
+			spawnpoints = new int[2][2];
+			spawnpoints[0][0] = 0;
+			spawnpoints[0][1] = 0;
+			spawnpoints[1][0] = xsize - 1;
+			spawnpoints[1][1] = ysize - 1;
+		}
 
 		level = new Level(xsize, ysize, spawnpoints);
 		Field floor = new Floor(); // Boden
@@ -360,7 +406,7 @@ public class GLevelEditor extends JFrame {
 		Field exit = new Exit();
 
 		if (editLevelbool) {
-			new Sound("src/sounds/plobb.wav",100).start();
+			new Sound("src/sounds/plobb.wav", 100).start();
 			if (level.getField(x, y).isTransformable() == null) {
 				if (!level.getField(x, y).isExit()) {
 					if (!level.getField(x, y).isSolid()) {
@@ -381,7 +427,7 @@ public class GLevelEditor extends JFrame {
 		} else {
 
 			if (!exitExistent) {
-				
+
 				if (level.getField(x, y).isSolid()) {
 					if (level.getField(x, y).isTransformable() != null) {
 						level.getField(x, y).setTransformto(exit);
@@ -394,8 +440,10 @@ public class GLevelEditor extends JFrame {
 					EditorPanel.repaint();
 
 				}
+				exitPosition[0] = x;
+				exitPosition[1] = y;
 				exitExistent = true;
-				new Sound("src/sounds/platsch.wav",200).start();
+				new Sound("src/sounds/platsch.wav", 200).start();
 
 			} else {
 				if (level.getField(x, y).isExit()
@@ -404,7 +452,7 @@ public class GLevelEditor extends JFrame {
 					level.setField(x, y, floor);
 					level.getField(x, y).markAsExit(false);
 					exitExistent = false;
-					new Sound("src/sounds/plingg.wav",200).start();
+					new Sound("src/sounds/plingg.wav", 200).start();
 					EditorPanel.repaint();
 				}
 			}
@@ -412,7 +460,8 @@ public class GLevelEditor extends JFrame {
 
 	}
 
-	public void saveLevel() throws ParserConfigurationException {
+	public void saveLevel() throws ParserConfigurationException,
+			TransformerException {
 		// Create document
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory
 				.newInstance();
@@ -421,6 +470,58 @@ public class GLevelEditor extends JFrame {
 		Document document = documentBuilder.newDocument();
 		Element rootElement = document.createElement(levelname);
 		document.appendChild(rootElement);
+
+		rootElement.setAttribute("xsize", Integer.toString(xsize));
+		rootElement.setAttribute("ysize", Integer.toString(ysize));
+		// Lese Felder ein
+		Element fieldsElement = document.createElement("fields");
+		rootElement.appendChild(fieldsElement);
+		for (int x = 1; x <= xsize; x++) {
+			for (int y = 1; y <= ysize; y++) {
+				Element fieldElement = document.createElement("field");
+				fieldsElement.appendChild(fieldElement);
+				fieldElement.setAttribute("x", Integer.toString(x));
+				fieldElement.setAttribute("y", Integer.toString(y));
+				fieldElement.setAttribute("type", level.getField(x - 1, y - 1)
+						.getFieldtype());
+
+			}
+		}
+		// Ausgang
+		Element exitsElement = document.createElement("exits");
+		rootElement.appendChild(exitsElement);
+		Element exitElement = document.createElement("exit");
+		exitsElement.appendChild(exitElement);
+		exitElement.setAttribute("x", Integer.toString(exitPosition[0] + 1));
+		exitElement.setAttribute("y", Integer.toString(exitPosition[1] + 1));
+		// Spawnpoints
+		Element spawnpointsElement = document.createElement("spawnpoints");
+		rootElement.appendChild(spawnpointsElement);
+		Element spawnpointElement = document.createElement("spawnpoint");
+		spawnpointsElement.appendChild(spawnpointElement);
+		spawnpointElement.setAttribute("x",
+				Integer.toString(spawnpoints[0][0] + 1));
+		spawnpointElement.setAttribute("y",
+				Integer.toString(spawnpoints[0][1] + 1));
+		if (!Singleplayer) {
+			Element spawnpointElement2 = document.createElement("spawnpoint");
+			spawnpointsElement.appendChild(spawnpointElement2);
+			spawnpointElement2.setAttribute("x",
+					Integer.toString(spawnpoints[1][0] + 1));
+			spawnpointElement2.setAttribute("y",
+					Integer.toString(spawnpoints[1][1] + 1));
+		}
+
+		// speichern
+
+		TransformerFactory transformerFactory = TransformerFactory
+				.newInstance();
+		Transformer transformer = transformerFactory.newTransformer();
+		DOMSource source = new DOMSource(document);
+		StreamResult result = new StreamResult(new File("Levels/" + levelname
+				+ ".txt"));
+		transformer.transform(source, result);
+		System.out.println("gespeichert");
 	}
 
 	public static void main(String args[]) {

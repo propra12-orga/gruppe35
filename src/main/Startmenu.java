@@ -83,6 +83,7 @@ public class Startmenu extends JFrame {
 				//startpanel.setVisible(false);
 				
 				
+				
 				final GLevelEditor KLaus = new GLevelEditor();
 				javax.swing.SwingUtilities.invokeLater(new Runnable() {
 					public void run() {

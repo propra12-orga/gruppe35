@@ -41,6 +41,7 @@ public class Field {
 	protected Powerup powerup = null;
 	protected boolean spawnsPowerup;
 	public boolean exit;
+	protected String fieldtype;
 
 	public Field isTransformable() {
 		return transformto;
@@ -56,6 +57,9 @@ public class Field {
 	public boolean isSolid() {
 		return solid;
 	}
+	public String getFieldtype(){
+		return fieldtype;
+		}
 
 	public int getFlame() {
 		return flame;
@@ -77,17 +81,19 @@ public class Field {
 	}
 
 	public Field() {
-		this(false, null, null, false);
+		this(false, null, null, false,false,null);
 	}
 
 	public Field(boolean solid, Field transformto, Image image,
-			boolean spawnsPowerup) {
+			boolean spawnsPowerup, boolean exit, String fieldtype) {
 		this.solid = solid;
 		this.transformto = transformto;
 		this.image = image;
 		this.spawnsPowerup = spawnsPowerup;
+		this.exit=exit;
+		this.fieldtype=fieldtype;
 	}
-
+	
 	public Bomb getBomb() {
 		return bomb;
 	}
@@ -164,7 +170,7 @@ public class Field {
 
 	// Copy Constructor
 	public Field(Field field) {
-		this(field.solid, field.transformto, field.image, field.spawnsPowerup);
+		this(field.solid, field.transformto, field.image, field.spawnsPowerup, field.exit, field.fieldtype);
 	}
 
 }

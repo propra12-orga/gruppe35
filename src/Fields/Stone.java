@@ -12,7 +12,6 @@ import main.Global;
  */
 
 public class Stone extends Field {
-	
 
 	// Kopiere dieses Feld
 	public Stone copy() {
@@ -30,6 +29,7 @@ public class Stone extends Field {
 		this.transformto = null;
 		this.image = Global.mauersolid;
 		this.spawnsPowerup = false;
-		this.exit=false;
+		this.exit = false;
+		this.fieldtype = "S";
 	}
 }
