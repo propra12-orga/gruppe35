@@ -14,6 +14,8 @@ import java.util.ArrayList;
 
 public class GlobalGraphics {
 	public static int sqsize = 50;
+	public static int panelSizeX = 600;
+	public static int panelSizeY = 600;
 	public static ArrayList<Image> imageList = new ArrayList<Image>();
 	public static DrawArray drawarray = new DrawArray();
 

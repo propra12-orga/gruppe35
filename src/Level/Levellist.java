@@ -53,6 +53,7 @@ public class Levellist {
 									// Ordner
 	public static Level activeLevel = null;
 	public static int activeLevelIndex = 0;
+	 
 
 	// Initialisierung
 	static {
@@ -93,6 +94,9 @@ public class Levellist {
 
 			searchNodeList = rootElement.getElementsByTagName("spawnpoints");
 			NodeList spawnpointNodes = searchNodeList.item(0).getChildNodes();
+			
+			searchNodeList = rootElement.getElementsByTagName("spawnpointsbaer");
+			NodeList baerNodes = searchNodeList.item(0).getChildNodes();
 
 			searchNodeList = rootElement.getElementsByTagName("exits");
 			NodeList exitNodes = searchNodeList.item(0).getChildNodes();
@@ -107,6 +111,7 @@ public class Levellist {
 				spawnpoints[i][0] = x;
 				spawnpoints[i][1] = y;
 			}
+		
 
 			// Lese Exits aus
 			int exitnum = exitNodes.getLength();
@@ -162,14 +167,30 @@ public class Levellist {
 				}
 
 			}
-
+		
 			// Setze aktives Level
 			activeLevel = level;
 			activeLevelIndex = levelIndex;
-
+			// Lese BärSpawnpoints aus
+			int baernum = baerNodes.getLength();
+			int spawnpointsbaer[][] = new int[baernum][2];
+			for (int i = 0; i < baernum; i++) {
+				Element thisElement = (Element) baerNodes.item(i);
+				int x = Integer.parseInt(thisElement.getAttribute("x")) - 1;
+				int y = Integer.parseInt(thisElement.getAttribute("y")) - 1;
+				spawnpointsbaer[i][0] = x;
+				spawnpointsbaer[i][1] = y;
+				Enemy Baer =new Seeker(spawnpointsbaer[i][0],spawnpointsbaer[i][1]);
+				Enemylist.list.add(Baer);
+				
+				
+			}
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		
 	}
 
 	public static void next() {
@@ -203,10 +224,13 @@ public class Levellist {
 			for (int i = 0; i < Playerlist.list.size(); i++) {
 				Playerlist.list.get(i).spawn();
 			}
-
+			
 			// Gegner spawnen
-			Enemy enemy = new Seeker(0.5, 2.5);
-			enemy.spawn();
+		
+			for (int i = 0; i < Enemylist.list.size(); i++) {
+				Enemylist.list.get(i).spawn();
+			}
+			
 
 		} else {
 			System.out.println("This was the last level, you have won!");
