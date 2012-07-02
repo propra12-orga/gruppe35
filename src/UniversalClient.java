@@ -26,6 +26,7 @@ class UniversalClient extends JFrame implements KeyListener {
 	public static OutputStream out;
 	public JPanel panel;
 	public static int dataset_up[] = { 0 };
+	public static Boolean tasten[] = { false, false, false, false, false };
 
 	public void initialize() {
 		Container cp = this.getContentPane();
@@ -56,62 +57,60 @@ class UniversalClient extends JFrame implements KeyListener {
 		ObjectInputStream ois = null;
 		ObjectOutputStream oos = null;
 
-		
 		new ArrayMultiplier();
+
+		Socket sock = new Socket("localhost", 4000);
+		oos = new ObjectOutputStream(sock.getOutputStream());
+		ois = new ObjectInputStream(sock.getInputStream());
+		System.out.println("Ich lauf im Kreis");
 		
-
-		try {
-
-			Socket sock = new Socket("localhost", 4000);
-			ois = new ObjectInputStream(sock.getInputStream());
-			System.out.println("Ich lauf im Kreis");
-			oos = new ObjectOutputStream(sock.getOutputStream());
-		} catch (Exception e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
 
 		System.out.println("Verbindung hergestellt (ICH BIN CLIENT)");
 
 		SerializedObject so1 = new SerializedObject();
 		SerializedObject result = null;
-		// int keypressed;
+		
+		SerializedBool bewegungen = new SerializedBool();
+	
 
-		int positionen[] = new int[4];
-		so1.setArray(dataset_up);
+
+		int positionen[] = new int[3];
+		//so1.setArray(dataset_up);
 
 		final UniversalClient peter = new UniversalClient();
+		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				peter.initialize();
+			}
+		});
+		
 		while (true) {
 
-			javax.swing.SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					peter.initialize();
-				}
-			});
-
-			oos.writeObject(so1);
+			so1.setArray(dataset_up);
+			bewegungen.setArray(tasten);
+			oos.reset();
+			oos.writeObject(bewegungen);
 			oos.flush();
+			
 
-			try {
-				result = (SerializedObject) ois.readObject();
-			} catch (ClassNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-
+			//ois.reset();
+			result = (SerializedObject) ois.readObject();
 			positionen = result.getArray();
-
-			for (int i = 0; i < positionen.length; i++)
-				System.out.print(positionen[i] + '\n');
-
+			
+			for(int i=0; i< positionen.length; i++)
+				System.out.println(positionen[i]);
+			
+			for(int i=0; i< tasten.length; i++)
+				tasten[i] = false;
+		
 			try {
-				TimeUnit.MILLISECONDS.sleep(500);
+				TimeUnit.MILLISECONDS.sleep(1);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
+			//dataset_up[0]=0;
 		}
 		// out.close();
 		// in.close();
@@ -119,8 +118,20 @@ class UniversalClient extends JFrame implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		if (38 == e.getKeyCode()) {
+			tasten[0] = true;			
+		}
+		if (37 == e.getKeyCode()) {
+			tasten[1] = true;			
+		}
 		if (40 == e.getKeyCode()) {
-			dataset_up[0]++;
+			tasten[2] = true;			
+		}
+		if (39 == e.getKeyCode()) {
+			tasten[3] = true;			
+		}
+		if (10 == e.getKeyCode()) {
+			tasten[4] = true;			
 		}
 
 	}

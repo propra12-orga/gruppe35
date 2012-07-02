@@ -1,157 +1,162 @@
 package Network;
+// Dieses Programm sendet Benutzereingaben an
+// einen Server und zeigt die Antworten an
+import java.awt.Container;
+import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.net.Socket;
+import java.util.concurrent.TimeUnit;
 
-import java.io.*;
-import java.net.*;
-import java.nio.*;
-import java.nio.channels.*;
-import java.nio.charset.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
-public class Client implements Runnable {
-	private Thread thread; // the client thread
-	// server address and port
-	private String host;
-	private int port;
-	// SocketChannel for client (connection to server)
-	private SocketChannel channel = null;
-	// buffer for reading and writing
-	private ByteBuffer buffer = ByteBuffer.allocate(1000);
-	// Charset and encoder for US-ASCII
-	private static Charset charset = Charset.forName("US-ASCII");
-	private static CharsetEncoder encoder = charset.newEncoder();
-
-	public Client(String host, int port) {
-		this.host = host;
-		this.port = port;
-		init();
+class Client extends JFrame implements KeyListener {
+	static void error(String message) {
+		System.err.println(message);
+		System.exit(1);
 	}
 
-	/*
-	 * connect client to given host and port
-	 */
-	private void init() {
-		try {
-			// create address object for given host and port
-			InetSocketAddress isa = new InetSocketAddress(
-					InetAddress.getByName(host), port);
-			channel = SocketChannel.open(); // open a channel
-			channel.configureBlocking(false); // set channel to non-blocking
-												// mode
-			channel.connect(isa); // connect channel to given address
-			// set a timeout of 5 seconds and wait for connect to finish
-			long timeout = System.currentTimeMillis() + 5000;
-			while (!channel.finishConnect()) {
-				threadSleep(250);
-				if (System.currentTimeMillis() > timeout) {
-					throw new Exception("connection timout!");
-				}
+	public static OutputStream out;
+	public JPanel panel;
+	public static int dataset_up[] = { 0 };
+	public static Boolean tasten[] = { false, false, false, false, false };
+
+	public void initialize() {
+		Container cp = this.getContentPane();
+		panel = new JPanel() {
+			@Override
+			public void paintComponent(Graphics g) {
+
 			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			cleanup();
-		}
+		};
+		this.addKeyListener(this);
+
+		GridBagConstraints panelc = new GridBagConstraints();
+		panelc.gridx = 0;
+		panelc.gridy = 0;
+		panelc.gridwidth = 2;
+		panelc.fill = GridBagConstraints.BOTH;
+		panelc.weightx = 1.0;
+		panelc.weighty = 1.0;
+		cp.setLayout(new GridBagLayout());
+		cp.add(panel, panelc);
+		this.setVisible(true);
 	}
 
-	public String getHost() {
-		return host;
-	}
+	public static void main(String[] args) throws Exception {
+		// if (args.length != 2)
+		// error("Verwendung: java UniversalClient " + "<server> <port>");
 
-	public int getPort() {
-		return port;
-	}
+		ObjectInputStream ois = null;
+		ObjectOutputStream oos = null;
 
-	/*
-	 * start the client (if not started already)
-	 */
-	public void start() {
-		if (thread == null) {
-			thread = new Thread(this);
-			thread.start();
-		}
-	}
+		new Server();
 
-	/*
-	 * stop the client
-	 */
-	public void stop() {
-		thread = null;
-	}
+		Socket sock = new Socket("localhost", 4000);
+		oos = new ObjectOutputStream(sock.getOutputStream());
+		ois = new ObjectInputStream(sock.getInputStream());
+		System.out.println("Ich lauf im Kreis");
+		
 
-	/*
-	 * processing loop for client
-	 */
-	public void run() {
-		try {
-			// while not stopped
-			while (thread == Thread.currentThread()) {
-				processIncomingMessages();
-				// do game related things like rendering here ...
-				// send output to server here ...
-				// rest a bit and give time to other threads
-				threadSleep(50L);
+		System.out.println("Verbindung hergestellt (ICH BIN CLIENT)");
+
+		SerializedObject so1 = new SerializedObject();
+		SerializedObject result = null;
+		
+		SerializedBool bewegungen = new SerializedBool();
+	
+
+
+		int positionen[] = new int[3];
+		//so1.setArray(dataset_up);
+
+		final Client peter = new Client();
+		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				peter.initialize();
 			}
-		} catch (Exception ex) {
-			System.out.println("error occured! connection terminated!");
-			ex.printStackTrace();
-		} finally {
-			// cleanup();
-		}
-	}
+		});
+		
+		while (true) {
 
-	/*
-	 * close channel (if existing) and exit
-	 */
-	private void cleanup() {
-		if (channel != null) {
+			so1.setArray(dataset_up);
+			bewegungen.setArray(tasten);
+			oos.reset();
+			oos.writeObject(bewegungen);
+			oos.flush();
+			
+
+			//ois.reset();
+			result = (SerializedObject) ois.readObject();
+			positionen = result.getArray();
+			
+			for(int i=0; i< positionen.length; i++)
+				System.out.println(positionen[i]);
+			
+			for(int i=0; i< tasten.length; i++)
+				tasten[i] = false;
+		
 			try {
-				channel.close();
-			} catch (Exception ex) {
+				TimeUnit.MILLISECONDS.sleep(1);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
+			//dataset_up[0]=0;
 		}
-		System.exit(0);
+		// out.close();
+		// in.close();
 	}
 
-	private void processIncomingMessages() throws IOException {
-		ReadableByteChannel rbc = (ReadableByteChannel) channel;
-		buffer.clear(); // clear buffer before reading
-		// read input data into buffer
-		int numBytesRead = rbc.read(buffer);
-		if (numBytesRead < 0) {
-			// this is an undocumented feature - it means the client has
-			// disconnected
-			System.out.println("connection terminated");
-			cleanup();
-			return;
-		} else if (numBytesRead > 0) // is there some input?
-		{
-			try {
-				buffer.flip(); // flip buffer for reading
-				CharBuffer cb = charset.decode(buffer); // read from buffer and
-														// decode
-				System.out.println(cb.toString()); // display message on console
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if (38 == e.getKeyCode()) {
+			tasten[0] = true;			
 		}
-	}
-
-	/**
-	 * utility method to call Thread.sleep()
-	 */
-	private void threadSleep(long time) {
-		try {
-			Thread.sleep(time);
-		} catch (InterruptedException e) {
+		if (37 == e.getKeyCode()) {
+			tasten[1] = true;			
 		}
+		if (40 == e.getKeyCode()) {
+			tasten[2] = true;			
+		}
+		if (39 == e.getKeyCode()) {
+			tasten[3] = true;			
+		}
+		if (10 == e.getKeyCode()) {
+			tasten[4] = true;			
+		}
+
 	}
 
-	/*
-	 * start client and connect to server on localhost port 8000
-	 */
-	public static void main(String[] args) {
-		Server server = new Server(8000);
-		server.start();
+	@Override
+	public void keyReleased(KeyEvent arg0) {
+		// TODO Auto-generated method stub
 
-		Client client = new Client("localhost", 8000);
-		client.start();
 	}
+
+	@Override
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+
+	}
+}
+
+class ReceiveThread extends Thread {
+	BufferedReader in;
+	String message;
+
+	static void error(String message) {
+		System.err.println(message);
+		System.exit(1);
+	}
+
 }

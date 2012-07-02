@@ -14,7 +14,7 @@ public class ArrayClient {
 		}
 
 		// two arrays
-		int dataset1[] = { 3, 3, 3, 3, 3, 3, 3 };
+		int dataset1[] = { 3, 3, 3, 5, 3, 3, 3 };
 		int dataset2[] = { 5, 5, 5, 5, 5, 5, 5 };
 		try {
 			// open a socket connection

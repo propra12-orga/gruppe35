@@ -1,4 +1,3 @@
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
@@ -8,9 +7,9 @@ public class ArrayMultiplier extends Thread {
 
 	private ServerSocket arrayServer;
 
-//	public static void main(String argv[]) throws Exception {
-//		new ArrayMultiplier();
-//	}
+	// public static void main(String argv[]) throws Exception {
+	// new ArrayMultiplier();
+	// }
 
 	public ArrayMultiplier() throws Exception {
 		arrayServer = new ServerSocket(4000);
@@ -26,9 +25,9 @@ public class ArrayMultiplier extends Thread {
 				Socket client = arrayServer.accept();
 				System.out.println("Accepted a connection from: "
 						+ client.getInetAddress());
-				
+
 				Connect c = new Connect(client);
-				System.out.println("never reached");
+				
 			} catch (Exception e) {
 			}
 		}
@@ -44,14 +43,15 @@ class Connect extends Thread {
 	}
 
 	public Connect(Socket clientSocket) {
-		System.out.println("huerde0");
+
 		client = clientSocket;
 		try {
 
 			ois = new ObjectInputStream(client.getInputStream());
 			oos = new ObjectOutputStream(client.getOutputStream());
-			System.out.println("ficker kaputt");
+
 		} catch (Exception e1) {
+			// printStackTrace();
 			try {
 				client.close();
 			} catch (Exception e) {
@@ -61,42 +61,52 @@ class Connect extends Thread {
 
 			return;
 		}
-		
-	
-			
-		
-		System.out.println("huerde1");
+
 		this.start();
-		System.out.println("huerde2");
+
 	}
 
 	public void run() {
-		SerializedObject x = null;
-		// SerializedObject y = null;
-		int dataset1[] = new int[1];
-		// int dataset2[] = new int[7];
-		int result[] = new int[4];
-		try {
-			x = (SerializedObject) ois.readObject();
-			// y = (SerializedObject) ois.readObject();
-			dataset1 = x.getArray();
-			// dataset2 = y.getArray();
-			// create an array by multiplying two arrays
-			// for (int i = 0; i < dataset1.length; i++) {
-			// result[i] = dataset1[i] * dataset2[i];
-			// }
-			result[0] += dataset1[0];
-			System.out.println("Et kütt raus: " + result[0]);
-			// ship the object to the client
-			SerializedObject output = new SerializedObject();
-			output.setArray(result);
-			oos.writeObject(output);
-			oos.flush();
-			// close connections
-			ois.close();
-			oos.close();
-			client.close();
-		} catch (Exception e) {
+		SerializedBool x = null;
+
+		Boolean tasten[] = new Boolean[4];
+	
+		int result[] = { 0, 0, 0 };
+		while (true) {
+			try {
+				
+				x = (SerializedBool) ois.readObject();
+				tasten = x.getArray();
+				
+				
+				if (tasten[0] == true)
+					result[0]++;				// oben
+				if (tasten[2] == true)
+					result[0]--;				// unten
+				if (tasten[1] == true)
+					result[1]--;				// links
+				if (tasten[3] == true)
+					result[1]++;				// rechts
+				
+				if (tasten[4] == true)
+					result[2]++;				// bombe
+				
+				
+				// ship the object to the client
+				SerializedObject output = new SerializedObject();
+				output.setArray(result);
+				
+				oos.reset();
+				oos.writeObject(output);
+				oos.flush();
+				
+				// close connections
+				// ois.close();
+				// oos.close();
+				// client.close();
+			} catch (Exception e) {
+			}
 		}
+		
 	}
 }
