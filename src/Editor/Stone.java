@@ -1,6 +1,5 @@
 package Editor;
 
-import main.Global;
 
 /**
  * 

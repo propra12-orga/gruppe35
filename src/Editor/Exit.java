@@ -1,6 +1,5 @@
 package Editor;
 
-import main.Global;
 import Character.Character;
 import Character.Player;
 import Level.Levellist;

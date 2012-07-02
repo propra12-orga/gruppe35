@@ -4,9 +4,6 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
-import main.Global;
-import Editor.Field;
-
 /**
  * The Level class keeps track of alle the Fields and their positions and of all
  * the spawnpoints. The spawnpoints are saved in the "spawnpoints" jagged array,

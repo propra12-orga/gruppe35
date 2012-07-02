@@ -1,8 +1,5 @@
 package Editor;
 
-import main.Global;
-import Editor.Field;
-import Editor.Floor;
 
 /**
  * 
