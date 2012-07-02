@@ -1,4 +1,5 @@
 package Network;
+
 // Dieses Programm sendet Benutzereingaben an
 // einen Server und zeigt die Antworten an
 import java.awt.Container;
@@ -16,6 +17,9 @@ import java.util.concurrent.TimeUnit;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import main.DrawArray;
+import main.GlobalGraphics;
 
 class Client extends JFrame implements KeyListener {
 	static void error(String message) {
@@ -57,60 +61,65 @@ class Client extends JFrame implements KeyListener {
 		ObjectInputStream ois = null;
 		ObjectOutputStream oos = null;
 
-		new Server();
-
 		Socket sock = new Socket("localhost", 4000);
 		oos = new ObjectOutputStream(sock.getOutputStream());
 		ois = new ObjectInputStream(sock.getInputStream());
 		System.out.println("Ich lauf im Kreis");
-		
 
 		System.out.println("Verbindung hergestellt (ICH BIN CLIENT)");
 
 		SerializedObject so1 = new SerializedObject();
-		SerializedObject result = null;
-		
-		SerializedBool bewegungen = new SerializedBool();
-	
 
+		SerializedBool bewegungen = new SerializedBool();
 
 		int positionen[] = new int[3];
-		//so1.setArray(dataset_up);
+		// so1.setArray(dataset_up);
 
-		final Client peter = new Client();
+		final Client client = new Client();
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				peter.initialize();
+				client.initialize();
 			}
 		});
-		
-		while (true) {
 
+		while (true) {
+			// Grafikpaket empfangen
+			DrawArray drawArrayPackage = (DrawArray) ois.readObject();
+			synchronized (GlobalGraphics.drawarray) {
+				GlobalGraphics.drawarray = drawArrayPackage;
+			}
+			// TEST OB GRAFIKPAKET GUT ANKOMMT
+			for (int i = 0; i < GlobalGraphics.drawarray.array.size(); i++) {
+				int[] drawItem = GlobalGraphics.drawarray.array.get(i);
+				System.out.println("DrawItem " + i + ": " + drawItem[0] + ","
+						+ drawItem[1] + "," + drawItem[2] + "," + drawItem[3]
+						+ "," + drawItem[4]);
+			}
+			for (int i = 0; i < GlobalGraphics.drawarray.playernames.length; i++) {
+				System.out.println("Playername: "
+						+ GlobalGraphics.drawarray.playernames[i] + " Leben = "
+						+ GlobalGraphics.drawarray.playerlifes[i]);
+			}
+
+			// Bewegungspaket schnüren
 			so1.setArray(dataset_up);
 			bewegungen.setArray(tasten);
+			// Bewegungspaket abschicken
 			oos.reset();
 			oos.writeObject(bewegungen);
 			oos.flush();
-			
 
-			//ois.reset();
-			result = (SerializedObject) ois.readObject();
-			positionen = result.getArray();
-			
-			for(int i=0; i< positionen.length; i++)
-				System.out.println(positionen[i]);
-			
-			for(int i=0; i< tasten.length; i++)
+			// Bewegungen aufzeichnen
+			for (int i = 0; i < tasten.length; i++)
 				tasten[i] = false;
-		
+
 			try {
 				TimeUnit.MILLISECONDS.sleep(1);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			//dataset_up[0]=0;
 		}
 		// out.close();
 		// in.close();
@@ -119,19 +128,19 @@ class Client extends JFrame implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if (38 == e.getKeyCode()) {
-			tasten[0] = true;			
+			tasten[0] = true;
 		}
 		if (37 == e.getKeyCode()) {
-			tasten[1] = true;			
+			tasten[1] = true;
 		}
 		if (40 == e.getKeyCode()) {
-			tasten[2] = true;			
+			tasten[2] = true;
 		}
 		if (39 == e.getKeyCode()) {
-			tasten[3] = true;			
+			tasten[3] = true;
 		}
 		if (10 == e.getKeyCode()) {
-			tasten[4] = true;			
+			tasten[4] = true;
 		}
 
 	}

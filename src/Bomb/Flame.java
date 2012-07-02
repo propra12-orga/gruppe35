@@ -1,10 +1,6 @@
 package Bomb;
 
-import java.awt.Graphics;
-import java.awt.Image;
 import java.util.concurrent.TimeUnit;
-
-import javax.swing.JPanel;
 
 import main.Flamelist;
 import main.GlobalGraphics;

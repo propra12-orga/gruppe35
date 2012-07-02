@@ -1,6 +1,5 @@
 package Fields;
 
-import main.GlobalGraphics;
 import Character.Character;
 import Character.Player;
 import Level.Levellist;

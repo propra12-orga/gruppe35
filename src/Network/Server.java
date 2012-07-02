@@ -1,12 +1,9 @@
 package Network;
 
-import java.awt.Graphics;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-
-import javax.swing.JPanel;
 
 import main.Bomblist;
 import main.Enemylist;
@@ -17,6 +14,12 @@ import main.Poweruplist;
 import Level.Levellist;
 
 public class Server extends Thread {
+	
+	public static void main(String[] args) throws Exception {
+		final Server server = new Server();
+	//Lade erstes Level
+	Levellist.load(0);
+	}
 
 	private ServerSocket arrayServer;
 
@@ -46,6 +49,7 @@ public class Server extends Thread {
 		}
 	}
 }
+
 
 class Connect extends Thread {
 	private Socket client = null;
@@ -85,6 +89,7 @@ class Connect extends Thread {
 		Boolean tasten[] = new Boolean[4];
 
 		int result[] = { 0, 0, 0 };
+
 		while (true) {
 			try {
 				// Grafikpaket schnüren
@@ -138,26 +143,24 @@ class Connect extends Thread {
 					 GlobalGraphics.drawarray.add(Poweruplist.list.get(i).getDrawx(), Poweruplist.list.get(i).getDrawy(),
 				 				Poweruplist.list.get(i).getPixsizex(), Poweruplist.list.get(i).getPixsizey(),Poweruplist.list.get(i).getImageID());
 				}
-				//
-				// g.drawRect(
-				// GlobalGraphics.sqsize
-				// * Levellist.activeLevel.getXsize(), 0, 100,
-				// 100);
-				// for (int i = 0; i < Playerlist.list.size(); i++) {
-				// g.drawString(
-				// Playerlist.list.get(i).getName(),
-				// GlobalGraphics.sqsize
-				// * Levellist.activeLevel.getXsize() + 10,
-				// 20 + i * 50);
-				// g.drawString(
-				// "Leben: "
-				// + String.valueOf(Playerlist.list.get(i)
-				// .getLifes()),
-				// GlobalGraphics.sqsize
-				// * Levellist.activeLevel.getXsize() + 10,
-				// 40 + i * 50);
-				// }
-
+				//Statbox hinzufügen
+				GlobalGraphics.drawarray.statsRect = new int[]{GlobalGraphics.sqsize
+						 * Levellist.activeLevel.getXsize(), 0, 100,
+						 100};
+				//Namen und Leben der Spieler hinzufügen
+				GlobalGraphics.drawarray.playerlifes = new int[Playerlist.list.size()];
+				GlobalGraphics.drawarray.playernames = new String[Playerlist.list.size()];
+				for(int i=0;i<Playerlist.list.size();i++){
+					GlobalGraphics.drawarray.playerlifes[i] = Playerlist.list.get(i).getLifes();
+					GlobalGraphics.drawarray.playernames[i] = Playerlist.list.get(i).getName();
+			
+				}
+				//Grafikpaket abschicken
+				oos.reset();
+				oos.writeObject(GlobalGraphics.drawarray);
+				oos.flush();
+				
+				//Steuerungspaket empfangen
 				sebool = (SerializedBool) ois.readObject();
 				tasten = sebool.getArray();
 
@@ -169,18 +172,9 @@ class Connect extends Thread {
 					result[1]--; // links
 				if (tasten[3] == true)
 					result[1]++; // rechts
-
 				if (tasten[4] == true)
 					result[2]++; // bombe
-
-				// ship the object to the client
-				SerializedObject output = new SerializedObject();
-				output.setArray(result);
-
-				oos.reset();
-				oos.writeObject(output);
-				oos.flush();
-
+				
 				// close connections
 				// ois.close();
 				// oos.close();

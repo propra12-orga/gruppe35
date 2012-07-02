@@ -1,8 +1,9 @@
 package main;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class DrawArray {
+public class DrawArray implements Serializable{
 	public ArrayList<int[]> array = new ArrayList<int[]>();
 	public int[] statsRect;
 	public String[] playernames;

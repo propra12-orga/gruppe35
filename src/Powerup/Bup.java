@@ -1,6 +1,5 @@
 package Powerup;
 
-import main.GlobalGraphics;
 import main.Poweruplist;
 import Character.Player;
 

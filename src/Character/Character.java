@@ -1,10 +1,5 @@
 package Character;
 
-import java.awt.Graphics;
-import java.awt.Image;
-
-import javax.swing.JPanel;
-
 import main.GlobalGraphics;
 import Level.Levellist;
 

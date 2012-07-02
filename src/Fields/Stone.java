@@ -1,6 +1,5 @@
 package Fields;
 
-import main.GlobalGraphics;
 
 /**
  * 
