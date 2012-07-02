@@ -2,13 +2,10 @@ package Network;
 
 // Dieses Programm sendet Benutzereingaben an
 // einen Server und zeigt die Antworten an
-import java.awt.Container;
-import java.awt.Graphics;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
@@ -19,9 +16,16 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import main.DrawArray;
+import main.GUI;
 import main.GlobalGraphics;
 
 class Client extends JFrame implements KeyListener {
+
+	final public static GUI gui = new GUI();
+	private static ObjectInputStream ois = null;
+	private static ObjectOutputStream oos = null;
+	private static Socket socket;
+
 	static void error(String message) {
 		System.err.println(message);
 		System.exit(1);
@@ -32,41 +36,42 @@ class Client extends JFrame implements KeyListener {
 	public static int dataset_up[] = { 0 };
 	public static Boolean tasten[] = { false, false, false, false, false };
 
-	public void initialize() {
-		Container cp = this.getContentPane();
-		panel = new JPanel() {
-			@Override
-			public void paintComponent(Graphics g) {
-
+	public Client() {
+		try {
+			Client.socket = new Socket("localhost", 4000);
+			Client.oos = new ObjectOutputStream(socket.getOutputStream());
+			Client.ois = new ObjectInputStream(socket.getInputStream());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.out.println("Verbindung hergestellt (ICH BIN CLIENT)");
+	}
+	
+	protected void finalize() {
+		if (socket != null) {
+			try {
+				socket.close();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-		};
-		this.addKeyListener(this);
-
-		GridBagConstraints panelc = new GridBagConstraints();
-		panelc.gridx = 0;
-		panelc.gridy = 0;
-		panelc.gridwidth = 2;
-		panelc.fill = GridBagConstraints.BOTH;
-		panelc.weightx = 1.0;
-		panelc.weighty = 1.0;
-		cp.setLayout(new GridBagLayout());
-		cp.add(panel, panelc);
-		this.setVisible(true);
+		}
+		if (ois != null) {
+			try {
+				ois.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		if (oos != null) {
+			try {
+				oos.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public static void main(String[] args) throws Exception {
-		// if (args.length != 2)
-		// error("Verwendung: java UniversalClient " + "<server> <port>");
-
-		ObjectInputStream ois = null;
-		ObjectOutputStream oos = null;
-
-		Socket sock = new Socket("localhost", 4000);
-		oos = new ObjectOutputStream(sock.getOutputStream());
-		ois = new ObjectInputStream(sock.getInputStream());
-		System.out.println("Ich lauf im Kreis");
-
-		System.out.println("Verbindung hergestellt (ICH BIN CLIENT)");
 
 		SerializedObject so1 = new SerializedObject();
 
@@ -75,13 +80,29 @@ class Client extends JFrame implements KeyListener {
 		int positionen[] = new int[3];
 		// so1.setArray(dataset_up);
 
+		// Eigentlicher Client
 		final Client client = new Client();
-		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				client.initialize();
-			}
-		});
+		//Warte auf Initialisierungspaket
+		int[] levelSize = (int[]) ois.readObject();
+		gui.levelSize = levelSize;
+		
+		
+		// GUI initialisieren
+		if (gui.runnable == null) {
+			gui.runnable = new Runnable() {
+				public void run() {
+					gui.initialize();
+				}
+			};
+		}
+		javax.swing.SwingUtilities.invokeLater(gui.runnable);
+		
+		while(!gui.isInitialized()){
+			Thread.sleep(100);
+		}
+
+		// if (args.length != 2)
+		// error("Verwendung: java UniversalClient " + "<server> <port>");
 
 		while (true) {
 			// Grafikpaket empfangen
@@ -121,8 +142,23 @@ class Client extends JFrame implements KeyListener {
 				e.printStackTrace();
 			}
 		}
-		// out.close();
-		// in.close();
+
+		// Verbindungen trennen
+		// if (ois != null) {
+		// try {
+		// ois.close();
+		// } catch (IOException e) {
+		// e.printStackTrace();
+		// }
+		// }
+		// if (oos != null) {
+		// try {
+		// oos.close();
+		// } catch (IOException e) {
+		// e.printStackTrace();
+		// }
+		// }
+
 	}
 
 	@Override
@@ -142,7 +178,6 @@ class Client extends JFrame implements KeyListener {
 		if (10 == e.getKeyCode()) {
 			tasten[4] = true;
 		}
-
 	}
 
 	@Override
