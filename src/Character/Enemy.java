@@ -42,9 +42,8 @@ public class Enemy extends Character implements Runnable {
 	}
 
 	public Enemy(double spawnx, double spawny, double speed,
-			Image characterImage, Image characterImageStanding,
-			Image characterImageDead) {
-		super(speed, characterImage, characterImageStanding, characterImageDead);
+			int imageID, int imageIDstanding,int imageIDdead) {
+		super(speed, imageID, imageIDstanding, imageIDdead);
 		this.spawnx = spawnx;
 		this.spawny = spawny;
 	}

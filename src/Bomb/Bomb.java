@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.JPanel;
 
 import main.Bomblist;
-import main.Global;
+import main.GlobalGraphics;
 import main.Sound;
 import Character.Player;
 import Fields.Field;
@@ -41,8 +41,13 @@ public class Bomb implements Runnable {
 	protected int range;
 	protected int x;
 	protected int y;
-	protected int pixsizex = (int) (Global.sqsize * 0.6);
-	protected int pixsizey = (int) (Global.sqsize * 0.6);
+	protected int pixsizex = (int) (GlobalGraphics.sqsize * 0.6);
+	protected int pixsizey = (int) (GlobalGraphics.sqsize * 0.6);
+	protected int imageID = 11;
+	
+	public int getImageID(){
+		return(imageID);
+	}
 
 	private Thread thread = null;
 	Level level;
@@ -52,11 +57,11 @@ public class Bomb implements Runnable {
 	}
 
 	public int getDrawx() {
-		return ((int) (x * Global.sqsize + (Global.sqsize - pixsizex) * 0.5));
+		return ((int) (x * GlobalGraphics.sqsize + (GlobalGraphics.sqsize - pixsizex) * 0.5));
 	}
 
 	public int getDrawy() {
-		return ((int) (y * Global.sqsize + (Global.sqsize - pixsizey) * 0.5));
+		return ((int) (y * GlobalGraphics.sqsize + (GlobalGraphics.sqsize - pixsizey) * 0.5));
 	}
 
 	public void setPixsizex(int pixsizex) {
@@ -80,13 +85,6 @@ public class Bomb implements Runnable {
 		this.owner = owner;
 		this.timer = timer;
 		this.range = range;
-	}
-
-	public void DrawComponent(Graphics g, JPanel panel) {
-		g.drawImage(Global.boden, this.x * Global.sqsize, this.y
-				* Global.sqsize, Global.sqsize, Global.sqsize, panel);
-		g.drawImage(Global.bomb, this.getDrawx(), this.getDrawy(),
-				this.getPixsizex(), this.getPixsizey(), panel);
 	}
 
 	public synchronized void start() {

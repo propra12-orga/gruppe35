@@ -4,7 +4,7 @@ import java.awt.Image;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import main.Global;
+import main.GlobalGraphics;
 import Bomb.Bomb;
 import Level.Levellist;
 
@@ -88,9 +88,8 @@ public class Player extends Character {
 	}
 
 	public Player(String name, double speed, int maxbombs, int bombrange,
-			int bombtimer, int lifes, Image characterImage,
-			Image characterImageStanding, Image characterImageDead) {
-		super(speed, characterImage, characterImageStanding, characterImageDead);
+			int bombtimer, int lifes, int imageID, int imageIDstanding,int imageIDdead) {
+		super(speed, imageID, imageIDstanding, imageIDdead);
 		this.name = name;
 		this.maxbombs = maxbombs;
 		this.bombrange = bombrange;
@@ -98,10 +97,11 @@ public class Player extends Character {
 		this.lifes = lifes;
 		this.control = new Control(name);
 
-		pixsizex = (int) (Global.sqsize * 0.5); // 25
-		pixsizey = (int) (Global.sqsize * 0.8); // 40
+		pixsizex = (int) (GlobalGraphics.sqsize * 0.5); // 25
+		pixsizey = (int) (GlobalGraphics.sqsize * 0.8); // 40
 
 	}
+	
 
 	public Control getControl() {
 		return control;

@@ -1,6 +1,6 @@
 package Fields;
 
-import main.Global;
+import main.GlobalGraphics;
 import Character.Character;
 import Character.Player;
 import Level.Levellist;
@@ -43,7 +43,7 @@ public class Exit extends Field {
 	public Exit() {
 		this.solid = false;
 		this.transformto = null;
-		this.image = Global.exit;
+		this.imageID = 10;
 		this.spawnsPowerup = false;
 		this.exit=true;
 	}

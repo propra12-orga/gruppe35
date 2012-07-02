@@ -1,6 +1,6 @@
 package Fields;
 
-import main.Global;
+import main.GlobalGraphics;
 
 /**
  * 
@@ -28,7 +28,6 @@ public class Earth extends Field {
 	public Earth() {
 		this.solid = true;
 		this.transformto = new Floor();
-		this.image = Global.mauer;
 		this.spawnsPowerup = true;
 		this.exit = false;
 		this.fieldtype = "E";

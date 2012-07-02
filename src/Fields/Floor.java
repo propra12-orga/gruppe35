@@ -1,6 +1,6 @@
 package Fields;
 
-import main.Global;
+import main.GlobalGraphics;
 
 /**
  * 
@@ -28,7 +28,7 @@ public class Floor extends Field {
 	public Floor() {
 		this.solid = false;
 		this.transformto = null;
-		this.image = Global.boden;
+		this.imageID = 7;
 		this.spawnsPowerup = false;
 		this.exit = false;
 		this.fieldtype = "F";

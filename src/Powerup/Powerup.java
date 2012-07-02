@@ -6,39 +6,45 @@ import java.util.Random;
 
 import javax.swing.JPanel;
 
-import main.Global;
+import main.GlobalGraphics;
 import main.Poweruplist;
-import Character.Character;
 import Character.Player;
 
 public class Powerup {
-	protected Image image;
+	protected int imageID;
 	protected int x, y;
 	protected int pixsizex, pixsizey;
 	private static Random rand = new Random();
 
-	public Powerup(int x, int y){
-		pixsizex = Global.sqsize/2;
-		pixsizey = Global.sqsize/2;
+	public Powerup(int x, int y) {
+		pixsizex = GlobalGraphics.sqsize / 2;
+		pixsizey = GlobalGraphics.sqsize / 2;
 		this.x = x;
 		this.y = y;
+		this.imageID = -1;
 		synchronized (Poweruplist.list) {
 			Poweruplist.list.add(this);
 		}
 	}
 	
-	public void DrawComponent(Graphics g, JPanel panel) {
-
-		g.drawImage(image, getDrawx(), getDrawy(), pixsizex, pixsizey, panel);
-
+	public int getImageID(){
+		return(imageID);
+	}
+	
+	public int getPixsizex(){
+		return(pixsizex);
+	}
+	
+	public int getPixsizey(){
+		return(pixsizey);
 	}
 
 	public int getDrawx() {
-		return ((int) ((x + 0.5) * Global.sqsize - pixsizex * 0.5));
+		return ((int) ((x + 0.5) * GlobalGraphics.sqsize - pixsizex * 0.5));
 	}
 
 	public int getDrawy() {
-		return ((int) ((y + 0.5) * Global.sqsize - pixsizey * 0.5));
+		return ((int) ((y + 0.5) * GlobalGraphics.sqsize - pixsizey * 0.5));
 	}
 
 	public void pickup(Player player) {
@@ -55,11 +61,11 @@ public class Powerup {
 			int i = rand.nextInt(3);
 			switch (i) {
 			case 0:
-				return (new Rup(x,y));
+				return (new Rup(x, y));
 			case 1:
-				return (new Tup(x,y));
+				return (new Tup(x, y));
 			case 2:
-				return (new Bup(x,y));
+				return (new Bup(x, y));
 
 			default:
 			}

@@ -13,14 +13,15 @@ import Character.Player;
 
 public class Playerlist {
 	public static ArrayList<Player> list = new ArrayList<Player>();
+	public static boolean singleplayer = true;
 
 	public static void load() {
 		list.clear();
 		Player player1 = new Player("Boltzmann", 0.05, 2, 2, 2, 3,
-				Global.image1, Global.image1standing, Global.image1dead);
+				0, 3, 5);
 		Player player2 = new Player("Feynman", 0.01, 2, 2, 2, 1,
-				Global.image2, Global.image2standing, Global.image2dead);
-		//Character player3 = new Character("blabla",
+				1, 4, 6);
+		
 
 		list.add(player1);
 		list.add(player2);

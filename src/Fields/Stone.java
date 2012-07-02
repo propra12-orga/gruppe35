@@ -1,6 +1,6 @@
 package Fields;
 
-import main.Global;
+import main.GlobalGraphics;
 
 /**
  * 
@@ -27,7 +27,7 @@ public class Stone extends Field {
 	public Stone() {
 		this.solid = true;
 		this.transformto = null;
-		this.image = Global.mauersolid;
+		this.imageID = 9;
 		this.spawnsPowerup = false;
 		this.exit = false;
 		this.fieldtype = "S";

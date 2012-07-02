@@ -39,6 +39,7 @@ public class Startmenu extends JFrame {
 				System.out.println("Hallo");
 				Startmenu.IntroStopped=true;
 				Startmenu.playsound=true;
+				Playerlist.singleplayer = true;
 					
 							
 			
@@ -60,6 +61,7 @@ public class Startmenu extends JFrame {
 				System.out.println("Multi");
 				Startmenu.IntroStopped=true;
 				Startmenu.playsound=true;
+				Playerlist.singleplayer = false;
 				
 				
 			}
@@ -100,9 +102,9 @@ public class Startmenu extends JFrame {
 
 			public void paintComponent(Graphics g) {
 				if (!Startmenu.IntroStopped)
-				g.drawImage(Global.intro, 0, 0, Startmenu.panelSizeX, Startmenu.panelSizeY-50, this);
+				g.drawImage(GlobalGraphics.intro, 0, 0, Startmenu.panelSizeX, Startmenu.panelSizeY-50, this);
 				else{
-				g.drawImage(Global.intro2, 0, 0, Startmenu.panelSizeX, Startmenu.panelSizeY-50, this);
+				g.drawImage(GlobalGraphics.intro2, 0, 0, Startmenu.panelSizeX, Startmenu.panelSizeY-50, this);
 				if (Startmenu.playsound==true)
 				new Sound("src/sounds/DelayExp.wav",4000).start();
 				Startmenu.playsound=false;

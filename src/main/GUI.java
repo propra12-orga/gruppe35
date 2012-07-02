@@ -72,54 +72,29 @@ public class GUI extends JFrame implements KeyListener {
 
 		panel = new JPanel() {
 
-			private static final long serialVersionUID = 1L;
-
 			// @Override
 			public void paintComponent(Graphics g) {
-				// super.paintComponent(g);
-				// g.
-				// draw level
 
-				if (Levellist.activeLevel != null)
-					Levellist.activeLevel.drawComponent(g, panel);
-				// draw bombs
-				for (int i = 0; i < Bomblist.list.size(); i++) {
-					Bomblist.list.get(i).DrawComponent(g, panel);
+				for (int i = GlobalGraphics.drawarray.array.size() - 1; i >= 0; i--) {
+					int[] drawItem = GlobalGraphics.drawarray.array.get(i);
+					g.drawImage(GlobalGraphics.imageList.get(drawItem[4]),
+							drawItem[0], drawItem[1], drawItem[2], drawItem[3],
+							panel);
 				}
-				// draw flames
-				for (int i = 0; i < Flamelist.list.size(); i++) {
-					Flamelist.list.get(i).DrawComponent(g, panel);
-
-				}
-
-				// draw players
-				for (int i = 0; i < Playerlist.list.size(); i++) {
-					Playerlist.list.get(i).DrawComponent(g, panel);
-				}
-
-				// draw enemies
-				for (int i = 0; i < Enemylist.list.size(); i++) {
-					Enemylist.list.get(i).DrawComponent(g, panel);
-				}
-				
-				// draw Powerups
-				for (int i = 0; i < Poweruplist.list.size(); i++) {
-					Poweruplist.list.get(i).DrawComponent(g, panel);
-				}
-
-				g.drawRect(Global.sqsize * Levellist.activeLevel.getXsize(), 0,
-						100, 100);
-				for (int i = 0; i < Playerlist.list.size(); i++) {
-					g.drawString(Playerlist.list.get(i).getName(),
-							Global.sqsize * Levellist.activeLevel.getXsize()
-									+ 10, 20 + i * 50);
-					g.drawString(
-							"Leben: "
-									+ String.valueOf(Playerlist.list.get(i)
-											.getLifes()), Global.sqsize
-									* Levellist.activeLevel.getXsize() + 10,
+				g.drawRect(GlobalGraphics.drawarray.statsRect[0],
+						GlobalGraphics.drawarray.statsRect[1],
+						GlobalGraphics.drawarray.statsRect[2],
+						GlobalGraphics.drawarray.statsRect[3]);
+				for (int i = 0; i < GlobalGraphics.drawarray.playernames.length; i++) {
+					g.drawString(GlobalGraphics.drawarray.playernames[i],
+							GlobalGraphics.drawarray.playernameposx[i],
+							20 + i * 50);
+					g.drawString("Leben: "
+							+ GlobalGraphics.drawarray.playerlifes[i],
+							GlobalGraphics.drawarray.playerlifeposx[i],
 							40 + i * 50);
 				}
+
 			}
 
 		};
@@ -145,8 +120,9 @@ public class GUI extends JFrame implements KeyListener {
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
 		this.pack();
-		this.setSize(Levellist.activeLevel.getXsize() * Global.sqsize * 2,
-				Levellist.activeLevel.getYsize() * Global.sqsize * 2);
+		this.setSize(Levellist.activeLevel.getXsize() * GlobalGraphics.sqsize
+				* 2, Levellist.activeLevel.getYsize() * GlobalGraphics.sqsize
+				* 2);
 		// this.setResizable(false);
 		this.setVisible(Menu.panelvisible);
 	}

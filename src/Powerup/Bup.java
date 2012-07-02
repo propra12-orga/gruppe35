@@ -1,6 +1,6 @@
 package Powerup;
 
-import main.Global;
+import main.GlobalGraphics;
 import main.Poweruplist;
 import Character.Player;
 
@@ -16,7 +16,7 @@ public class Bup extends Powerup {
 
 	public Bup(int x, int y) {
 		super(x, y);
-		image = Global.Bup;
+		imageID = 21;
 	}
 
 }

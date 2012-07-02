@@ -5,7 +5,7 @@ import java.awt.Image;
 
 import javax.swing.JPanel;
 
-import main.Global;
+import main.GlobalGraphics;
 import Level.Levellist;
 
 /**
@@ -36,11 +36,10 @@ public class Character {
 	protected double posx;
 	protected double posy;
 	protected boolean dead = false;
-
-	public Image characterImage;
-	public Image characterImageStanding;
-	public Image characterImageDead;
-
+	protected int imageID;
+	protected int imageIDstanding;
+	protected int imageIDdead;
+	
 	public int getPixsizex() {
 		return pixsizex;
 	}
@@ -57,20 +56,21 @@ public class Character {
 		this.pixsizey = pixsizey;
 	}
 
-	public Character(double speed, Image characterImage,
-			Image characterImageStanding, Image characterImageDead) {
+	public Character(double speed, int imageID,
+			int imageIDstanding, int imageIDdead) {
 		this.speed = speed;
-		this.characterImage = characterImage;
-		this.characterImageStanding = characterImageStanding;
-		this.characterImageDead = characterImageDead;
-		pixsizex = (int) (Global.sqsize * 0.5); // 25
-		pixsizey = (int) (Global.sqsize * 0.8); // 40
+		this.imageID = imageID;
+		this.imageIDstanding = imageIDstanding;
+		this.imageIDdead = imageIDdead;
+		pixsizex = (int) (GlobalGraphics.sqsize * 0.5); // 25
+		pixsizey = (int) (GlobalGraphics.sqsize * 0.8); // 40
 	}
-
+	
 	public Character() {
 		speed = 0.0;
-		this.characterImage = null;
-		this.characterImageStanding = null;
+		this.imageID = -1;
+		this.imageIDstanding = -1;
+		this.imageIDdead = -1;
 		pixsizex = 0;
 		pixsizey = 0;
 	}
@@ -92,11 +92,11 @@ public class Character {
 	}
 
 	public int getDrawx() {
-		return ((int) (posx * Global.sqsize - pixsizex * 0.5));
+		return ((int) (posx * GlobalGraphics.sqsize - pixsizex * 0.5));
 	}
 
 	public int getDrawy() {
-		return ((int) (posy * Global.sqsize - pixsizey * 0.5));
+		return ((int) (posy * GlobalGraphics.sqsize - pixsizey * 0.5));
 	}
 
 	public void setPosx(double posx) {
@@ -173,20 +173,14 @@ public class Character {
 	}
 	
 
-	public void DrawComponent(Graphics g, JPanel panel) {
+	public int getImageID() {
 		if (this.dead) {
-			g.drawImage(this.characterImageDead, this.getDrawx(),
-					this.getDrawy(), this.getPixsizex(), this.getPixsizey(),
-					panel);
+			return(imageIDdead);
 		} else {
 			if (this.isMoving()) {
-				g.drawImage(this.characterImage, this.getDrawx(),
-						this.getDrawy(), this.getPixsizex(),
-						this.getPixsizey(), panel);
+				return(imageID);
 			} else {
-				g.drawImage(this.characterImageStanding, this.getDrawx(),
-						this.getDrawy(), this.getPixsizex(),
-						this.getPixsizey(), panel);
+				return(imageIDstanding);
 			}
 		}
 	}
