@@ -46,7 +46,7 @@ class Client extends JFrame implements KeyListener {
 		}
 		System.out.println("Verbindung hergestellt (ICH BIN CLIENT)");
 	}
-	
+
 	protected void finalize() {
 		if (socket != null) {
 			try {
@@ -83,8 +83,10 @@ class Client extends JFrame implements KeyListener {
 		// Eigentlicher Client
 		final Client client = new Client();
 		//Warte auf Initialisierungspaket
-		int[] levelSize = (int[]) ois.readObject();
-		gui.levelSize = levelSize;
+		DrawArray initializePackage = (DrawArray) ois.readObject();
+		synchronized (GlobalGraphics.drawarray) {
+			GlobalGraphics.drawarray = initializePackage;
+		}
 		
 		
 		// GUI initialisieren
@@ -104,25 +106,30 @@ class Client extends JFrame implements KeyListener {
 		// if (args.length != 2)
 		// error("Verwendung: java UniversalClient " + "<server> <port>");
 
-		while (true) {
+		while (!gui.isClosed()) {
+			// Sende, dass diese Verbindung noch besteht
+			oos.reset();
+			oos.writeBoolean(true);
+			oos.flush();
+			
 			// Grafikpaket empfangen
 			DrawArray drawArrayPackage = (DrawArray) ois.readObject();
 			synchronized (GlobalGraphics.drawarray) {
 				GlobalGraphics.drawarray = drawArrayPackage;
 			}
-			// TEST OB GRAFIKPAKET GUT ANKOMMT
-			for (int i = 0; i < GlobalGraphics.drawarray.array.size(); i++) {
-				int[] drawItem = GlobalGraphics.drawarray.array.get(i);
-				System.out.println("DrawItem " + i + ": " + drawItem[0] + ","
-						+ drawItem[1] + "," + drawItem[2] + "," + drawItem[3]
-						+ "," + drawItem[4]);
-			}
-			for (int i = 0; i < GlobalGraphics.drawarray.playernames.length; i++) {
-				System.out.println("Playername: "
-						+ GlobalGraphics.drawarray.playernames[i] + " Leben = "
-						+ GlobalGraphics.drawarray.playerlifes[i]);
-			}
-
+//			// TEST OB GRAFIKPAKET GUT ANKOMMT
+//			for (int i = 0; i < GlobalGraphics.drawarray.array.size(); i++) {
+//				int[] drawItem = GlobalGraphics.drawarray.array.get(i);
+//				System.out.println("DrawItem " + i + ": " + drawItem[0] + ","
+//						+ drawItem[1] + "," + drawItem[2] + "," + drawItem[3]
+//						+ "," + drawItem[4]);
+//			}
+//			for (int i = 0; i < GlobalGraphics.drawarray.playernames.length; i++) {
+//				System.out.println("Playername: "
+//						+ GlobalGraphics.drawarray.playernames[i] + " Leben = "
+//						+ GlobalGraphics.drawarray.playerlifes[i]);
+//			}
+			
 			// Bewegungspaket schnüren
 			so1.setArray(dataset_up);
 			bewegungen.setArray(tasten);
@@ -142,23 +149,11 @@ class Client extends JFrame implements KeyListener {
 				e.printStackTrace();
 			}
 		}
-
-		// Verbindungen trennen
-		// if (ois != null) {
-		// try {
-		// ois.close();
-		// } catch (IOException e) {
-		// e.printStackTrace();
-		// }
-		// }
-		// if (oos != null) {
-		// try {
-		// oos.close();
-		// } catch (IOException e) {
-		// e.printStackTrace();
-		// }
-		// }
-
+		// Sende, dass diese Verbindung geschlossen wurde
+			System.out.println("Client hat Verbindung geschlossen");
+			oos.reset();
+			oos.writeBoolean(false);
+			oos.flush();
 	}
 
 	@Override

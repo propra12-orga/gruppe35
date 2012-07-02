@@ -12,14 +12,12 @@ import java.awt.event.WindowListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import Level.Levellist;
 
 
 public class GUI extends JFrame implements KeyListener {
 	public JPanel panel;
 	public Runnable runnable = null;
 	WindowListener windowListener = null;
-	public int levelSize[];
 
 	private static final long serialVersionUID = 1L;
 	protected boolean initialized = false;
@@ -132,8 +130,8 @@ public class GUI extends JFrame implements KeyListener {
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
 		this.pack();
-		this.setSize(levelSize[0] * GlobalGraphics.sqsize
-				* 2, levelSize[1] * GlobalGraphics.sqsize
+		this.setSize(GlobalGraphics.drawarray.levelSize[0] * GlobalGraphics.sqsize
+				* 2, GlobalGraphics.drawarray.levelSize[1] * GlobalGraphics.sqsize
 				* 2);
 		// this.setResizable(false);
 		this.setVisible(true);

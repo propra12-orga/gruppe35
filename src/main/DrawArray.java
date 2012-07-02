@@ -10,6 +10,7 @@ public class DrawArray implements Serializable{
 	public int[] playerlifes;
 	public int[] playerlifeposx;
 	public int[] playernameposx;
+	public int[] levelSize;
 	
 
 	// drawArrayItem[0] = drawx;
