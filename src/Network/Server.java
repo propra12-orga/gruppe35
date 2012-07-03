@@ -1,5 +1,7 @@
 package Network;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -72,6 +74,20 @@ class Connect extends Thread {
 	private ObjectOutputStream oos = null;
 
 	private Player player;
+
+	// Bewegungstimer
+	javax.swing.Timer timer = new javax.swing.Timer(10, new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			if (player.isMovingRight() == true)
+				player.move(1, 0);
+			if (player.isMovingLeft() == true)
+				player.move(-1, 0);
+			if (player.isMovingUp() == true)
+				player.move(0, 1);
+			if (player.isMovingDown() == true)
+				player.move(0, -1);
+		}
+	});
 
 	public Connect() {
 	}
@@ -169,6 +185,7 @@ class Connect extends Thread {
 		Server.connectionList.add(this);
 		// Start
 		this.start();
+		timer.start();
 	}
 
 	private void createGraphicsPackage() {
@@ -251,14 +268,51 @@ class Connect extends Thread {
 		}
 	}
 
+	private void movePlayer(int dirx, int diry, int bombcomm) {
+		if (bombcomm > 0)
+			player.placebomb();
+
+		// Bastel Richtung aus Tastendrücken
+		boolean horizontal = Math.abs(dirx) >= Math.abs(diry);
+		//if (horizontal) {
+			if (dirx < 0) {
+				player.setMovingLeft(true);
+				player.setMovingRight(false);
+			}
+			if (dirx > 0) {
+				player.setMovingLeft(false);
+				player.setMovingRight(true);
+			}
+			if (dirx == 0){
+				player.setMovingLeft(false);
+				player.setMovingRight(false);
+			}
+			if(diry == 0){
+				player.setMovingUp(false);
+				player.setMovingDown(false);
+			}
+				
+		//} else {
+			if (diry < 0) {
+				player.setMovingUp(false);
+				player.setMovingDown(true);
+			}
+			if (diry > 0) {
+				player.setMovingUp(true);
+				player.setMovingDown(false);
+			}
+		//}
+	}
+
 	public void run() {
 		SerializedBool sebool = null;
 
 		Boolean tasten[] = new Boolean[4];
 
-		int result[] = { 0, 0, 0 };
+		
 		boolean connected = true;
 		while (connected) {
+			int result[] = { 0, 0, 0 };
 			connected = false;
 			try {
 				// Besteht die Verbindung überhaupt noch?
@@ -287,6 +341,9 @@ class Connect extends Thread {
 					result[1]++; // rechts
 				if (tasten[4] == true)
 					result[2]++; // bombe
+
+				movePlayer(result[0], result[1], result[2]);
+
 
 			} catch (Exception e) {
 				e.printStackTrace();
