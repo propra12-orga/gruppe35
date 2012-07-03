@@ -178,6 +178,8 @@ public class GLevelEditor extends JFrame {
 				EditorPanel.setVisible(true);
 				save.setVisible(true);
 				stonegrid.setVisible(true);
+				randomLevel.setVisible(true);
+
 				createEmptyLevel();
 
 				resizeFrame();
@@ -253,11 +255,13 @@ public class GLevelEditor extends JFrame {
 		save.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// Konsitenzprüfung
+				// Konsistenzprüfung
 				ExitPathfinder pathfinder = new ExitPathfinder();
 				boolean exitErreichbar = pathfinder.find(0, 0, exitPosition[0],
 						exitPosition[1]);
-				if (exitErreichbar | !Singleplayer) {
+				boolean GegnerErreichbar = pathfinder.find(0, 0, xsize - 1,
+						ysize - 1);
+				if (exitErreichbar | (!Singleplayer && GegnerErreichbar)) {
 					// Speichern
 					if (Singleplayer && exitExistent) {
 						try {
@@ -274,7 +278,7 @@ public class GLevelEditor extends JFrame {
 					if (Singleplayer && !exitExistent) {
 						new Sound("src/sounds/pleaseOpen.wav", 2000).start();
 					}
-					if (!Singleplayer) {
+					if (!Singleplayer && GegnerErreichbar) {
 						try {
 							saveLevel();
 						} catch (ParserConfigurationException e) {
@@ -284,73 +288,101 @@ public class GLevelEditor extends JFrame {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
+						if (!Singleplayer && !GegnerErreichbar) {
+							new Sound("src/sounds/pleaseOpen.wav", 2000)
+									.start();
+						}
 						System.exit(0);
 					}
 				} else {
 					new Sound("src/sounds/pleaseOpen.wav", 2000).start();
 					EditOrSetExit.setText("Exit blocked");
 				}
+				if (!Singleplayer && !GegnerErreichbar) {
+					new Sound("src/sounds/pleaseOpen.wav", 2000).start();
+				}
 
 			}
 		});
-		// saveLevel Button
-				GridBagConstraints rl = new GridBagConstraints();
-				rl.gridx = 0;
-				rl.gridy = 4;
-				rl.gridwidth = 2;
-				rl.fill = GridBagConstraints.HORIZONTAL;
-				// sl.weightx = 1.0;
-				// cp1.setLayout(new GridBagLayout());
-				cp.add(randomLevel, rl);
-				randomLevel.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent arg0) {
+		// randomLevel Button
+		GridBagConstraints rl = new GridBagConstraints();
+		rl.gridx = 0;
+		rl.gridy = 4;
+		rl.gridwidth = 2;
+		rl.fill = GridBagConstraints.HORIZONTAL;
+		// sl.weightx = 1.0;
+		// cp1.setLayout(new GridBagLayout());
+		cp.add(randomLevel, rl);
+		randomLevel.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+
+				ExitPathfinder pathfinder = new ExitPathfinder();
+				boolean exitErreichbar = false;
+				boolean GegnerErreichbar = false;
+
+				Modus = 0;
+				EditOrSetExit.setText("EditLevel");
+				Exit exit = new Exit();
+				if (Singleplayer) {
+					while (!exitErreichbar) {
 						createEmptyLevel();
-						ExitPathfinder pathfinder = new ExitPathfinder();
-						boolean exitErreichbar=false;
-						
-						Modus=0;
-						EditOrSetExit.setText("EditLevel");
-						Exit exit =new Exit();
-						while (!exitErreichbar){
-							
-							for (int x=xsize-1;x>=0;x--){
-								for (int y=ysize-1;y>=0;y--){
-									int imax=RandomNumber(0,3);
-									for (int i=0;i<imax;i++)
-										changeField(x,y);
-									EditorPanel.repaint();
-								}
-								
+						for (int x = xsize - 1; x >= 0; x--) {
+							for (int y = ysize - 1; y >= 0; y--) {
+								int imax = RandomNumber(0, 3);
+								for (int i = 0; i < imax; i++)
+									changeField(x, y);
 								EditorPanel.repaint();
 							}
-							exitExistent=false;
-							int xrand=RandomNumber((int)xsize/2,xsize);
-							int yrand=RandomNumber((int)ysize/2,ysize);
-							if (level.getField(xrand, yrand) instanceof Floor){
-								level.setField(xrand, yrand,exit);
-								EditorPanel.repaint();
-								exitExistent=true;
-								exitPosition[0] = xrand;
-								exitPosition[1] = yrand;
-							}if (level.getField(xrand, yrand) instanceof Earth){
-								level.getField(xrand, yrand).setTransformto(exit);
-								EditorPanel.repaint();
-								exitExistent=true;
-								exitPosition[0] = xrand;
-								exitPosition[1] = yrand;
-								
-							}
-							if (exitExistent)
-							exitErreichbar=pathfinder.find(0,0,exitPosition[0],exitPosition[1]);
-							else
-							exitErreichbar=false;	
+
+							EditorPanel.repaint();
 						}
-						
-						
-						
+						exitExistent = false;
+						int xrand = RandomNumber((int) xsize / 2, xsize);
+						int yrand = RandomNumber((int) ysize / 2, ysize);
+						if (level.getField(xrand, yrand) instanceof Floor) {
+							level.setField(xrand, yrand, exit);
+							EditorPanel.repaint();
+							exitExistent = true;
+							exitPosition[0] = xrand;
+							exitPosition[1] = yrand;
+						}
+						if (level.getField(xrand, yrand) instanceof Earth) {
+							level.getField(xrand, yrand).setTransformto(exit);
+							EditorPanel.repaint();
+							exitExistent = true;
+							exitPosition[0] = xrand;
+							exitPosition[1] = yrand;
+
+						}
+						if (exitExistent)
+							exitErreichbar = pathfinder.find(0, 0,
+									exitPosition[0], exitPosition[1]);
+						else
+							exitErreichbar = false;
 					}
-				});
+				} else {
+					
+					
+					while (!GegnerErreichbar) {
+						createEmptyLevel();
+						for (int x = xsize - 1; x >= 0; x--) {
+							for (int y = ysize - 1; y >= 0; y--) {
+								int imax = RandomNumber(0, 3);
+								for (int i = 0; i < imax; i++)
+									changeField(x, y);
+								EditorPanel.repaint();
+							}
+						}
+						EditorPanel.repaint();
+						GegnerErreichbar = pathfinder.find(0, 0, xsize - 1,
+								ysize - 1);
+					}
+
+				}
+
+			}
+		});
 		GridBagConstraints sg = new GridBagConstraints();
 		sg.gridx = 0;
 		sg.gridy = 2;
@@ -572,10 +604,16 @@ public class GLevelEditor extends JFrame {
 		Field exit = new Exit();
 		boolean besetzt;
 
-		if (x == 0 && y == 0)
+		if ((x == 0 && y == 0) || (x == 1 && y == 0) || (x == 0 && y == 1))
 			besetzt = true;
 		else
 			besetzt = false;
+		if (!Singleplayer) {
+			if ((x == xsize - 1 && y == ysize - 1)
+					|| (x == xsize - 2 && y == ysize - 1)
+					|| (x == xsize - 1 && y == ysize - 2))
+				besetzt = true;
+		}
 		for (int i = 0; i < bearlist.size(); i++) {
 			if ((bearlist.get(i)[0] == x && bearlist.get(i)[1] == y)) {
 				besetzt = true;
