@@ -34,6 +34,26 @@ import main.Sound;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+/**
+ * 
+ * The GLevelEditor is a standalone graphical Leveleditor. It can create as the
+ * name says, a level from user input. Input is giving via mouse control. The
+ * level file is saved in an XML file in the "Levels/" directory. Input includes
+ * the Levelname (also the name of the file), the x- and y- size of the level,
+ * the positions of spawnpoints and the positions of exits. Most importantly the
+ * field types are read in. Also Enemies can be set on empty Fields.
+ * 
+ * The Spawnpoints for Players will always be consistent, so that it is possible
+ * to place a bomb without killing oneself. For Singleplayer Levels it is also
+ * checked, whether the Exit can be reached.
+ * 
+ * Random Level Generation is also possible and implements the above consistency
+ * checks.
+ * <P>
+ * 
+ * @author Fabian
+ */
+
 public class GLevelEditor extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -257,13 +277,13 @@ public class GLevelEditor extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				// Konsistenzprüfung
 				ExitPathfinder pathfinder = new ExitPathfinder();
-						
-					boolean exitErreichbar = pathfinder.find(0, 0,
-							exitPosition[0], exitPosition[1]);
-				
-					boolean GegnerErreichbar = pathfinder.find(0, 0, xsize - 1,
-							ysize - 1);
-				
+
+				boolean exitErreichbar = pathfinder.find(0, 0, exitPosition[0],
+						exitPosition[1]);
+
+				boolean GegnerErreichbar = pathfinder.find(0, 0, xsize - 1,
+						ysize - 1);
+
 				if (exitErreichbar | (!Singleplayer && GegnerErreichbar)) {
 					// Speichern
 					if (Singleplayer && exitExistent) {
@@ -714,16 +734,16 @@ public class GLevelEditor extends JFrame {
 		Element exitsElement = document.createElement("exits");
 		rootElement.appendChild(exitsElement);
 		Element exitElement = document.createElement("exit");
-		exitsElement.appendChild(exitElement);		
-		if (Singleplayer) {			
+		exitsElement.appendChild(exitElement);
+		if (Singleplayer) {
 			exitElement
 					.setAttribute("x", Integer.toString(exitPosition[0] + 1));
 			exitElement
 					.setAttribute("y", Integer.toString(exitPosition[1] + 1));
-		}else{exitElement
-			.setAttribute("x", Integer.toString(1));
-	exitElement
-			.setAttribute("y", Integer.toString(1));}
+		} else {
+			exitElement.setAttribute("x", Integer.toString(1));
+			exitElement.setAttribute("y", Integer.toString(1));
+		}
 		// Spawnpoints
 		Element spawnpointsElement = document.createElement("spawnpoints");
 		rootElement.appendChild(spawnpointsElement);

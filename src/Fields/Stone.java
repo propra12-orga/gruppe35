@@ -1,6 +1,5 @@
 package Fields;
 
-
 /**
  * 
  * The Stone class is a child of the Field class and is simply the type of field

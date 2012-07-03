@@ -19,6 +19,43 @@ import main.Poweruplist;
 import Character.Player;
 import Level.Levellist;
 
+/**
+ * 
+ * 
+ * The Server class is used for playing the game in the Network. If playstyle is
+ * singleplayer, the server is just thelocal host, otherwise it might be a
+ * remote host.
+ * 
+ * The Server knows practically everything, where Players and Enemeis are, what
+ * Level is currently played, where Bombs and Flames are located and so forth
+ * 
+ * It will only send information to the Client which is required for Graphics
+ * and Sound. The clients on the other hand will provide the server with the
+ * Controls of the Players. This whole approach is supposed to prevent
+ * desynchronizing between seperate Clients.
+ * 
+ * 
+ * The Server itself will run indefinetely, waiting for Connections of Clients.
+ * For each connected Client, a Connect Object will be created.
+ * 
+ * ObjectInputStream ois is used for receiving serialized objects (Controls)
+ * ObjectOutputStream oos is used for sending serialized objects (Graphics and
+ * Sound)
+ * 
+ * The Connect also takes care of the Player which is controlled by the Human
+ * beeing behind the Client.
+ * 
+ * It has to be initialized first via the initialize() method, which will insert
+ * the Connect in the Servers Connectionlist and create the Player.
+ * 
+ * In the run() method the communication with the Client takes place.
+ * 
+ * <P>
+ * 
+ * @author Peet, Friedrich
+ * 
+ */
+
 public class Server extends Thread {
 
 	public static void main(String[] args) throws Exception {

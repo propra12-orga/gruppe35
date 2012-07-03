@@ -14,6 +14,22 @@ import javax.swing.JPanel;
 
 import Network.Client;
 
+/**
+ * 
+ * The GUI takes care of showing the user the game and reading in keyboard
+ * commands. The information about the Graphics is obtained from the
+ * GlobalGraphics class.
+ * 
+ * First of all the GUI has to be initialized via the initialize() method.
+ * 
+ * The JPanel panel shows the user the Graphics. In there all the Graphics
+ * obtained from the GlobalGraphics class is painted via the paintComponent
+ * method. The Runnable runnable is used to update the GUI all the time
+ * <P>
+ * 
+ * @author Fabian, Friedrich, Peet
+ */
+
 public class GUI extends JFrame implements KeyListener {
 	public JPanel panel;
 	public Runnable runnable = null;
@@ -84,7 +100,8 @@ public class GUI extends JFrame implements KeyListener {
 			// @Override
 			public void paintComponent(Graphics g) {
 
-				//for (int i = GlobalGraphics.drawarray.array.size() - 1; i >= 0; i--) {
+				// for (int i = GlobalGraphics.drawarray.array.size() - 1; i >=
+				// 0; i--) {
 				for (int i = 0; i < GlobalGraphics.drawarray.array.size(); i++) {
 					int[] drawItem = GlobalGraphics.drawarray.array.get(i);
 					g.drawImage(GlobalGraphics.imageList.get(drawItem[4]),
@@ -138,25 +155,25 @@ public class GUI extends JFrame implements KeyListener {
 		this.setVisible(true);
 	}
 
-//	javax.swing.Timer t = new javax.swing.Timer(10, new ActionListener() {
-//	 public void actionPerformed(ActionEvent e) {
-//	 for (int i = 0; i < Playerlist.list.size(); i++) {
-//	 if (Playerlist.list.get(i).isMovingRight() == true)
-//	 Playerlist.list.get(i).move(1, 0);
-//	 if (Playerlist.list.get(i).isMovingLeft() == true)
-//	 Playerlist.list.get(i).move(-1, 0);
-//	 if (Playerlist.list.get(i).isMovingUp() == true)
-//	 Playerlist.list.get(i).move(0, 1);
-//	 if (Playerlist.list.get(i).isMovingDown() == true)
-//	 Playerlist.list.get(i).move(0, -1);
-//	 }
-//	 }
-//	 });
+	// javax.swing.Timer t = new javax.swing.Timer(10, new ActionListener() {
+	// public void actionPerformed(ActionEvent e) {
+	// for (int i = 0; i < Playerlist.list.size(); i++) {
+	// if (Playerlist.list.get(i).isMovingRight() == true)
+	// Playerlist.list.get(i).move(1, 0);
+	// if (Playerlist.list.get(i).isMovingLeft() == true)
+	// Playerlist.list.get(i).move(-1, 0);
+	// if (Playerlist.list.get(i).isMovingUp() == true)
+	// Playerlist.list.get(i).move(0, 1);
+	// if (Playerlist.list.get(i).isMovingDown() == true)
+	// Playerlist.list.get(i).move(0, -1);
+	// }
+	// }
+	// });
 
-//	 public void keyTyped(KeyEvent e) {
-//	
-//	 }
-	
+	// public void keyTyped(KeyEvent e) {
+	//
+	// }
+
 	// public void keyReleased(KeyEvent e) {
 	// for (int i = 0; i < Playerlist.list.size(); i++) {
 	//
@@ -218,58 +235,55 @@ public class GUI extends JFrame implements KeyListener {
 	// }
 	// t.start();
 	// }
-	
-	 
-	
+
 	// }
 
 	// public JPanel getPanel() {
 	// return panel;
 	// }
 
-	 @Override
-		public void keyPressed(KeyEvent e) {
-			if (39 == e.getKeyCode()) {
-				Client.tasten[0] = true;
-			}
-			if (38 == e.getKeyCode()) {
-				Client.tasten[1] = true;
-			}
-			if (37 == e.getKeyCode()) {
-				Client.tasten[2] = true;
-			}
-			if (40 == e.getKeyCode()) {
-				Client.tasten[3] = true;
-			}
-			if (10 == e.getKeyCode()) {
-				Client.tasten[4] = true;
-			}
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if (39 == e.getKeyCode()) {
+			Client.tasten[0] = true;
 		}
-
-		@Override
-		public void keyReleased(KeyEvent e) {
-			if (39 == e.getKeyCode()) {
-				Client.tasten[0] = false;
-			}
-			if (38 == e.getKeyCode()) {
-				Client.tasten[1] = false;
-			}
-			if (37 == e.getKeyCode()) {
-				Client.tasten[2] = false;
-			}
-			if (40 == e.getKeyCode()) {
-				Client.tasten[3] = false;
-			}
-			if (10 == e.getKeyCode()) {
-				Client.tasten[4] = false;
-			}
+		if (38 == e.getKeyCode()) {
+			Client.tasten[1] = true;
 		}
-
-		@Override
-		public void keyTyped(KeyEvent arg0) {
-			// TODO Auto-generated method stub
-
+		if (37 == e.getKeyCode()) {
+			Client.tasten[2] = true;
 		}
+		if (40 == e.getKeyCode()) {
+			Client.tasten[3] = true;
+		}
+		if (10 == e.getKeyCode()) {
+			Client.tasten[4] = true;
+		}
+	}
 
+	@Override
+	public void keyReleased(KeyEvent e) {
+		if (39 == e.getKeyCode()) {
+			Client.tasten[0] = false;
+		}
+		if (38 == e.getKeyCode()) {
+			Client.tasten[1] = false;
+		}
+		if (37 == e.getKeyCode()) {
+			Client.tasten[2] = false;
+		}
+		if (40 == e.getKeyCode()) {
+			Client.tasten[3] = false;
+		}
+		if (10 == e.getKeyCode()) {
+			Client.tasten[4] = false;
+		}
+	}
+
+	@Override
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+
+	}
 
 }

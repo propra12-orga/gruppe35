@@ -3,6 +3,16 @@ package main;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * 
+ * The DrawArray class contains everything that a GUI needs to draw everything.
+ * Its main purpost is to be serialized and send as a Graphics Package from a
+ * Server to a Client, where it is then processed by the GUI.
+ * <P>
+ * 
+ * @author Peet
+ */
+
 public class DrawArray implements Serializable {
 	public ArrayList<int[]> array = new ArrayList<int[]>();
 	public String[] playernames;

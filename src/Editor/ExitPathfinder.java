@@ -6,6 +6,17 @@ import java.util.Stack;
 
 import Editor.Field;
 
+/**
+ * 
+ * The Purpose of the ExitPathfinder is to check, if there exists a viable path
+ * from a point to the Exit of a level.
+ * 
+ * The ExitPathfinder does the same as the PathFinder class, except that Earth
+ * Fields are considered passable, because they can be destroyed with bombs.
+ * <P>
+ * 
+ * @author Fabian
+ */
 
 public class ExitPathfinder {
 
@@ -51,14 +62,14 @@ public class ExitPathfinder {
 		for (int x = 0; x < GLevelEditor.level.getXsize(); x++) {
 			for (int y = 0; y < GLevelEditor.level.getYsize(); y++) {
 				Field field = GLevelEditor.level.getField(x, y);
-				if (field.isSolid()&& field.isTransformable()==null) {
+				if (field.isSolid() && field.isTransformable() == null) {
 					nodes[x][y] = null;
 				} else {
 					nodes[x][y] = new Node(x, y, 0, 0);
 				}
 			}
 		}
-		//Endknoten bestimmen
+		// Endknoten bestimmen
 		endNode = nodes[xd][yd];
 
 		// Startknoten hinzufügen
@@ -130,8 +141,8 @@ public class ExitPathfinder {
 			// f Wert des Knotens in der Open List aktualisieren
 			// bzw. Knoten mit f Wert in die Open List einfügen
 			int h = Math.abs((x - endNode.x)) + Math.abs((y - endNode.y)); // Heuristische
-																// Strecke bis
-																// zum Ziel
+			// Strecke bis
+			// zum Ziel
 			int f = tentative_g + h;
 			// Neu einfügen mit neuer Priorität
 			successor.f = f;
@@ -141,10 +152,10 @@ public class ExitPathfinder {
 		}
 	}
 
-	public Stack<int[]> getPath(){
+	public Stack<int[]> getPath() {
 		Stack<int[]> path = new Stack<int[]>();
 		Node currentNode = endNode;
-		while(currentNode.predecessor != null){
+		while (currentNode.predecessor != null) {
 			int[] step = new int[2];
 			step[0] = currentNode.x;
 			step[1] = currentNode.y;
@@ -153,6 +164,6 @@ public class ExitPathfinder {
 			currentNode = currentNode.predecessor;
 		}
 
-		return(path);
+		return (path);
 	}
 }

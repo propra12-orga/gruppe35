@@ -1,6 +1,5 @@
 package Fields;
 
-
 /**
  * 
  * The Floor class is a child of the Field class and is the typical passable

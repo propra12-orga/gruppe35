@@ -47,9 +47,6 @@ public class Player extends Character {
 	protected boolean movingRight = false;
 	protected boolean movingLeft = false;
 
-	protected Control control;
-	
-
 	class Respawn extends TimerTask {
 		public void run() {
 			Player.this.spawn();
@@ -96,20 +93,10 @@ public class Player extends Character {
 		this.bombrange = bombrange;
 		this.bombtimer = bombtimer;
 		this.lifes = lifes;
-		this.control = new Control(name);
 
 		pixsizex = (int) (GlobalGraphics.sqsize * 0.5); // 25
 		pixsizey = (int) (GlobalGraphics.sqsize * 0.8); // 40
 
-	}
-	
-
-	public Control getControl() {
-		return control;
-	}
-
-	public void setControl(Control control) {
-		this.control = control;
 	}
 
 	public String getName() {

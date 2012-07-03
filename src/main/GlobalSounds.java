@@ -1,11 +1,14 @@
 package main;
 
-
 /**
  * 
- * Reserved for Sound related stuff drawarray contains information about
- * everything that has to be painted Also all the image paths are contained in
- * this class as well as their IDs
+ * Reserved for Sound related stuff. The int sound specifies the ID of the next
+ * sound to be played. This is required to send this ID from Server to Client,
+ * so that the Client can play the Sound.
+ * 
+ * Which sound is played for a specific ID is directly implemented in the
+ * playSound method. If the ID does not correspond to an implemented sound,
+ * simply no sound is played.
  * <P>
  * 
  * @author Peet
@@ -13,7 +16,7 @@ package main;
 
 public class GlobalSounds {
 	public static int sound;
-	
+
 	public static void playSound(int i) {
 		switch (i) {
 		case 1:

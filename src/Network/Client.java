@@ -17,6 +17,26 @@ import main.GUI;
 import main.GlobalGraphics;
 import main.GlobalSounds;
 
+/**
+ * 
+ * 
+ * The Client class is used for playing the game in the Network. If playstile is
+ * singleplayer, it connects to the local host, otherwise it will connect to a
+ * specified remote host.
+ * 
+ * The Client receives information about sounds to play, graphics to paint and
+ * sends information about controls given via the keyboard It inhabits a GUI to
+ * show on the screen the graphics it has received the ObjectInputStream ois is
+ * used for receiving serialized objects (graphics and sound) the
+ * ObjectOutputStream oos is used for sending serialized objects (the controls)
+ * 
+ * The communication with the Servers takes place in the main() method
+ * <P>
+ * 
+ * @author Peet, Friedrich
+ * 
+ */
+
 public class Client extends JFrame {
 
 	final public static GUI gui = new GUI();
@@ -75,8 +95,6 @@ public class Client extends JFrame {
 
 	public static void main(String[] args) throws Exception {
 
-		SerializedObject so1 = new SerializedObject();
-
 		SerializedBool bewegungen = new SerializedBool();
 
 		// so1.setArray(dataset_up);
@@ -126,22 +144,8 @@ public class Client extends JFrame {
 			synchronized (GlobalGraphics.drawarray) {
 				GlobalGraphics.drawarray = drawArrayPackage;
 			}
-			// // TEST OB GRAFIKPAKET GUT ANKOMMT
-			// for (int i = 0; i < GlobalGraphics.drawarray.array.size(); i++) {
-			// int[] drawItem = GlobalGraphics.drawarray.array.get(i);
-			// System.out.println("DrawItem " + i + ": " + drawItem[0] + ","
-			// + drawItem[1] + "," + drawItem[2] + "," + drawItem[3]
-			// + "," + drawItem[4]);
-			// }
-			// for (int i = 0; i < GlobalGraphics.drawarray.playernames.length;
-			// i++) {
-			// System.out.println("Playername: "
-			// + GlobalGraphics.drawarray.playernames[i] + " Leben = "
-			// + GlobalGraphics.drawarray.playerlifes[i]);
-			// }
 
 			// Bewegungspaket schnüren
-			so1.setArray(dataset_up);
 			bewegungen.setArray(tasten);
 			// Bewegungspaket abschicken
 			oos.reset();

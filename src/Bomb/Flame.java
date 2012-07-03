@@ -28,9 +28,9 @@ public class Flame implements Runnable {
 	protected int pixsizex = GlobalGraphics.sqsize;
 	protected int pixsizey = GlobalGraphics.sqsize;
 	protected int imageID;
-	
-	public int getImageID(){
-		return(imageID);
+
+	public int getImageID() {
+		return (imageID);
 	}
 
 	public int getPixsizex() {

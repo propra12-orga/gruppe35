@@ -66,30 +66,30 @@ public class Global {
 			"src/img/Powerup_Rup.gif");
 	public static final Image Bup = Toolkit.getDefaultToolkit().getImage(
 			"src/img/Powerup_Bup.gif");
-	
-	static{
-		imageList.add(image1); //0
-		imageList.add(image2); //1
-		imageList.add(flame); //2
-		imageList.add(image1standing); //3
-		imageList.add(image2standing); //4
-		imageList.add(image1dead); //5
-		imageList.add(image2dead); //6
-		imageList.add(boden); //7
-		imageList.add(mauer); //8
-		imageList.add(mauersolid); //9
-		imageList.add(exit); //10
-		imageList.add(bomb); //11
-		imageList.add(flame_h); //12
-		imageList.add(flame_v); //13
-		imageList.add(intro); //14
-		imageList.add(intro2); //15
-		imageList.add(seeker); //16
-		imageList.add(seekerstanding); //17
-		imageList.add(seekerdead); //18
-		imageList.add(Tup); //19
-		imageList.add(Rup); //20
-		imageList.add(Bup); //21
+
+	static {
+		imageList.add(image1); // 0
+		imageList.add(image2); // 1
+		imageList.add(flame); // 2
+		imageList.add(image1standing); // 3
+		imageList.add(image2standing); // 4
+		imageList.add(image1dead); // 5
+		imageList.add(image2dead); // 6
+		imageList.add(boden); // 7
+		imageList.add(mauer); // 8
+		imageList.add(mauersolid); // 9
+		imageList.add(exit); // 10
+		imageList.add(bomb); // 11
+		imageList.add(flame_h); // 12
+		imageList.add(flame_v); // 13
+		imageList.add(intro); // 14
+		imageList.add(intro2); // 15
+		imageList.add(seeker); // 16
+		imageList.add(seekerstanding); // 17
+		imageList.add(seekerdead); // 18
+		imageList.add(Tup); // 19
+		imageList.add(Rup); // 20
+		imageList.add(Bup); // 21
 	}
 
 }

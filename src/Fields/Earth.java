@@ -4,7 +4,8 @@ package Fields;
  * 
  * 
  * The Earth class is a child of the Field class and is simply the type of field
- * which is solid, but transforms into Floor when it is destroyed
+ * which is solid, but transforms into Floor when it is destroyed It is also
+ * capable of spawning Powerups when destroyed
  * <P>
  * 
  * @author Peet

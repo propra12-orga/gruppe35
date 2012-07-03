@@ -7,6 +7,21 @@ import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * 
+ * The Sound class is a simple sound thread to play sounds. When it starts, the
+ * implemented AudioClip sound is played. The first argument of the constructor
+ * should be the Path to the Sound file. The second argument should be the
+ * duration in milliseconds, how long the sound shall be played. If the duration
+ * is negative or zero, the Sound will be looped.
+ * 
+ * When the Sound class has been created, it is simply run by invoking the
+ * start() method.
+ * <P>
+ * 
+ * @author Peet
+ */
+
 public class Sound implements Runnable {
 
 	protected Thread thread = null;
@@ -27,7 +42,6 @@ public class Sound implements Runnable {
 			e1.printStackTrace();
 		}
 
-		
 	}
 
 	public synchronized void start() {
@@ -62,7 +76,7 @@ public class Sound implements Runnable {
 				}
 				stop();
 			} else {
-				
+
 				// Endlosschleife
 			}
 		}

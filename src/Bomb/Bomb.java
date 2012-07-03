@@ -167,8 +167,8 @@ public class Bomb implements Runnable {
 			owner = null; // Besitzer dereferenzieren
 			level = null; // Level dereferenzieren
 
-			//new Sound("src/sounds/Explosion.wav", 1000).start();
-			
+			// new Sound("src/sounds/Explosion.wav", 1000).start();
+
 			GlobalSounds.sound = 1;
 		}
 	}

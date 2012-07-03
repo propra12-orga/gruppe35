@@ -42,23 +42,25 @@ public class Field {
 	public boolean exit;
 	protected String fieldtype;
 
-	public int getImageID(){
-		return(imageID);
+	public int getImageID() {
+		return (imageID);
 	}
-	
+
 	public Field isTransformable() {
 		return transformto;
 	}
 
-	public boolean isExit(){
+	public boolean isExit() {
 		return exit;
 	}
+
 	public boolean isSolid() {
 		return solid;
 	}
-	public String getFieldtype(){
+
+	public String getFieldtype() {
 		return fieldtype;
-		}
+	}
 
 	public int getFlame() {
 		return flame;
@@ -71,8 +73,9 @@ public class Field {
 	public void setSolid(boolean solid) {
 		this.solid = solid;
 	}
-	public void markAsExit(boolean exit){
-		this.exit=exit;
+
+	public void markAsExit(boolean exit) {
+		this.exit = exit;
 	}
 
 	public List<Character> getCharacterlist() {
@@ -80,7 +83,7 @@ public class Field {
 	}
 
 	public Field() {
-		this(false, null, 7, false,false,null);
+		this(false, null, 7, false, false, null);
 	}
 
 	public Field(boolean solid, Field transformto, int imageID,
@@ -89,10 +92,10 @@ public class Field {
 		this.transformto = transformto;
 		this.imageID = imageID;
 		this.spawnsPowerup = spawnsPowerup;
-		this.exit=exit;
-		this.fieldtype=fieldtype;
+		this.exit = exit;
+		this.fieldtype = fieldtype;
 	}
-	
+
 	public Bomb getBomb() {
 		return bomb;
 	}
@@ -169,7 +172,8 @@ public class Field {
 
 	// Copy Constructor
 	public Field(Field field) {
-		this(field.solid, field.transformto, field.imageID, field.spawnsPowerup, field.exit, field.fieldtype);
+		this(field.solid, field.transformto, field.imageID,
+				field.spawnsPowerup, field.exit, field.fieldtype);
 	}
 
 }

@@ -83,7 +83,7 @@ public class Level {
 			for (int x = 0; x < this.getXsize(); x++) {
 				g.drawImage(this.getField(x, y).getImage(), x * Global.sqsize,
 						y * Global.sqsize, Global.sqsize, Global.sqsize, panel);
-			
+
 			}
 		}
 	}
