@@ -36,7 +36,7 @@ public class Client extends JFrame {
 
 	public Client() {
 		try {
-			Client.socket = new Socket("169.254.255.61", 4000);
+			Client.socket = new Socket("localhost", 4000);
 			Client.oos = new ObjectOutputStream(socket.getOutputStream());
 			Client.ois = new ObjectInputStream(socket.getInputStream());
 		} catch (IOException e) {
@@ -118,8 +118,8 @@ public class Client extends JFrame {
 			oos.flush();
 
 			// Sound empfangen
-			//int sound = ois.readInt();
-			//GlobalSounds.playSound(sound);
+			int soundID = ois.readInt();
+			GlobalSounds.playSound(soundID);
 
 			// Grafikpaket empfangen
 			DrawArray drawArrayPackage = (DrawArray) ois.readObject();

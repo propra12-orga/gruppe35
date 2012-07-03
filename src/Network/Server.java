@@ -13,6 +13,7 @@ import main.Bomblist;
 import main.Enemylist;
 import main.Flamelist;
 import main.GlobalGraphics;
+import main.GlobalSounds;
 import main.Playerlist;
 import main.Poweruplist;
 import Character.Player;
@@ -273,35 +274,35 @@ class Connect extends Thread {
 			player.placebomb();
 
 		// Bastel Richtung aus Tastendrücken
-		//boolean horizontal = Math.abs(dirx) >= Math.abs(diry);
-		//if (horizontal) {
-			if (dirx < 0) {
-				player.setMovingLeft(true);
-				player.setMovingRight(false);
-			}
-			if (dirx > 0) {
-				player.setMovingLeft(false);
-				player.setMovingRight(true);
-			}
-			if (dirx == 0){
-				player.setMovingLeft(false);
-				player.setMovingRight(false);
-			}
-			if(diry == 0){
-				player.setMovingUp(false);
-				player.setMovingDown(false);
-			}
-				
-		//} else {
-			if (diry < 0) {
-				player.setMovingUp(false);
-				player.setMovingDown(true);
-			}
-			if (diry > 0) {
-				player.setMovingUp(true);
-				player.setMovingDown(false);
-			}
-		//}
+		// boolean horizontal = Math.abs(dirx) >= Math.abs(diry);
+		// if (horizontal) {
+		if (dirx < 0) {
+			player.setMovingLeft(true);
+			player.setMovingRight(false);
+		}
+		if (dirx > 0) {
+			player.setMovingLeft(false);
+			player.setMovingRight(true);
+		}
+		if (dirx == 0) {
+			player.setMovingLeft(false);
+			player.setMovingRight(false);
+		}
+		if (diry == 0) {
+			player.setMovingUp(false);
+			player.setMovingDown(false);
+		}
+
+		// } else {
+		if (diry < 0) {
+			player.setMovingUp(false);
+			player.setMovingDown(true);
+		}
+		if (diry > 0) {
+			player.setMovingUp(true);
+			player.setMovingDown(false);
+		}
+		// }
 	}
 
 	public void run() {
@@ -309,7 +310,6 @@ class Connect extends Thread {
 
 		Boolean tasten[] = new Boolean[4];
 
-		
 		boolean connected = true;
 		while (connected) {
 			try {
@@ -317,20 +317,21 @@ class Connect extends Thread {
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
 			}
-			
-			
+
 			int result[] = { 0, 0, 0 };
 			connected = false;
 			try {
 				// Besteht die Verbindung überhaupt noch?
 				connected = ois.readBoolean();
-				
+
 				// Sound abschicken
-				//oos.reset();
-				//oos.writeInt(GlobalSounds.sound);
-				//oos.flush();
-				
-				//Grafikpaket schnüren
+				oos.reset();
+				oos.writeInt(GlobalSounds.sound);
+				oos.flush();
+				// Sound löschen, damit er nicht nochmal abgeschickt wird
+				GlobalSounds.sound = 0;
+
+				// Grafikpaket schnüren
 				synchronized (GlobalGraphics.drawarray) {
 					createGraphicsPackage();
 				}
@@ -357,7 +358,6 @@ class Connect extends Thread {
 					result[2]++; // bombe
 
 				movePlayer(result[0], result[1], result[2]);
-
 
 			} catch (Exception e) {
 				e.printStackTrace();
