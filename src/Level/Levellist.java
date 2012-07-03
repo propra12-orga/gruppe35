@@ -97,10 +97,11 @@ public class Levellist {
 			
 			searchNodeList = rootElement.getElementsByTagName("spawnpointsbaer");
 			NodeList baerNodes = searchNodeList.item(0).getChildNodes();
-
+			
+		
 			searchNodeList = rootElement.getElementsByTagName("exits");
 			NodeList exitNodes = searchNodeList.item(0).getChildNodes();
-
+			 
 			// Lese Spawnpoints aus
 			int spawnpointnum = spawnpointNodes.getLength();
 			int spawnpoints[][] = new int[spawnpointnum][2];
@@ -114,6 +115,7 @@ public class Levellist {
 		
 
 			// Lese Exits aus
+			
 			int exitnum = exitNodes.getLength();
 			int exits[][] = new int[exitnum][2];
 			for (int i = 0; i < exitnum; i++) {
@@ -123,6 +125,7 @@ public class Levellist {
 				exits[i][0] = x;
 				exits[i][1] = y;
 			}
+			
 
 			// Erstelle Level
 			Level level = new Level(xsize, ysize, spawnpoints);
