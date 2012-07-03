@@ -36,7 +36,7 @@ public class Client extends JFrame {
 
 	public Client() {
 		try {
-			Client.socket = new Socket("169.254.83.216", 4000);
+			Client.socket = new Socket("169.254.255.61", 4000);
 			Client.oos = new ObjectOutputStream(socket.getOutputStream());
 			Client.ois = new ObjectInputStream(socket.getInputStream());
 		} catch (IOException e) {
