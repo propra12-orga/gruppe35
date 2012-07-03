@@ -13,7 +13,6 @@ import main.Bomblist;
 import main.Enemylist;
 import main.Flamelist;
 import main.GlobalGraphics;
-import main.GlobalSounds;
 import main.Playerlist;
 import main.Poweruplist;
 import Character.Player;
@@ -313,6 +312,13 @@ class Connect extends Thread {
 		
 		boolean connected = true;
 		while (connected) {
+			try {
+				Thread.sleep(1);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+			
+			
 			int result[] = { 0, 0, 0 };
 			connected = false;
 			try {

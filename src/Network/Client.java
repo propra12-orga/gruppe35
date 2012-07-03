@@ -36,7 +36,7 @@ public class Client extends JFrame {
 
 	public Client() {
 		try {
-			Client.socket = new Socket("localhost", 4000);
+			Client.socket = new Socket("169.254.83.216", 4000);
 			Client.oos = new ObjectOutputStream(socket.getOutputStream());
 			Client.ois = new ObjectInputStream(socket.getInputStream());
 		} catch (IOException e) {
@@ -107,6 +107,11 @@ public class Client extends JFrame {
 		// error("Verwendung: java UniversalClient " + "<server> <port>");
 
 		while (!gui.isClosed()) {
+			try {
+				Thread.sleep(1);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
 			// Sende, dass diese Verbindung noch besteht
 			oos.reset();
 			oos.writeBoolean(true);
