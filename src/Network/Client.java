@@ -15,8 +15,9 @@ import javax.swing.JFrame;
 import main.DrawArray;
 import main.GUI;
 import main.GlobalGraphics;
+import main.GlobalSounds;
 
-public class Client extends JFrame  {
+public class Client extends JFrame {
 
 	final public static GUI gui = new GUI();
 	private static ObjectInputStream ois = null;
@@ -29,7 +30,7 @@ public class Client extends JFrame  {
 	}
 
 	public static OutputStream out;
-	
+
 	public static int dataset_up[] = { 0 };
 	public static Boolean tasten[] = { false, false, false, false, false };
 
@@ -78,8 +79,12 @@ public class Client extends JFrame  {
 
 		SerializedBool bewegungen = new SerializedBool();
 
+<<<<<<< HEAD
 		
 	
+=======
+		// so1.setArray(dataset_up);
+>>>>>>> 905ea0c1392e0eef8c6ab76401fc5a941e3c50a9
 
 		// Eigentlicher Client
 		final Client client = new Client();
@@ -112,6 +117,10 @@ public class Client extends JFrame  {
 			oos.writeBoolean(true);
 			oos.flush();
 
+			//// Sound empfangen
+			//int sound = ois.readInt();
+			//GlobalSounds.playSound(sound);
+
 			// Grafikpaket empfangen
 			DrawArray drawArrayPackage = (DrawArray) ois.readObject();
 			synchronized (GlobalGraphics.drawarray) {
@@ -140,8 +149,8 @@ public class Client extends JFrame  {
 			oos.flush();
 
 			// Bewegungen aufzeichnen
-			//for (int i = 0; i < tasten.length; i++)
-				//tasten[i] = false;
+			// for (int i = 0; i < tasten.length; i++)
+			// tasten[i] = false;
 
 			try {
 				TimeUnit.MILLISECONDS.sleep(1);
