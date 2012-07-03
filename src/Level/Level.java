@@ -22,12 +22,12 @@ public class Level {
 	protected boolean locked = true;
 	private int spawnpoints[][]; // [number][x,y]
 
-	public double getSpawnx() {
-		return (spawnpoints[0][0] + 0.5);
+	public double getSpawnx(int i) {
+		return (spawnpoints[i][0] + 0.5);
 	}
 
-	public double getSpawny() {
-		return (spawnpoints[0][1] + 0.5);
+	public double getSpawny(int i) {
+		return (spawnpoints[i][1] + 0.5);
 	}
 
 	public boolean isLocked() {
