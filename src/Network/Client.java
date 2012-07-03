@@ -112,9 +112,9 @@ public class Client extends JFrame {
 			oos.writeBoolean(true);
 			oos.flush();
 
-			//// Sound empfangen
-			//int sound = ois.readInt();
-			//GlobalSounds.playSound(sound);
+			// Sound empfangen
+			int sound = ois.readInt();
+			GlobalSounds.playSound(sound);
 
 			// Grafikpaket empfangen
 			DrawArray drawArrayPackage = (DrawArray) ois.readObject();

@@ -321,7 +321,7 @@ class Connect extends Thread {
 				
 				// Sound abschicken
 				//oos.reset();
-				//oos.writeObject(GlobalSounds.sound);
+				//oos.writeInt(GlobalSounds.sound);
 				//oos.flush();
 				
 				//Grafikpaket schnüren
