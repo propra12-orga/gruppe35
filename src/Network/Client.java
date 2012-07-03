@@ -2,8 +2,6 @@ package Network;
 
 // Dieses Programm sendet Benutzereingaben an
 // einen Server und zeigt die Antworten an
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -17,8 +15,9 @@ import javax.swing.JFrame;
 import main.DrawArray;
 import main.GUI;
 import main.GlobalGraphics;
+import main.GlobalSounds;
 
-public class Client extends JFrame  {
+public class Client extends JFrame {
 
 	final public static GUI gui = new GUI();
 	private static ObjectInputStream ois = null;
@@ -31,7 +30,7 @@ public class Client extends JFrame  {
 	}
 
 	public static OutputStream out;
-	
+
 	public static int dataset_up[] = { 0 };
 	public static Boolean tasten[] = { false, false, false, false, false };
 
@@ -80,7 +79,6 @@ public class Client extends JFrame  {
 
 		SerializedBool bewegungen = new SerializedBool();
 
-		int positionen[] = new int[3];
 		// so1.setArray(dataset_up);
 
 		// Eigentlicher Client
@@ -114,6 +112,10 @@ public class Client extends JFrame  {
 			oos.writeBoolean(true);
 			oos.flush();
 
+			//// Sound empfangen
+			//int sound = ois.readInt();
+			//GlobalSounds.playSound(sound);
+
 			// Grafikpaket empfangen
 			DrawArray drawArrayPackage = (DrawArray) ois.readObject();
 			synchronized (GlobalGraphics.drawarray) {
@@ -142,8 +144,8 @@ public class Client extends JFrame  {
 			oos.flush();
 
 			// Bewegungen aufzeichnen
-			//for (int i = 0; i < tasten.length; i++)
-				//tasten[i] = false;
+			// for (int i = 0; i < tasten.length; i++)
+			// tasten[i] = false;
 
 			try {
 				TimeUnit.MILLISECONDS.sleep(1);

@@ -4,7 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 import main.Bomblist;
 import main.GlobalGraphics;
-import main.Sound;
+import main.GlobalSounds;
 import Character.Player;
 import Fields.Field;
 import Level.Level;
@@ -41,9 +41,9 @@ public class Bomb implements Runnable {
 	protected int pixsizex = (int) (GlobalGraphics.sqsize * 0.6);
 	protected int pixsizey = (int) (GlobalGraphics.sqsize * 0.6);
 	protected int imageID = 11;
-	
-	public int getImageID(){
-		return(imageID);
+
+	public int getImageID() {
+		return (imageID);
 	}
 
 	private Thread thread = null;
@@ -167,8 +167,9 @@ public class Bomb implements Runnable {
 			owner = null; // Besitzer dereferenzieren
 			level = null; // Level dereferenzieren
 
-			new Sound("src/sounds/Explosion.wav", 1000).start();
-
+			//new Sound("src/sounds/Explosion.wav", 1000).start();
+			
+			GlobalSounds.sound = 1;
 		}
 	}
 

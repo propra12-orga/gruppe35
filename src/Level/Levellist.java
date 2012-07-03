@@ -182,7 +182,7 @@ public class Levellist {
 				spawnpointsbaer[i][1] = y;
 				Enemy Baer =new Seeker(spawnpointsbaer[i][0],spawnpointsbaer[i][1]);
 				Enemylist.list.add(Baer);
-				
+				Baer.spawn();
 				
 			}
 		

@@ -1,6 +1,5 @@
 package Fields;
 
-
 /**
  * 
  * 
@@ -30,6 +29,7 @@ public class Earth extends Field {
 		this.spawnsPowerup = true;
 		this.exit = false;
 		this.fieldtype = "E";
+		this.imageID = 8;
 	}
 
 }

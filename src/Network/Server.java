@@ -13,6 +13,7 @@ import main.Bomblist;
 import main.Enemylist;
 import main.Flamelist;
 import main.GlobalGraphics;
+import main.GlobalSounds;
 import main.Playerlist;
 import main.Poweruplist;
 import Character.Player;
@@ -273,7 +274,7 @@ class Connect extends Thread {
 			player.placebomb();
 
 		// Bastel Richtung aus Tastendrücken
-		boolean horizontal = Math.abs(dirx) >= Math.abs(diry);
+		//boolean horizontal = Math.abs(dirx) >= Math.abs(diry);
 		//if (horizontal) {
 			if (dirx < 0) {
 				player.setMovingLeft(true);
@@ -317,6 +318,13 @@ class Connect extends Thread {
 			try {
 				// Besteht die Verbindung überhaupt noch?
 				connected = ois.readBoolean();
+				
+				// Sound abschicken
+				//oos.reset();
+				//oos.writeObject(GlobalSounds.sound);
+				//oos.flush();
+				
+				//Grafikpaket schnüren
 				synchronized (GlobalGraphics.drawarray) {
 					createGraphicsPackage();
 				}

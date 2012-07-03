@@ -244,7 +244,6 @@ public class GUI extends JFrame implements KeyListener {
 			if (10 == e.getKeyCode()) {
 				Client.tasten[4] = true;
 			}
-			System.out.println(e.getKeyCode() + " pressed");
 		}
 
 		@Override
@@ -264,7 +263,6 @@ public class GUI extends JFrame implements KeyListener {
 			if (10 == e.getKeyCode()) {
 				Client.tasten[4] = false;
 			}
-			System.out.println(e.getKeyCode() + " released");
 		}
 
 		@Override
