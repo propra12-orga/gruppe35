@@ -47,6 +47,7 @@ public class GLevelEditor extends JFrame {
 	static JButton setExit = new JButton("setExit");
 	static JButton enemy = new JButton("MicroCanonicalBear");
 	static JButton save = new JButton("SaveLevel");
+	static JButton randomLevel = new JButton("RandomLevel");
 	static JButton stonegrid = new JButton("addStoneGrid");
 	static JSpinner XSpinner;
 	static JSpinner YSpinner;
@@ -101,6 +102,7 @@ public class GLevelEditor extends JFrame {
 		editLevel.setVisible(false);
 		save.setVisible(false);
 		enemy.setVisible(false);
+		randomLevel.setVisible(false);
 		// SinglePlayerButton
 		GridBagConstraints spc = new GridBagConstraints();
 		spc.gridx = 0;
@@ -137,6 +139,7 @@ public class GLevelEditor extends JFrame {
 				save.setVisible(true);
 				stonegrid.setVisible(true);
 				enemy.setVisible(true);
+				randomLevel.setVisible(true);
 				resizeFrame();
 
 			}
@@ -290,6 +293,61 @@ public class GLevelEditor extends JFrame {
 
 			}
 		});
+		// saveLevel Button
+				GridBagConstraints rl = new GridBagConstraints();
+				rl.gridx = 0;
+				rl.gridy = 4;
+				rl.gridwidth = 2;
+				rl.fill = GridBagConstraints.HORIZONTAL;
+				// sl.weightx = 1.0;
+				// cp1.setLayout(new GridBagLayout());
+				cp.add(randomLevel, rl);
+				randomLevel.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						createEmptyLevel();
+						ExitPathfinder pathfinder = new ExitPathfinder();
+						boolean exitErreichbar=false;
+						
+						Modus=0;
+						EditOrSetExit.setText("EditLevel");
+						Exit exit =new Exit();
+						while (!exitErreichbar){
+							
+							for (int x=xsize-1;x>=0;x--){
+								for (int y=ysize-1;y>=0;y--){
+									int imax=RandomNumber(0,3);
+									for (int i=0;i<imax;i++)
+										changeField(x,y);
+									EditorPanel.repaint();
+								}
+								
+								EditorPanel.repaint();
+							}
+							int xrand=RandomNumber((int)xsize/2,xsize);
+							int yrand=RandomNumber((int)ysize/2,ysize);
+							if (level.getField(xrand, yrand) instanceof Floor){
+								level.setField(xrand, yrand,exit);
+								EditorPanel.repaint();
+								exitExistent=true;
+								exitPosition[0] = xrand;
+								exitPosition[1] = yrand;
+							}if (level.getField(xrand, yrand) instanceof Earth){
+								level.getField(xrand, yrand).setTransformto(exit);
+								EditorPanel.repaint();
+								exitExistent=true;
+								exitPosition[0] = xrand;
+								exitPosition[1] = yrand;
+								
+							}
+							exitErreichbar=pathfinder.find(0,0,exitPosition[0],exitPosition[1]);
+							
+						}
+						
+						
+						
+					}
+				});
 		GridBagConstraints sg = new GridBagConstraints();
 		sg.gridx = 0;
 		sg.gridy = 2;
@@ -384,7 +442,7 @@ public class GLevelEditor extends JFrame {
 		GridBagConstraints pa = new GridBagConstraints();
 		pa.fill = GridBagConstraints.BOTH;
 		pa.gridx = 0;
-		pa.gridy = 4;
+		pa.gridy = 5;
 		pa.gridwidth = 2;
 		pa.gridheight = 4;
 		pa.weightx = 1.0;
@@ -510,7 +568,7 @@ public class GLevelEditor extends JFrame {
 		Earth earth = new Earth(); // Zerstörbarer Block
 		Field exit = new Exit();
 		boolean besetzt;
-		
+
 		if (x == 0 && y == 0)
 			besetzt = true;
 		else
@@ -660,6 +718,11 @@ public class GLevelEditor extends JFrame {
 				+ ".txt"));
 		transformer.transform(source, result);
 		System.out.println("gespeichert");
+	}
+
+	public static int RandomNumber(int low, int high) {
+		high++;
+		return (int) (Math.random() * (high - low) + low);
 	}
 
 	public static void main(String args[]) {
