@@ -1,9 +1,11 @@
 package Character;
 
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import main.GlobalGraphics;
+import main.Playerlist;
 import Bomb.Bomb;
 import Level.Levellist;
 
@@ -47,6 +49,7 @@ public class Player extends Character {
 	protected boolean movingLeft = false;
 
 	protected Control control;
+	
 
 	class Respawn extends TimerTask {
 		public void run() {
@@ -199,8 +202,9 @@ public class Player extends Character {
 	}
 
 	public void spawn() {
-		spawn(Levellist.activeLevel.getSpawnx(),
-				Levellist.activeLevel.getSpawny());
+		int index = Playerlist.list.indexOf(this);
+		spawn(Levellist.activeLevel.getSpawnx(index),
+				Levellist.activeLevel.getSpawny(index));
 	}
 
 }

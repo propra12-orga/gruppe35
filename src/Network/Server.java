@@ -19,9 +19,9 @@ import Level.Levellist;
 public class Server extends Thread {
 
 	public static void main(String[] args) throws Exception {
-		final Server server = new Server();
 		// Lade erstes Level
 		Levellist.load(0);
+		final Server server = new Server();
 	}
 
 	private ServerSocket serverSocket;
@@ -130,14 +130,20 @@ class Connect extends Thread {
 
 	public void initialize() {
 		// Schnüre Initialisierungspaket
-		createGraphicsPackage();
-		try {
-			oos.reset();
-			oos.writeObject(GlobalGraphics.drawarray);
-			oos.flush();
-		} catch (IOException e) {
-			e.printStackTrace();
+		synchronized (GlobalGraphics.drawarray) {
+			createGraphicsPackage();
 		}
+		// Grafikpaket abschicken
+		synchronized (GlobalGraphics.drawarray) {
+			try {
+				oos.reset();
+				oos.writeObject(GlobalGraphics.drawarray);
+				oos.flush();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
 		// Trage in Verbindungsliste ein
 		// Wenn erster Spieler dann spiele Boltzmann, sonst Feynman
 		int i = Server.connectionList.size();
@@ -145,11 +151,13 @@ class Connect extends Thread {
 		case 0:
 			this.player = new Player("Boltzmann", 0.03, 2, 2, 2, 3, 0, 3, 5);
 			Playerlist.list.add(this.player);
+			this.player.spawn();
 			System.out.println(this.player.getName() + " joined the game!");
 			break;
 		case 1:
 			this.player = new Player("Feynman", 0.03, 2, 2, 2, 3, 1, 4, 6);
 			Playerlist.list.add(this.player);
+			this.player.spawn();
 			System.out.println(this.player.getName() + " joined the game!");
 			break;
 
@@ -255,11 +263,15 @@ class Connect extends Thread {
 			try {
 				// Besteht die Verbindung überhaupt noch?
 				connected = ois.readBoolean();
-				createGraphicsPackage();
-				// Grafikpaket abschicken
-				oos.reset();
-				oos.writeObject(GlobalGraphics.drawarray);
-				oos.flush();
+				synchronized (GlobalGraphics.drawarray) {
+					createGraphicsPackage();
+				}
+				synchronized (GlobalGraphics.drawarray) {
+					// Grafikpaket abschicken
+					oos.reset();
+					oos.writeObject(GlobalGraphics.drawarray);
+					oos.flush();
+				}
 
 				// Steuerungspaket empfangen
 				sebool = (SerializedBool) ois.readObject();

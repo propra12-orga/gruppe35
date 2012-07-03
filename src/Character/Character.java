@@ -163,7 +163,7 @@ public class Character {
 			System.out.println("Invalid Spawn point at " + (int) (posx) + ", "
 					+ (int) (posy));
 		}
-		System.out.println("Spawn at" + (int) (posx) + ", " + (int) (posy));
+		System.out.println("Spawn at " + (int) (posx) + ", " + (int) (posy));
 		dead = false;
 	}
 	

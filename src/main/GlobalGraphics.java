@@ -6,7 +6,9 @@ import java.util.ArrayList;
 
 /**
  * 
- * Reserved for possible misc. global variables
+ * Reserved for GraphicsRelated stuff
+ * drawarray contains information about everything that has to be painted
+ * Also all the image paths are contained in this class as well as their IDs
  * <P>
  * 
  * @author Peet

@@ -82,7 +82,8 @@ public class GUI extends JFrame implements KeyListener {
 			// @Override
 			public void paintComponent(Graphics g) {
 
-				for (int i = GlobalGraphics.drawarray.array.size() - 1; i >= 0; i--) {
+				//for (int i = GlobalGraphics.drawarray.array.size() - 1; i >= 0; i--) {
+				for (int i = 0; i < GlobalGraphics.drawarray.array.size(); i++) {
 					int[] drawItem = GlobalGraphics.drawarray.array.get(i);
 					g.drawImage(GlobalGraphics.imageList.get(drawItem[4]),
 							drawItem[0], drawItem[1], drawItem[2], drawItem[3],
@@ -183,7 +184,7 @@ public class GUI extends JFrame implements KeyListener {
 	//
 	// }
 
-	// public void keyPressed(KeyEvent e) {
+	 public void keyPressed(KeyEvent e) {
 	//
 	// for (int i = 0; i < Playerlist.list.size(); i++) {
 	//
@@ -215,20 +216,17 @@ public class GUI extends JFrame implements KeyListener {
 	// }
 	// t.start();
 	// }
-	//
+	
 	// Graphics g = getGraphics();
 	// g.clearRect(0, 0, getWidth(), getHeight());
 	// super.paint(g);
 	// panel.repaint();
-	//
-	// }
+	
+	 }
 
 	// public JPanel getPanel() {
 	// return panel;
 	// }
-
-	public void keyPressed(KeyEvent e) {
-	}
 
 	public void keyReleased(KeyEvent e) {
 	}
