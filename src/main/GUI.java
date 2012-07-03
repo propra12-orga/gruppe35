@@ -12,8 +12,6 @@ import java.awt.event.WindowListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-
-
 public class GUI extends JFrame implements KeyListener {
 	public JPanel panel;
 	public Runnable runnable = null;
@@ -27,16 +25,15 @@ public class GUI extends JFrame implements KeyListener {
 
 		super("Boltzmann - Total Destruction");
 	}
-	
-	
-	public boolean isInitialized(){
-		return(initialized);
+
+	public boolean isInitialized() {
+		return (initialized);
 	}
-	
-	public boolean isClosed(){
-		return(closed);
+
+	public boolean isClosed() {
+		return (closed);
 	}
-	
+
 	public void initialize() {
 		if (windowListener == null) {
 			windowListener = new WindowListener() {
@@ -74,7 +71,7 @@ public class GUI extends JFrame implements KeyListener {
 				}
 			};
 			addWindowListener(windowListener);
-			
+
 			initialized = true;
 		}
 
@@ -91,18 +88,18 @@ public class GUI extends JFrame implements KeyListener {
 							drawItem[0], drawItem[1], drawItem[2], drawItem[3],
 							panel);
 				}
-				g.drawRect(GlobalGraphics.drawarray.statsRect[0],
-						GlobalGraphics.drawarray.statsRect[1],
-						GlobalGraphics.drawarray.statsRect[2],
-						GlobalGraphics.drawarray.statsRect[3]);
+				g.drawRect(GlobalGraphics.sqsize
+						* GlobalGraphics.drawarray.levelSize[0], 0, 100, 100);
 				for (int i = 0; i < GlobalGraphics.drawarray.playernames.length; i++) {
 					g.drawString(GlobalGraphics.drawarray.playernames[i],
-							GlobalGraphics.drawarray.playernameposx[i],
-							20 + i * 50);
+							GlobalGraphics.sqsize
+									* GlobalGraphics.drawarray.levelSize[0]
+									+ 10, 20 + i * 50);
 					g.drawString("Leben: "
 							+ GlobalGraphics.drawarray.playerlifes[i],
-							GlobalGraphics.drawarray.playerlifeposx[i],
-							40 + i * 50);
+							GlobalGraphics.sqsize
+									* GlobalGraphics.drawarray.levelSize[0]
+									+ 10, 40 + i * 50);
 				}
 
 			}
@@ -130,108 +127,113 @@ public class GUI extends JFrame implements KeyListener {
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
 		this.pack();
-		this.setSize(GlobalGraphics.drawarray.levelSize[0] * GlobalGraphics.sqsize
-				* 2, GlobalGraphics.drawarray.levelSize[1] * GlobalGraphics.sqsize
-				* 2);
+		this.setSize(GlobalGraphics.drawarray.levelSize[0]
+				* GlobalGraphics.sqsize * 2,
+				GlobalGraphics.drawarray.levelSize[1] * GlobalGraphics.sqsize
+						* 2);
 		// this.setResizable(false);
 		this.setVisible(true);
 	}
 
-//	javax.swing.Timer t = new javax.swing.Timer(10, new ActionListener() {
-//		public void actionPerformed(ActionEvent e) {
-//			for (int i = 0; i < Playerlist.list.size(); i++) {
-//				if (Playerlist.list.get(i).isMovingRight() == true)
-//					Playerlist.list.get(i).move(1, 0);
-//				if (Playerlist.list.get(i).isMovingLeft() == true)
-//					Playerlist.list.get(i).move(-1, 0);
-//				if (Playerlist.list.get(i).isMovingUp() == true)
-//					Playerlist.list.get(i).move(0, 1);
-//				if (Playerlist.list.get(i).isMovingDown() == true)
-//					Playerlist.list.get(i).move(0, -1);
-//			}
-//		}
-//	});
+	// javax.swing.Timer t = new javax.swing.Timer(10, new ActionListener() {
+	// public void actionPerformed(ActionEvent e) {
+	// for (int i = 0; i < Playerlist.list.size(); i++) {
+	// if (Playerlist.list.get(i).isMovingRight() == true)
+	// Playerlist.list.get(i).move(1, 0);
+	// if (Playerlist.list.get(i).isMovingLeft() == true)
+	// Playerlist.list.get(i).move(-1, 0);
+	// if (Playerlist.list.get(i).isMovingUp() == true)
+	// Playerlist.list.get(i).move(0, 1);
+	// if (Playerlist.list.get(i).isMovingDown() == true)
+	// Playerlist.list.get(i).move(0, -1);
+	// }
+	// }
+	// });
 
-//	public void keyTyped(KeyEvent e) {
-//
-//	}
-//
-//	public void keyReleased(KeyEvent e) {
-//		for (int i = 0; i < Playerlist.list.size(); i++) {
-//
-//			// Rechts Spieler
-//			if (Playerlist.list.get(i).getControl().getRight() == e
-//					.getKeyCode()) {
-//				Playerlist.list.get(i).setMovingRight(false);
-//
-//			}
-//			// Links Spieler
-//			if (Playerlist.list.get(i).getControl().getLeft() == e.getKeyCode()) {
-//				Playerlist.list.get(i).setMovingLeft(false);
-//
-//			}
-//			// Oben Spieler
-//			if (Playerlist.list.get(i).getControl().getUp() == e.getKeyCode()) {
-//				Playerlist.list.get(i).setMovingUp(false);
-//
-//			}
-//			// Unten Spieler
-//			if (Playerlist.list.get(i).getControl().getDown() == e.getKeyCode()) {
-//				Playerlist.list.get(i).setMovingDown(false);
-//
-//			}
-//			t.start();
-//		}
-//
-//	}
+	// public void keyTyped(KeyEvent e) {
+	//
+	// }
+	//
+	// public void keyReleased(KeyEvent e) {
+	// for (int i = 0; i < Playerlist.list.size(); i++) {
+	//
+	// // Rechts Spieler
+	// if (Playerlist.list.get(i).getControl().getRight() == e
+	// .getKeyCode()) {
+	// Playerlist.list.get(i).setMovingRight(false);
+	//
+	// }
+	// // Links Spieler
+	// if (Playerlist.list.get(i).getControl().getLeft() == e.getKeyCode()) {
+	// Playerlist.list.get(i).setMovingLeft(false);
+	//
+	// }
+	// // Oben Spieler
+	// if (Playerlist.list.get(i).getControl().getUp() == e.getKeyCode()) {
+	// Playerlist.list.get(i).setMovingUp(false);
+	//
+	// }
+	// // Unten Spieler
+	// if (Playerlist.list.get(i).getControl().getDown() == e.getKeyCode()) {
+	// Playerlist.list.get(i).setMovingDown(false);
+	//
+	// }
+	// t.start();
+	// }
+	//
+	// }
 
-//	public void keyPressed(KeyEvent e) {
-//
-//		for (int i = 0; i < Playerlist.list.size(); i++) {
-//
-//			// Rechts Spieler
-//			if (Playerlist.list.get(i).getControl().getRight() == e
-//					.getKeyCode()) {
-//				Playerlist.list.get(i).setMovingRight(true);
-//
-//			}
-//			// Links Spieler
-//			if (Playerlist.list.get(i).getControl().getLeft() == e.getKeyCode()) {
-//				Playerlist.list.get(i).setMovingLeft(true);
-//
-//			}
-//			// Oben Spieler
-//			if (Playerlist.list.get(i).getControl().getUp() == e.getKeyCode()) {
-//				Playerlist.list.get(i).setMovingUp(true);
-//
-//			}
-//			// Unten Spieler
-//			if (Playerlist.list.get(i).getControl().getDown() == e.getKeyCode()) {
-//				Playerlist.list.get(i).setMovingDown(true);
-//
-//			}
-//			// Enter (Bombe) Spieler 1
-//			if (Playerlist.list.get(i).getControl().getPlaceBomb() == e
-//					.getKeyCode()) {
-//				Playerlist.list.get(i).placebomb();
-//			}
-//			t.start();
-//		}
-//
-//		Graphics g = getGraphics();
-//		g.clearRect(0, 0, getWidth(), getHeight());
-//		super.paint(g);
-//		panel.repaint();
-//
-//	}
+	// public void keyPressed(KeyEvent e) {
+	//
+	// for (int i = 0; i < Playerlist.list.size(); i++) {
+	//
+	// // Rechts Spieler
+	// if (Playerlist.list.get(i).getControl().getRight() == e
+	// .getKeyCode()) {
+	// Playerlist.list.get(i).setMovingRight(true);
+	//
+	// }
+	// // Links Spieler
+	// if (Playerlist.list.get(i).getControl().getLeft() == e.getKeyCode()) {
+	// Playerlist.list.get(i).setMovingLeft(true);
+	//
+	// }
+	// // Oben Spieler
+	// if (Playerlist.list.get(i).getControl().getUp() == e.getKeyCode()) {
+	// Playerlist.list.get(i).setMovingUp(true);
+	//
+	// }
+	// // Unten Spieler
+	// if (Playerlist.list.get(i).getControl().getDown() == e.getKeyCode()) {
+	// Playerlist.list.get(i).setMovingDown(true);
+	//
+	// }
+	// // Enter (Bombe) Spieler 1
+	// if (Playerlist.list.get(i).getControl().getPlaceBomb() == e
+	// .getKeyCode()) {
+	// Playerlist.list.get(i).placebomb();
+	// }
+	// t.start();
+	// }
+	//
+	// Graphics g = getGraphics();
+	// g.clearRect(0, 0, getWidth(), getHeight());
+	// super.paint(g);
+	// panel.repaint();
+	//
+	// }
 
 	// public JPanel getPanel() {
 	// return panel;
 	// }
-	
-	public void keyPressed(KeyEvent e){}
-	public void keyReleased(KeyEvent e){}
-	public void keyTyped(KeyEvent e){}
-	
+
+	public void keyPressed(KeyEvent e) {
+	}
+
+	public void keyReleased(KeyEvent e) {
+	}
+
+	public void keyTyped(KeyEvent e) {
+	}
 
 }

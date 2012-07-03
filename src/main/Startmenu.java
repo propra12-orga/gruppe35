@@ -39,7 +39,6 @@ public class Startmenu extends JFrame {
 				System.out.println("Hallo");
 				Startmenu.IntroStopped=true;
 				Startmenu.playsound=true;
-				Playerlist.singleplayer = true;
 					
 							
 			
@@ -61,7 +60,6 @@ public class Startmenu extends JFrame {
 				System.out.println("Multi");
 				Startmenu.IntroStopped=true;
 				Startmenu.playsound=true;
-				Playerlist.singleplayer = false;
 				
 				
 			}

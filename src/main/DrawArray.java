@@ -3,28 +3,22 @@ package main;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class DrawArray implements Serializable{
+public class DrawArray implements Serializable {
 	public ArrayList<int[]> array = new ArrayList<int[]>();
-	public int[] statsRect;
 	public String[] playernames;
 	public int[] playerlifes;
-	public int[] playerlifeposx;
-	public int[] playernameposx;
 	public int[] levelSize;
-	
 
-	// drawArrayItem[0] = drawx;
-	// drawArrayItem[1] = drawy;
-	// drawArrayItem[2] = pixsizex;
-	// drawArrayItem[3] = pixsizey;
-	// drawArrayItem[4] = imageID;
+	// arrayItem[0] = drawx;
+	// arrayItem[1] = drawy;
+	// arrayItem[2] = pixsizex;
+	// arrayItem[3] = pixsizey;
+	// arrayItem[4] = imageID;
 
 	public void add(int drawx, int drawy, int pixsizex, int pixsizey,
 			int imageID) {
 		int[] drawItem = { drawx, drawy, pixsizex, pixsizey, imageID };
 		array.add(drawItem);
 	}
-	
-
 
 }
