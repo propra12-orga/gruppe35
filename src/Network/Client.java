@@ -79,12 +79,11 @@ public class Client extends JFrame {
 
 		SerializedBool bewegungen = new SerializedBool();
 
-<<<<<<< HEAD
+
 		
-	
-=======
+
 		// so1.setArray(dataset_up);
->>>>>>> 905ea0c1392e0eef8c6ab76401fc5a941e3c50a9
+
 
 		// Eigentlicher Client
 		final Client client = new Client();
