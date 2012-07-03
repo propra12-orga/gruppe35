@@ -15,7 +15,7 @@ import main.DrawArray;
  */
 
 public class Global {
-	public static int sqsize = 50;
+	public static int sqsize = 30;
 	public static int panelSizeX = 600;
 	public static int panelSizeY = 600;
 	public static ArrayList<Image> imageList = new ArrayList<Image>();
