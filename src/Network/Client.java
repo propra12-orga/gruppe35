@@ -13,13 +13,12 @@ import java.net.Socket;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 import main.DrawArray;
 import main.GUI;
 import main.GlobalGraphics;
 
-class Client extends JFrame implements KeyListener {
+public class Client extends JFrame  {
 
 	final public static GUI gui = new GUI();
 	private static ObjectInputStream ois = null;
@@ -32,7 +31,7 @@ class Client extends JFrame implements KeyListener {
 	}
 
 	public static OutputStream out;
-	public JPanel panel;
+	
 	public static int dataset_up[] = { 0 };
 	public static Boolean tasten[] = { false, false, false, false, false };
 
@@ -143,8 +142,8 @@ class Client extends JFrame implements KeyListener {
 			oos.flush();
 
 			// Bewegungen aufzeichnen
-			for (int i = 0; i < tasten.length; i++)
-				tasten[i] = false;
+			//for (int i = 0; i < tasten.length; i++)
+				//tasten[i] = false;
 
 			try {
 				TimeUnit.MILLISECONDS.sleep(1);
@@ -160,38 +159,9 @@ class Client extends JFrame implements KeyListener {
 		oos.flush();
 		// Schliesse Verbindungen
 		client.close();
+		System.exit(0);
 	}
 
-	@Override
-	public void keyPressed(KeyEvent e) {
-		if (38 == e.getKeyCode()) {
-			tasten[0] = true;
-		}
-		if (37 == e.getKeyCode()) {
-			tasten[1] = true;
-		}
-		if (40 == e.getKeyCode()) {
-			tasten[2] = true;
-		}
-		if (39 == e.getKeyCode()) {
-			tasten[3] = true;
-		}
-		if (10 == e.getKeyCode()) {
-			tasten[4] = true;
-		}
-	}
-
-	@Override
-	public void keyReleased(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void keyTyped(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
 }
 
 class ReceiveThread extends Thread {

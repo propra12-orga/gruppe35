@@ -12,6 +12,8 @@ import java.awt.event.WindowListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import Network.Client;
+
 public class GUI extends JFrame implements KeyListener {
 	public JPanel panel;
 	public Runnable runnable = null;
@@ -110,8 +112,8 @@ public class GUI extends JFrame implements KeyListener {
 		// panel.repaint();
 
 		// panel.validate();
-		panel.setFocusable(true);
 		panel.addKeyListener(this);
+		panel.setFocusable(true);
 
 		GridBagConstraints panelc = new GridBagConstraints();
 		panelc.gridx = 0;
@@ -136,25 +138,25 @@ public class GUI extends JFrame implements KeyListener {
 		this.setVisible(true);
 	}
 
-	// javax.swing.Timer t = new javax.swing.Timer(10, new ActionListener() {
-	// public void actionPerformed(ActionEvent e) {
-	// for (int i = 0; i < Playerlist.list.size(); i++) {
-	// if (Playerlist.list.get(i).isMovingRight() == true)
-	// Playerlist.list.get(i).move(1, 0);
-	// if (Playerlist.list.get(i).isMovingLeft() == true)
-	// Playerlist.list.get(i).move(-1, 0);
-	// if (Playerlist.list.get(i).isMovingUp() == true)
-	// Playerlist.list.get(i).move(0, 1);
-	// if (Playerlist.list.get(i).isMovingDown() == true)
-	// Playerlist.list.get(i).move(0, -1);
-	// }
-	// }
-	// });
+//	javax.swing.Timer t = new javax.swing.Timer(10, new ActionListener() {
+//	 public void actionPerformed(ActionEvent e) {
+//	 for (int i = 0; i < Playerlist.list.size(); i++) {
+//	 if (Playerlist.list.get(i).isMovingRight() == true)
+//	 Playerlist.list.get(i).move(1, 0);
+//	 if (Playerlist.list.get(i).isMovingLeft() == true)
+//	 Playerlist.list.get(i).move(-1, 0);
+//	 if (Playerlist.list.get(i).isMovingUp() == true)
+//	 Playerlist.list.get(i).move(0, 1);
+//	 if (Playerlist.list.get(i).isMovingDown() == true)
+//	 Playerlist.list.get(i).move(0, -1);
+//	 }
+//	 }
+//	 });
 
-	// public void keyTyped(KeyEvent e) {
-	//
-	// }
-	//
+//	 public void keyTyped(KeyEvent e) {
+//	
+//	 }
+	
 	// public void keyReleased(KeyEvent e) {
 	// for (int i = 0; i < Playerlist.list.size(); i++) {
 	//
@@ -184,7 +186,7 @@ public class GUI extends JFrame implements KeyListener {
 	//
 	// }
 
-	 public void keyPressed(KeyEvent e) {
+	// public void keyPressed(KeyEvent e) {
 	//
 	// for (int i = 0; i < Playerlist.list.size(); i++) {
 	//
@@ -217,21 +219,59 @@ public class GUI extends JFrame implements KeyListener {
 	// t.start();
 	// }
 	
-	// Graphics g = getGraphics();
-	// g.clearRect(0, 0, getWidth(), getHeight());
-	// super.paint(g);
-	// panel.repaint();
+	 
 	
-	 }
+	// }
 
 	// public JPanel getPanel() {
 	// return panel;
 	// }
 
-	public void keyReleased(KeyEvent e) {
-	}
+	 @Override
+		public void keyPressed(KeyEvent e) {
+			if (39 == e.getKeyCode()) {
+				Client.tasten[0] = true;
+			}
+			if (38 == e.getKeyCode()) {
+				Client.tasten[1] = true;
+			}
+			if (37 == e.getKeyCode()) {
+				Client.tasten[2] = true;
+			}
+			if (40 == e.getKeyCode()) {
+				Client.tasten[3] = true;
+			}
+			if (10 == e.getKeyCode()) {
+				Client.tasten[4] = true;
+			}
+			System.out.println(e.getKeyCode() + " pressed");
+		}
 
-	public void keyTyped(KeyEvent e) {
-	}
+		@Override
+		public void keyReleased(KeyEvent e) {
+			if (39 == e.getKeyCode()) {
+				Client.tasten[0] = false;
+			}
+			if (38 == e.getKeyCode()) {
+				Client.tasten[1] = false;
+			}
+			if (37 == e.getKeyCode()) {
+				Client.tasten[2] = false;
+			}
+			if (40 == e.getKeyCode()) {
+				Client.tasten[3] = false;
+			}
+			if (10 == e.getKeyCode()) {
+				Client.tasten[4] = false;
+			}
+			System.out.println(e.getKeyCode() + " released");
+		}
+
+		@Override
+		public void keyTyped(KeyEvent arg0) {
+			// TODO Auto-generated method stub
+
+		}
+
 
 }
