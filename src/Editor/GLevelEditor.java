@@ -711,16 +711,19 @@ public class GLevelEditor extends JFrame {
 			}
 		}
 		// Ausgang
-		if (Singleplayer) {
-			Element exitsElement = document.createElement("exits");
-			rootElement.appendChild(exitsElement);
-			Element exitElement = document.createElement("exit");
-			exitsElement.appendChild(exitElement);
+		Element exitsElement = document.createElement("exits");
+		rootElement.appendChild(exitsElement);
+		Element exitElement = document.createElement("exit");
+		exitsElement.appendChild(exitElement);		
+		if (Singleplayer) {			
 			exitElement
 					.setAttribute("x", Integer.toString(exitPosition[0] + 1));
 			exitElement
 					.setAttribute("y", Integer.toString(exitPosition[1] + 1));
-		}
+		}else{exitElement
+			.setAttribute("x", Integer.toString(1));
+	exitElement
+			.setAttribute("y", Integer.toString(1));}
 		// Spawnpoints
 		Element spawnpointsElement = document.createElement("spawnpoints");
 		rootElement.appendChild(spawnpointsElement);
