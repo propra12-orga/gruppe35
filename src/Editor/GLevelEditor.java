@@ -288,7 +288,7 @@ public class GLevelEditor extends JFrame {
 					}
 				} else {
 					new Sound("src/sounds/pleaseOpen.wav", 2000).start();
-					EditOrSetExit.setText("Exit not reachable");
+					EditOrSetExit.setText("Exit blocked");
 				}
 
 			}
@@ -324,6 +324,7 @@ public class GLevelEditor extends JFrame {
 								
 								EditorPanel.repaint();
 							}
+							exitExistent=false;
 							int xrand=RandomNumber((int)xsize/2,xsize);
 							int yrand=RandomNumber((int)ysize/2,ysize);
 							if (level.getField(xrand, yrand) instanceof Floor){
@@ -340,8 +341,10 @@ public class GLevelEditor extends JFrame {
 								exitPosition[1] = yrand;
 								
 							}
+							if (exitExistent)
 							exitErreichbar=pathfinder.find(0,0,exitPosition[0],exitPosition[1]);
-							
+							else
+							exitErreichbar=false;	
 						}
 						
 						
