@@ -79,11 +79,7 @@ public class Client extends JFrame {
 
 		SerializedBool bewegungen = new SerializedBool();
 
-
-		
-
 		// so1.setArray(dataset_up);
-
 
 		// Eigentlicher Client
 		final Client client = new Client();
@@ -117,8 +113,8 @@ public class Client extends JFrame {
 			oos.flush();
 
 			// Sound empfangen
-			int sound = ois.readInt();
-			GlobalSounds.playSound(sound);
+			//int sound = ois.readInt();
+			//GlobalSounds.playSound(sound);
 
 			// Grafikpaket empfangen
 			DrawArray drawArrayPackage = (DrawArray) ois.readObject();
