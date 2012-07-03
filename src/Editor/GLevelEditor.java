@@ -65,11 +65,11 @@ public class GLevelEditor extends JFrame {
 	int spawnpoints[][];
 	Container cp = this.getContentPane();
 	static boolean Singleplayer = true;
-	Level level;
+	public static Level level;
 	String levelname;
 	int frameSizeX = GlobalGraphics.panelSizeX;
 	int frameSizeY = GlobalGraphics.panelSizeY;
-	
+
 	public static ArrayList<int[]> bearlist = new ArrayList<int[]>();
 
 	public void intitialize() {
@@ -251,34 +251,41 @@ public class GLevelEditor extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// Konsitenzprüfung
-
-				// Speichern
-				if (Singleplayer && exitExistent) {
-					try {
-						saveLevel();
-					} catch (ParserConfigurationException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (TransformerException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+				ExitPathfinder pathfinder = new ExitPathfinder();
+				boolean exitErreichbar = pathfinder.find(0, 0, exitPosition[0],
+						exitPosition[1]);
+				if (exitErreichbar | !Singleplayer) {
+					// Speichern
+					if (Singleplayer && exitExistent) {
+						try {
+							saveLevel();
+						} catch (ParserConfigurationException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (TransformerException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						System.exit(0);
 					}
-					System.exit(0);
-				}
-				if (Singleplayer && !exitExistent) {
+					if (Singleplayer && !exitExistent) {
+						new Sound("src/sounds/pleaseOpen.wav", 2000).start();
+					}
+					if (!Singleplayer) {
+						try {
+							saveLevel();
+						} catch (ParserConfigurationException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (TransformerException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						System.exit(0);
+					}
+				} else {
 					new Sound("src/sounds/pleaseOpen.wav", 2000).start();
-				}
-				if (!Singleplayer) {
-					try {
-						saveLevel();
-					} catch (ParserConfigurationException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (TransformerException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					System.exit(0);
+					EditOrSetExit.setText("Exit not reachable");
 				}
 
 			}
@@ -503,12 +510,11 @@ public class GLevelEditor extends JFrame {
 		Earth earth = new Earth(); // Zerstörbarer Block
 		Field exit = new Exit();
 		boolean besetzt;
-		System.out.println(x);
-		System.out.println(y);
-		if (x==0&&y==0)
-		besetzt = true;
+		
+		if (x == 0 && y == 0)
+			besetzt = true;
 		else
-		besetzt = false;
+			besetzt = false;
 		for (int i = 0; i < bearlist.size(); i++) {
 			if ((bearlist.get(i)[0] == x && bearlist.get(i)[1] == y)) {
 				besetzt = true;

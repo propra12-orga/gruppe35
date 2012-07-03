@@ -19,7 +19,7 @@ public class Server extends Thread {
 	public static void main(String[] args) throws Exception {
 		final Server server = new Server();
 		// Lade erstes Level
-		Levellist.load(0);
+		Levellist.load(0);		
 	}
 
 	private ServerSocket serverSocket;
