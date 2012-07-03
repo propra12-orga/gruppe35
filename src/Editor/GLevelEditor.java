@@ -257,10 +257,13 @@ public class GLevelEditor extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				// Konsistenzprüfung
 				ExitPathfinder pathfinder = new ExitPathfinder();
-				boolean exitErreichbar = pathfinder.find(0, 0, exitPosition[0],
-						exitPosition[1]);
-				boolean GegnerErreichbar = pathfinder.find(0, 0, xsize - 1,
-						ysize - 1);
+						
+					boolean exitErreichbar = pathfinder.find(0, 0,
+							exitPosition[0], exitPosition[1]);
+				
+					boolean GegnerErreichbar = pathfinder.find(0, 0, xsize - 1,
+							ysize - 1);
+				
 				if (exitErreichbar | (!Singleplayer && GegnerErreichbar)) {
 					// Speichern
 					if (Singleplayer && exitExistent) {
@@ -278,7 +281,7 @@ public class GLevelEditor extends JFrame {
 					if (Singleplayer && !exitExistent) {
 						new Sound("src/sounds/pleaseOpen.wav", 2000).start();
 					}
-					if (!Singleplayer && GegnerErreichbar) {
+					if (!Singleplayer) {
 						try {
 							saveLevel();
 						} catch (ParserConfigurationException e) {
@@ -362,8 +365,7 @@ public class GLevelEditor extends JFrame {
 							exitErreichbar = false;
 					}
 				} else {
-					
-					
+
 					while (!GegnerErreichbar) {
 						createEmptyLevel();
 						for (int x = xsize - 1; x >= 0; x--) {
@@ -709,12 +711,16 @@ public class GLevelEditor extends JFrame {
 			}
 		}
 		// Ausgang
-		Element exitsElement = document.createElement("exits");
-		rootElement.appendChild(exitsElement);
-		Element exitElement = document.createElement("exit");
-		exitsElement.appendChild(exitElement);
-		exitElement.setAttribute("x", Integer.toString(exitPosition[0] + 1));
-		exitElement.setAttribute("y", Integer.toString(exitPosition[1] + 1));
+		if (Singleplayer) {
+			Element exitsElement = document.createElement("exits");
+			rootElement.appendChild(exitsElement);
+			Element exitElement = document.createElement("exit");
+			exitsElement.appendChild(exitElement);
+			exitElement
+					.setAttribute("x", Integer.toString(exitPosition[0] + 1));
+			exitElement
+					.setAttribute("y", Integer.toString(exitPosition[1] + 1));
+		}
 		// Spawnpoints
 		Element spawnpointsElement = document.createElement("spawnpoints");
 		rootElement.appendChild(spawnpointsElement);

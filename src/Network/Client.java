@@ -2,8 +2,6 @@ package Network;
 
 // Dieses Programm sendet Benutzereingaben an
 // einen Server und zeigt die Antworten an
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -80,8 +78,8 @@ public class Client extends JFrame  {
 
 		SerializedBool bewegungen = new SerializedBool();
 
-		int positionen[] = new int[3];
-		// so1.setArray(dataset_up);
+		
+	
 
 		// Eigentlicher Client
 		final Client client = new Client();
