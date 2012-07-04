@@ -37,6 +37,8 @@ import Fields.Stone;
  * The next() method makes advance to the next Level possible and will be called
  * in case of victory
  * 
+ * The next() method lets the game go to the next Level
+ * 
  * <P>
  * 
  * @author Peet
@@ -94,6 +96,10 @@ public class Levellist {
 			searchNodeList = rootElement.getElementsByTagName("spawnpoints");
 			NodeList spawnpointNodes = searchNodeList.item(0).getChildNodes();
 
+			searchNodeList = rootElement
+					.getElementsByTagName("spawnpointsbaer");
+			NodeList baerNodes = searchNodeList.item(0).getChildNodes();
+
 			searchNodeList = rootElement.getElementsByTagName("exits");
 			NodeList exitNodes = searchNodeList.item(0).getChildNodes();
 
@@ -109,6 +115,7 @@ public class Levellist {
 			}
 
 			// Lese Exits aus
+
 			int exitnum = exitNodes.getLength();
 			int exits[][] = new int[exitnum][2];
 			for (int i = 0; i < exitnum; i++) {
@@ -166,10 +173,26 @@ public class Levellist {
 			// Setze aktives Level
 			activeLevel = level;
 			activeLevelIndex = levelIndex;
+			// Lese BärSpawnpoints aus
+			int baernum = baerNodes.getLength();
+			int spawnpointsbaer[][] = new int[baernum][2];
+			for (int i = 0; i < baernum; i++) {
+				Element thisElement = (Element) baerNodes.item(i);
+				int x = Integer.parseInt(thisElement.getAttribute("x")) - 1;
+				int y = Integer.parseInt(thisElement.getAttribute("y")) - 1;
+				spawnpointsbaer[i][0] = x;
+				spawnpointsbaer[i][1] = y;
+				Enemy Baer = new Seeker(spawnpointsbaer[i][0],
+						spawnpointsbaer[i][1]);
+				Enemylist.list.add(Baer);
+				Baer.spawn();
+
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
 	}
 
 	public static void next() {
@@ -191,8 +214,8 @@ public class Levellist {
 				Enemylist.list.get(i).stop(); // Enemythreads stoppen
 			}
 			Enemylist.list.clear(); // Alle Enemies nicht mehr zeichnen
-			
-			Poweruplist.list.clear(); //Alle Powerups nicht mehr zeichnen
+
+			Poweruplist.list.clear(); // Alle Powerups nicht mehr zeichnen
 
 			// Neues Level laden
 			activeLevelIndex++; // Index erhöhen
@@ -205,8 +228,10 @@ public class Levellist {
 			}
 
 			// Gegner spawnen
-			Enemy enemy = new Seeker(0.5, 2.5);
-			enemy.spawn();
+
+			for (int i = 0; i < Enemylist.list.size(); i++) {
+				Enemylist.list.get(i).spawn();
+			}
 
 		} else {
 			System.out.println("This was the last level, you have won!");
@@ -225,11 +250,11 @@ public class Levellist {
 			Enemylist.list.get(i).stop(); // Enemythreads stoppen
 		}
 		Enemylist.list.clear(); // Alle Enemies nicht mehr zeichnen
-		
-		Poweruplist.list.clear(); //Alle Powerups nicht mehr zeichnen
+
+		Poweruplist.list.clear(); // Alle Powerups nicht mehr zeichnen
 		// Charactere löschen
 		Playerlist.list.clear();
-		
+
 		// Level auf null setzen
 		activeLevel = null;
 		activeLevelIndex = 0;

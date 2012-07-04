@@ -1,10 +1,10 @@
 package Character;
 
-import java.awt.Image;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import main.Global;
+import main.GlobalGraphics;
+import main.Playerlist;
 import Bomb.Bomb;
 import Level.Levellist;
 
@@ -47,8 +47,6 @@ public class Player extends Character {
 	protected boolean movingRight = false;
 	protected boolean movingLeft = false;
 
-	protected Control control;
-
 	class Respawn extends TimerTask {
 		public void run() {
 			Player.this.spawn();
@@ -88,27 +86,17 @@ public class Player extends Character {
 	}
 
 	public Player(String name, double speed, int maxbombs, int bombrange,
-			int bombtimer, int lifes, Image characterImage,
-			Image characterImageStanding, Image characterImageDead) {
-		super(speed, characterImage, characterImageStanding, characterImageDead);
+			int bombtimer, int lifes, int imageID, int imageIDstanding,int imageIDdead) {
+		super(speed, imageID, imageIDstanding, imageIDdead);
 		this.name = name;
 		this.maxbombs = maxbombs;
 		this.bombrange = bombrange;
 		this.bombtimer = bombtimer;
 		this.lifes = lifes;
-		this.control = new Control(name);
 
-		pixsizex = (int) (Global.sqsize * 0.5); // 25
-		pixsizey = (int) (Global.sqsize * 0.8); // 40
+		pixsizex = (int) (GlobalGraphics.sqsize * 0.5); // 25
+		pixsizey = (int) (GlobalGraphics.sqsize * 0.8); // 40
 
-	}
-
-	public Control getControl() {
-		return control;
-	}
-
-	public void setControl(Control control) {
-		this.control = control;
 	}
 
 	public String getName() {
@@ -200,8 +188,9 @@ public class Player extends Character {
 	}
 
 	public void spawn() {
-		spawn(Levellist.activeLevel.getSpawnx(),
-				Levellist.activeLevel.getSpawny());
+		int index = Playerlist.list.indexOf(this);
+		spawn(Levellist.activeLevel.getSpawnx(index),
+				Levellist.activeLevel.getSpawny(index));
 	}
 
 }

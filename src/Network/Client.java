@@ -1,12 +1,7 @@
 package Network;
+
 // Dieses Programm sendet Benutzereingaben an
 // einen Server und zeigt die Antworten an
-import java.awt.Container;
-import java.awt.Graphics;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -16,138 +11,168 @@ import java.net.Socket;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
-class Client extends JFrame implements KeyListener {
+import main.DrawArray;
+import main.GUI;
+import main.GlobalGraphics;
+import main.GlobalSounds;
+
+/**
+ * 
+ * 
+ * The Client class is used for playing the game in the Network. If playstile is
+ * singleplayer, it connects to the local host, otherwise it will connect to a
+ * specified remote host.
+ * 
+ * The Client receives information about sounds to play, graphics to paint and
+ * sends information about controls given via the keyboard It inhabits a GUI to
+ * show on the screen the graphics it has received the ObjectInputStream ois is
+ * used for receiving serialized objects (graphics and sound) the
+ * ObjectOutputStream oos is used for sending serialized objects (the controls)
+ * 
+ * The communication with the Servers takes place in the main() method
+ * <P>
+ * 
+ * @author Peet, Friedrich
+ * 
+ */
+
+public class Client extends JFrame {
+
+	final public static GUI gui = new GUI();
+	private static ObjectInputStream ois = null;
+	private static ObjectOutputStream oos = null;
+	private static Socket socket;
+
 	static void error(String message) {
 		System.err.println(message);
 		System.exit(1);
 	}
 
 	public static OutputStream out;
-	public JPanel panel;
+
 	public static int dataset_up[] = { 0 };
 	public static Boolean tasten[] = { false, false, false, false, false };
 
-	public void initialize() {
-		Container cp = this.getContentPane();
-		panel = new JPanel() {
-			@Override
-			public void paintComponent(Graphics g) {
+	public Client() {
+		try {
+			Client.socket = new Socket("localhost", 4000);
+			Client.oos = new ObjectOutputStream(socket.getOutputStream());
+			Client.ois = new ObjectInputStream(socket.getInputStream());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.out.println("Verbindung hergestellt (ICH BIN CLIENT)");
+	}
 
+	protected void finalize() {
+		close();
+	}
+
+	private void close() {
+		if (socket != null) {
+			try {
+				socket.close();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-		};
-		this.addKeyListener(this);
-
-		GridBagConstraints panelc = new GridBagConstraints();
-		panelc.gridx = 0;
-		panelc.gridy = 0;
-		panelc.gridwidth = 2;
-		panelc.fill = GridBagConstraints.BOTH;
-		panelc.weightx = 1.0;
-		panelc.weighty = 1.0;
-		cp.setLayout(new GridBagLayout());
-		cp.add(panel, panelc);
-		this.setVisible(true);
+		}
+		if (ois != null) {
+			try {
+				ois.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		if (oos != null) {
+			try {
+				oos.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public static void main(String[] args) throws Exception {
+
+		SerializedBool bewegungen = new SerializedBool();
+
+		// so1.setArray(dataset_up);
+
+		// Eigentlicher Client
+		final Client client = new Client();
+		// Warte auf Initialisierungspaket
+		DrawArray initializePackage = (DrawArray) ois.readObject();
+		synchronized (GlobalGraphics.drawarray) {
+			GlobalGraphics.drawarray = initializePackage;
+		}
+
+		// GUI initialisieren
+		if (gui.runnable == null) {
+			gui.runnable = new Runnable() {
+				public void run() {
+					gui.initialize();
+				}
+			};
+		}
+		javax.swing.SwingUtilities.invokeLater(gui.runnable);
+
+		while (!gui.isInitialized()) {
+			Thread.sleep(100);
+		}
+
 		// if (args.length != 2)
 		// error("Verwendung: java UniversalClient " + "<server> <port>");
 
-		ObjectInputStream ois = null;
-		ObjectOutputStream oos = null;
-
-		new Server();
-
-		Socket sock = new Socket("localhost", 4000);
-		oos = new ObjectOutputStream(sock.getOutputStream());
-		ois = new ObjectInputStream(sock.getInputStream());
-		System.out.println("Ich lauf im Kreis");
-		
-
-		System.out.println("Verbindung hergestellt (ICH BIN CLIENT)");
-
-		SerializedObject so1 = new SerializedObject();
-		SerializedObject result = null;
-		
-		SerializedBool bewegungen = new SerializedBool();
-	
-
-
-		int positionen[] = new int[3];
-		//so1.setArray(dataset_up);
-
-		final Client peter = new Client();
-		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				peter.initialize();
+		while (!gui.isClosed()) {
+			try {
+				Thread.sleep(1);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
 			}
-		});
-		
-		while (true) {
+			// Sende, dass diese Verbindung noch besteht
+			oos.reset();
+			oos.writeBoolean(true);
+			oos.flush();
 
-			so1.setArray(dataset_up);
+			// Sound empfangen
+			int soundID = ois.readInt();
+			GlobalSounds.playSound(soundID);
+
+			// Grafikpaket empfangen
+			DrawArray drawArrayPackage = (DrawArray) ois.readObject();
+			synchronized (GlobalGraphics.drawarray) {
+				GlobalGraphics.drawarray = drawArrayPackage;
+			}
+
+			// Bewegungspaket schnüren
 			bewegungen.setArray(tasten);
+			// Bewegungspaket abschicken
 			oos.reset();
 			oos.writeObject(bewegungen);
 			oos.flush();
-			
 
-			//ois.reset();
-			result = (SerializedObject) ois.readObject();
-			positionen = result.getArray();
-			
-			for(int i=0; i< positionen.length; i++)
-				System.out.println(positionen[i]);
-			
-			for(int i=0; i< tasten.length; i++)
-				tasten[i] = false;
-		
+			// Bewegungen aufzeichnen
+			// for (int i = 0; i < tasten.length; i++)
+			// tasten[i] = false;
+
 			try {
 				TimeUnit.MILLISECONDS.sleep(1);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			//dataset_up[0]=0;
 		}
-		// out.close();
-		// in.close();
+		// Sende, dass diese Verbindung geschlossen wurde
+		System.out.println("Client hat Verbindung geschlossen");
+		oos.reset();
+		oos.writeBoolean(false);
+		oos.flush();
+		// Schliesse Verbindungen
+		client.close();
+		System.exit(0);
 	}
 
-	@Override
-	public void keyPressed(KeyEvent e) {
-		if (38 == e.getKeyCode()) {
-			tasten[0] = true;			
-		}
-		if (37 == e.getKeyCode()) {
-			tasten[1] = true;			
-		}
-		if (40 == e.getKeyCode()) {
-			tasten[2] = true;			
-		}
-		if (39 == e.getKeyCode()) {
-			tasten[3] = true;			
-		}
-		if (10 == e.getKeyCode()) {
-			tasten[4] = true;			
-		}
-
-	}
-
-	@Override
-	public void keyReleased(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void keyTyped(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
 }
 
 class ReceiveThread extends Thread {

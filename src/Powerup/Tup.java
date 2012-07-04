@@ -1,6 +1,5 @@
 package Powerup;
 
-import main.Global;
 import main.Poweruplist;
 import Character.Player;
 
@@ -16,7 +15,7 @@ public class Tup extends Powerup {
 
 	public Tup(int x, int y) {
 		super(x, y);
-		image = Global.Tup;
+		imageID = 19;
 		System.out.println("Tup at " + x + "," + y);
 	}
 

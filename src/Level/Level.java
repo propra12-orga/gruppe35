@@ -1,10 +1,5 @@
 package Level;
 
-import java.awt.Graphics;
-
-import javax.swing.JPanel;
-
-import main.Global;
 import Fields.Field;
 
 /**
@@ -27,12 +22,12 @@ public class Level {
 	protected boolean locked = true;
 	private int spawnpoints[][]; // [number][x,y]
 
-	public double getSpawnx() {
-		return (spawnpoints[0][0] + 0.5);
+	public double getSpawnx(int i) {
+		return (spawnpoints[i][0] + 0.5);
 	}
 
-	public double getSpawny() {
-		return (spawnpoints[0][1] + 0.5);
+	public double getSpawny(int i) {
+		return (spawnpoints[i][1] + 0.5);
 	}
 
 	public boolean isLocked() {
@@ -78,16 +73,6 @@ public class Level {
 			return (field[x][y]);
 		} else {
 			return (null);
-		}
-	}
-
-	public void drawComponent(Graphics g, JPanel panel) {
-		for (int y = 0; y < this.getYsize(); y++) {
-			for (int x = 0; x < this.getXsize(); x++) {
-				g.drawImage(this.getField(x, y).getImage(), x * Global.sqsize,
-						y * Global.sqsize, Global.sqsize, Global.sqsize, panel);
-			
-			}
 		}
 	}
 

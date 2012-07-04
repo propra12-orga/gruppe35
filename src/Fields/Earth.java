@@ -1,12 +1,11 @@
 package Fields;
 
-import main.Global;
-
 /**
  * 
  * 
  * The Earth class is a child of the Field class and is simply the type of field
- * which is solid, but transforms into Floor when it is destroyed
+ * which is solid, but transforms into Floor when it is destroyed It is also
+ * capable of spawning Powerups when destroyed
  * <P>
  * 
  * @author Peet
@@ -28,10 +27,10 @@ public class Earth extends Field {
 	public Earth() {
 		this.solid = true;
 		this.transformto = new Floor();
-		this.image = Global.mauer;
 		this.spawnsPowerup = true;
 		this.exit = false;
 		this.fieldtype = "E";
+		this.imageID = 8;
 	}
 
 }

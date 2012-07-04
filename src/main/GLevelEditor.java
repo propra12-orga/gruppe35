@@ -1,7 +1,6 @@
 package main;
 
 import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -80,11 +79,11 @@ public class GLevelEditor extends JFrame {
 			private static final long serialVersionUID = 1L;
 
 			public void paintComponent(Graphics g) {
-				g.drawImage(Global.mauersolid, 0, 0, (xsize + 1)
-						* Global.sqsize, (ysize + 1) * Global.sqsize,
+				g.drawImage(GlobalGraphics.mauersolid, 0, 0, (xsize + 1)
+						* GlobalGraphics.sqsize, (ysize + 1) * GlobalGraphics.sqsize,
 						EditorPanel);
 
-				level.drawComponent(g, EditorPanel);
+			//	level.drawComponent(g, EditorPanel);
 
 			}
 		};
@@ -119,8 +118,8 @@ public class GLevelEditor extends JFrame {
 				levelname = namefield.getText();
 				xsize = Integer.valueOf(XSpinner.getValue().toString());
 				ysize = Integer.valueOf(YSpinner.getValue().toString());
-				EditorPanel.setSize(xsize * Global.sqsize, ysize
-						* Global.sqsize);
+				EditorPanel.setSize(xsize * GlobalGraphics.sqsize, ysize
+						* GlobalGraphics.sqsize);
 
 				EditorPanel.setVisible(true);
 				setExit.setVisible(true);
@@ -162,8 +161,8 @@ public class GLevelEditor extends JFrame {
 				xsize = Integer.valueOf(XSpinner.getValue().toString());
 				ysize = Integer.valueOf(YSpinner.getValue().toString());
 
-				EditorPanel.setSize(xsize * Global.sqsize, xsize
-						* Global.sqsize);
+				EditorPanel.setSize(xsize * GlobalGraphics.sqsize, xsize
+						* GlobalGraphics.sqsize);
 				EditorPanel.repaint();
 				EditorPanel.setVisible(true);
 				save.setVisible(true);
@@ -366,8 +365,8 @@ public class GLevelEditor extends JFrame {
 		GLevelEditor.EditorPanel.addMouseListener(new MouseListener() {
 			public void mouseClicked(MouseEvent e) {
 				int mousefield[] = new int[2];
-				mousefield[0] = (int) (e.getX() / Global.sqsize);
-				mousefield[1] = (int) (e.getY() / Global.sqsize);
+				mousefield[0] = (int) (e.getX() / GlobalGraphics.sqsize);
+				mousefield[1] = (int) (e.getY() / GlobalGraphics.sqsize);
 				if (0 <= mousefield[0] && mousefield[0] <= xsize - 1
 						&& 0 <= mousefield[1] && mousefield[1] <= ysize - 1)
 					changeField(mousefield[0], mousefield[1]);
@@ -401,8 +400,8 @@ public class GLevelEditor extends JFrame {
 
 	public void resizeFrame() {
 		if (xsize != 0)
-			this.setSize((xsize + 1) * Global.sqsize, (ysize + 1)
-					* Global.sqsize + 120);
+			this.setSize((xsize + 1) * GlobalGraphics.sqsize, (ysize + 1)
+					* GlobalGraphics.sqsize + 120);
 		else
 			this.pack();
 	}

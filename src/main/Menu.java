@@ -38,7 +38,7 @@ public class Menu extends JFrame {
 				Levellist.load(0);
 				// Player laden
 				Playerlist.load();
-				
+
 				for (int i = 0; i < Playerlist.list.size(); i++) {
 					Playerlist.list.get(i).spawn();
 				}
@@ -53,8 +53,6 @@ public class Menu extends JFrame {
 					};
 				}
 				javax.swing.SwingUtilities.invokeLater(Menu.feld.runnable);
-
-				
 
 			}
 		});
@@ -81,8 +79,6 @@ public class Menu extends JFrame {
 		Playerlist.load();
 
 		try {
-			// UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-			// UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
 			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
 		} catch (UnsupportedLookAndFeelException ex) {
 			ex.printStackTrace();
@@ -95,7 +91,7 @@ public class Menu extends JFrame {
 		}
 
 		Menu menu = new Menu();
-		new Sound("src/sounds/blabal.wav",0).start();
+		new Sound("src/sounds/blabal.wav", 0).start();
 		menu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 	}

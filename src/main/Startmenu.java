@@ -6,13 +6,26 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import Editor.GLevelEditor;
+
+/**
+ * 
+ * The Startmenu class is the main executable for this program. From here the
+ * User can go to Singleplayer Mode, Multiplayer Mode or the Level Editor. The
+ * Menu starts with a small intro and intriguing background music.
+ * <P>
+ * 
+ * @author Fabian, Friedrich
+ */
+
 public class Startmenu extends JFrame {
-	static boolean IntroStopped=false;
+	static boolean IntroStopped = false;
 	JPanel startpanel;
 	static int panelSizeX = 600;
 	static int panelSizeY = 600;
@@ -21,7 +34,6 @@ public class Startmenu extends JFrame {
 	JButton SinglePlayer = new JButton("SinglePlayer");
 	JButton MultiPlayer = new JButton("MultiPlayer");
 	JButton LevelEditor = new JButton("LevelEditor");
-
 
 	public void intitialize() {
 
@@ -36,12 +48,30 @@ public class Startmenu extends JFrame {
 		SinglePlayer.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				System.out.println("Hallo");
-				Startmenu.IntroStopped=true;
-				Startmenu.playsound=true;
-					
-							
-			
+				System.out.println("Singleplayer");
+				Startmenu.IntroStopped = true;
+				Startmenu.playsound = true;
+				try {
+					Runtime.getRuntime().exec(
+							new String[] { "java", "-jar", "Server.jar" });// ,"parameter"});
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}// ,parameter});
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				try {
+					Runtime.getRuntime().exec(
+							new String[] { "java", "-jar", "Client.jar" });// ,"parameter"});
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}// ,parameter});
+
 			}
 		}
 
@@ -58,10 +88,9 @@ public class Startmenu extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("Multi");
-				Startmenu.IntroStopped=true;
-				Startmenu.playsound=true;
-				
-				
+				Startmenu.IntroStopped = true;
+				Startmenu.playsound = true;
+
 			}
 		}
 
@@ -78,19 +107,17 @@ public class Startmenu extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				System.out.println("Levelmachen");
-				Startmenu.IntroStopped=true;
-				Startmenu.playsound=true;
-				//startpanel.setVisible(false);
-				
-				
-				
+				Startmenu.IntroStopped = true;
+				Startmenu.playsound = true;
+				// startpanel.setVisible(false);
+
 				final GLevelEditor KLaus = new GLevelEditor();
 				javax.swing.SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
 						KLaus.intitialize();
 					}
 				});
-			
+
 			}
 		}
 
@@ -100,14 +127,18 @@ public class Startmenu extends JFrame {
 
 			public void paintComponent(Graphics g) {
 				if (!Startmenu.IntroStopped)
-				g.drawImage(Global.intro, 0, 0, Startmenu.panelSizeX, Startmenu.panelSizeY-50, this);
-				else{
-				g.drawImage(Global.intro2, 0, 0, Startmenu.panelSizeX, Startmenu.panelSizeY-50, this);
-				if (Startmenu.playsound==true)
-				new Sound("src/sounds/DelayExp.wav",4000).start();
-				Startmenu.playsound=false;
-				}	
-				
+					g.drawImage(GlobalGraphics.intro, 0, 0,
+							Startmenu.panelSizeX, Startmenu.panelSizeY - 50,
+							this);
+				else {
+					g.drawImage(GlobalGraphics.intro2, 0, 0,
+							Startmenu.panelSizeX, Startmenu.panelSizeY - 50,
+							this);
+					if (Startmenu.playsound == true)
+						new Sound("src/sounds/DelayExp.wav", 4000).start();
+					Startmenu.playsound = false;
+				}
+
 			}
 
 		};
@@ -123,7 +154,7 @@ public class Startmenu extends JFrame {
 
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.pack();
-		this.setSize(Startmenu.panelSizeX,Startmenu.panelSizeY);
+		this.setSize(Startmenu.panelSizeX, Startmenu.panelSizeY);
 		this.setVisible(true);
 
 	}
@@ -133,7 +164,7 @@ public class Startmenu extends JFrame {
 	}
 
 	public static void main(String args[]) {
-		new Sound("src/sounds/blabal.wav",-1).start();
+		new Sound("src/sounds/blabal.wav", -1).start();
 		final Startmenu KLaus = new Startmenu();
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {

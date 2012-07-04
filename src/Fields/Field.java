@@ -1,6 +1,5 @@
 package Fields;
 
-import java.awt.Image;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -37,29 +36,31 @@ public class Field {
 	protected Bomb bomb = null; // Eventuelle Bombe auf diesem Feld
 	protected int flame = 0; // Flammen auf diesem Feld
 	protected Field transformto;
-	protected Image image; // Grafik
+	protected int imageID; // Grafik
 	protected Powerup powerup = null;
 	protected boolean spawnsPowerup;
 	public boolean exit;
 	protected String fieldtype;
 
+	public int getImageID() {
+		return (imageID);
+	}
+
 	public Field isTransformable() {
 		return transformto;
 	}
 
-	public Image getImage() {
-		return (image);
-	}
-
-	public boolean isExit(){
+	public boolean isExit() {
 		return exit;
 	}
+
 	public boolean isSolid() {
 		return solid;
 	}
-	public String getFieldtype(){
+
+	public String getFieldtype() {
 		return fieldtype;
-		}
+	}
 
 	public int getFlame() {
 		return flame;
@@ -72,8 +73,9 @@ public class Field {
 	public void setSolid(boolean solid) {
 		this.solid = solid;
 	}
-	public void markAsExit(boolean exit){
-		this.exit=exit;
+
+	public void markAsExit(boolean exit) {
+		this.exit = exit;
 	}
 
 	public List<Character> getCharacterlist() {
@@ -81,19 +83,19 @@ public class Field {
 	}
 
 	public Field() {
-		this(false, null, null, false,false,null);
+		this(false, null, 7, false, false, null);
 	}
 
-	public Field(boolean solid, Field transformto, Image image,
+	public Field(boolean solid, Field transformto, int imageID,
 			boolean spawnsPowerup, boolean exit, String fieldtype) {
 		this.solid = solid;
 		this.transformto = transformto;
-		this.image = image;
+		this.imageID = imageID;
 		this.spawnsPowerup = spawnsPowerup;
-		this.exit=exit;
-		this.fieldtype=fieldtype;
+		this.exit = exit;
+		this.fieldtype = fieldtype;
 	}
-	
+
 	public Bomb getBomb() {
 		return bomb;
 	}
@@ -170,7 +172,8 @@ public class Field {
 
 	// Copy Constructor
 	public Field(Field field) {
-		this(field.solid, field.transformto, field.image, field.spawnsPowerup, field.exit, field.fieldtype);
+		this(field.solid, field.transformto, field.imageID,
+				field.spawnsPowerup, field.exit, field.fieldtype);
 	}
 
 }

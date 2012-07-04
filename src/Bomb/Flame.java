@@ -1,13 +1,9 @@
 package Bomb;
 
-import java.awt.Graphics;
-import java.awt.Image;
 import java.util.concurrent.TimeUnit;
 
-import javax.swing.JPanel;
-
 import main.Flamelist;
-import main.Global;
+import main.GlobalGraphics;
 import Fields.Field;
 
 /**
@@ -29,13 +25,12 @@ import Fields.Field;
 public class Flame implements Runnable {
 	protected int x;
 	protected int y;
-	protected int pixsizex = Global.sqsize;
-	protected int pixsizey = Global.sqsize;
-	protected Image image;
+	protected int pixsizex = GlobalGraphics.sqsize;
+	protected int pixsizey = GlobalGraphics.sqsize;
+	protected int imageID;
 
-	public void DrawComponent(Graphics g, JPanel panel) {
-		g.drawImage(this.image, this.getDrawx(), this.getDrawy(),
-				this.getPixsizex(), this.getPixsizey(), panel);
+	public int getImageID() {
+		return (imageID);
 	}
 
 	public int getPixsizex() {
@@ -59,11 +54,11 @@ public class Flame implements Runnable {
 	private static final int timer = 1000;
 
 	public int getDrawx() {
-		return ((int) (x * Global.sqsize + (Global.sqsize - pixsizex) * 0.5));
+		return ((int) (x * GlobalGraphics.sqsize + (GlobalGraphics.sqsize - pixsizex) * 0.5));
 	}
 
 	public int getDrawy() {
-		return ((int) (y * Global.sqsize + (Global.sqsize - pixsizey) * 0.5));
+		return ((int) (y * GlobalGraphics.sqsize + (GlobalGraphics.sqsize - pixsizey) * 0.5));
 	}
 
 	public Flame(Field field, int x, int y, int dir) {
@@ -74,17 +69,17 @@ public class Flame implements Runnable {
 		switch (dir) {
 		case 0:
 			// center
-			this.image = Global.flame;
+			this.imageID = 2;
 			break;
 		case 1:
 		case 3:
 			// horizontal
-			this.image = Global.flame_h;
+			this.imageID = 12;
 			break;
 		case 2:
 		case 4:
 			// vertikal
-			this.image = Global.flame_v;
+			this.imageID = 13;
 			break;
 
 		default:

@@ -2,7 +2,7 @@ package Character;
 
 import java.util.Stack;
 
-import main.Global;
+import main.GlobalGraphics;
 import main.Playerlist;
 
 /**
@@ -27,9 +27,11 @@ public class Seeker extends Enemy {
 	int destx, desty;
 
 	public Seeker(double spawnx, double spawny) {
-		super(spawnx, spawny, 0.03, Global.seeker, Global.seekerstanding,
-				Global.seekerdead);
+		super(spawnx, spawny, 0.03, 16, 17,
+				18);
 	}
+	
+
 
 	// @Override
 	protected void AIaction() {
@@ -56,10 +58,10 @@ public class Seeker extends Enemy {
 			// Get Pixel distance between this enemy and the target
 
 			int pixdistx = Math
-					.abs((int) ((target.getPosx() - this.posx) * Global.sqsize))
+					.abs((int) ((target.getPosx() - this.posx) * GlobalGraphics.sqsize))
 					- (target.getPixsizey() + this.pixsizey) / 2;
 			int pixdisty = Math
-					.abs((int) ((target.getPosy() - this.posy) * Global.sqsize))
+					.abs((int) ((target.getPosy() - this.posy) * GlobalGraphics.sqsize))
 					- (target.getPixsizey() + this.pixsizey) / 2;
 			
 			boolean newpath = false;

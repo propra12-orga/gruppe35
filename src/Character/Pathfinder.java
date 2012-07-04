@@ -7,6 +7,28 @@ import java.util.Stack;
 import Fields.Field;
 import Level.Levellist;
 
+/**
+ * 
+ * The Pathfinder class seeks for the shortest path between two points on a
+ * quadratic grid. The method applied here to find this shortest path is the
+ * well known A*-Algorithm.
+ * 
+ * The find method will find the desired path, when it is provided with the x
+ * and y coordinates of the start point and the x and y coordinates of the end
+ * point as its arguments.
+ * 
+ * All Fields which are solid are considered to be impassable for this Pathfinder.
+ * 
+ * When find was invoked, the getPath() method will return a Stack containing
+ * int[2] which represent the path that has to be taken to go
+ * from origin to destination.
+ * 
+ * If this stack is null or empty, there is no possible path.
+ * <P>
+ * 
+ * @author Peet
+ */
+
 public class Pathfinder {
 
 	private class Node implements Comparable<Node> {
@@ -58,7 +80,7 @@ public class Pathfinder {
 				}
 			}
 		}
-		//Endknoten bestimmen
+		// Endknoten bestimmen
 		endNode = nodes[xd][yd];
 
 		// Startknoten hinzufügen
@@ -130,8 +152,8 @@ public class Pathfinder {
 			// f Wert des Knotens in der Open List aktualisieren
 			// bzw. Knoten mit f Wert in die Open List einfügen
 			int h = Math.abs((x - endNode.x)) + Math.abs((y - endNode.y)); // Heuristische
-																// Strecke bis
-																// zum Ziel
+			// Strecke bis
+			// zum Ziel
 			int f = tentative_g + h;
 			// Neu einfügen mit neuer Priorität
 			successor.f = f;
@@ -141,10 +163,10 @@ public class Pathfinder {
 		}
 	}
 
-	public Stack<int[]> getPath(){
+	public Stack<int[]> getPath() {
 		Stack<int[]> path = new Stack<int[]>();
 		Node currentNode = endNode;
-		while(currentNode.predecessor != null){
+		while (currentNode.predecessor != null) {
 			int[] step = new int[2];
 			step[0] = currentNode.x;
 			step[1] = currentNode.y;
@@ -153,6 +175,6 @@ public class Pathfinder {
 			currentNode = currentNode.predecessor;
 		}
 
-		return(path);
+		return (path);
 	}
 }
