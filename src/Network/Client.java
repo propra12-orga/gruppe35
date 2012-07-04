@@ -54,9 +54,9 @@ public class Client extends JFrame {
 	public static int dataset_up[] = { 0 };
 	public static Boolean tasten[] = { false, false, false, false, false };
 
-	public Client() {
+	public Client(String IPstring, int port) {
 		try {
-			Client.socket = new Socket("localhost", 4000);
+			Client.socket = new Socket(IPstring, port);
 			Client.oos = new ObjectOutputStream(socket.getOutputStream());
 			Client.ois = new ObjectInputStream(socket.getInputStream());
 		} catch (IOException e) {
@@ -97,10 +97,16 @@ public class Client extends JFrame {
 
 		SerializedBool bewegungen = new SerializedBool();
 
+		String IPstring = args[0];
+		System.out.print(IPstring);
+		if (IPstring.equals("localhost"))
+			System.out.println("localhost");
+		int port = Integer.parseInt(args[1]);
+		System.out.println(port);
 		// so1.setArray(dataset_up);
 
 		// Eigentlicher Client
-		final Client client = new Client();
+		final Client client = new Client(IPstring, port);
 		// Warte auf Initialisierungspaket
 		DrawArray initializePackage = (DrawArray) ois.readObject();
 		synchronized (GlobalGraphics.drawarray) {

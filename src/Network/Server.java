@@ -58,10 +58,21 @@ import Level.Levellist;
 
 public class Server extends Thread {
 
+	public static boolean single;
+
 	public static void main(String[] args) throws Exception {
 		// Lade erstes Level
 		Levellist.load(0);
-		final Server server = new Server();
+		int port = Integer.parseInt(args[0]);
+		single = false;
+		if (args.length > 1) {
+			System.out.println("-" + args[1] + "-");
+			if (args[1].equals("single")) {
+				single = true;
+				System.out.println("Singleplayer Server");
+			}
+		}
+		final Server server = new Server(port, single);
 	}
 
 	private ServerSocket serverSocket;
@@ -71,9 +82,10 @@ public class Server extends Thread {
 	// new ArrayMultiplier();
 	// }
 
-	public Server() throws Exception {
-		serverSocket = new ServerSocket(4000);
-		System.out.println("Server listening on port 4000.");
+	public Server(int port, boolean single) throws Exception {
+		this.single = single;
+		serverSocket = new ServerSocket(port);
+		System.out.println("Server listening on port" + port);
 		this.start();
 	}
 
@@ -401,5 +413,10 @@ class Connect extends Thread {
 			}
 		}
 		System.out.println("Client von Server getrennt");
+		System.out.println(Server.single);
+		if (Server.single) {
+			System.out.println("SinglePlayer Server wird beendet");
+			System.exit(0);
+		}
 	}
 }
