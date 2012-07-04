@@ -6,6 +6,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -47,9 +48,29 @@ public class Startmenu extends JFrame {
 		SinglePlayer.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				System.out.println("Hallo");
+				System.out.println("Singleplayer");
 				Startmenu.IntroStopped = true;
 				Startmenu.playsound = true;
+				try {
+					Runtime.getRuntime().exec(
+							new String[] { "java", "-jar", "Server.jar" });// ,"parameter"});
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}// ,parameter});
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				try {
+					Runtime.getRuntime().exec(
+							new String[] { "java", "-jar", "Client.jar" });// ,"parameter"});
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}// ,parameter});
 
 			}
 		}
