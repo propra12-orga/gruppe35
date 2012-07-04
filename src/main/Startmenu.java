@@ -200,45 +200,7 @@ public class Startmenu extends JFrame {
 				try {
 					Runtime.getRuntime().exec(
 							new String[] { "java", "-jar", "Server.jar",
-									"localhost", Port });// ,"parameter"});
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}// ,parameter});
-				try {
-					Thread.sleep(100);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				try {
-					Runtime.getRuntime().exec(
-							new String[] { "java", "-jar", "Client.jar", Port,
-									"single" });// ,"parameter"});
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}// ,parameter});
-
-			}
-		});
-		GridBagConstraints sps = new GridBagConstraints();
-		sps.gridx = 0;
-		sps.gridy = 2;
-		sps.gridwidth = 2;
-		sps.gridheight=2;
-		sps.fill = GridBagConstraints.BOTH;
-		sps.weightx = 2.0;		
-		// cp.setLayout(new GridBagLayout());
-		cp.add(SpielStarten, sps);
-		SpielStarten.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				String SinglePlayerPort = "4000";
-				try {
-					Runtime.getRuntime().exec(
-							new String[] { "java", "-jar", "Server.jar",
-									"localhost", SinglePlayerPort });// ,"parameter"});
+									 "4000" });// ,"parameter"});
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -252,14 +214,78 @@ public class Startmenu extends JFrame {
 				try {
 					Runtime.getRuntime().exec(
 							new String[] { "java", "-jar", "Client.jar",
-									SinglePlayerPort, "single" });// ,"parameter"});
+									"localhost", "4000" });// ,"parameter"});
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}// ,parameter});
-				
+		
+
 			}
 		});
+		GridBagConstraints sps = new GridBagConstraints();
+		sps.gridx = 0;
+		sps.gridy = 2;
+		sps.gridwidth = 2;
+		sps.gridheight=2;
+		sps.fill = GridBagConstraints.HORIZONTAL;
+		sps.weightx = 2.0;		
+		// cp.setLayout(new GridBagLayout());
+		cp.add(SpielStarten, sps);
+		SpielStarten.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				String SinglePlayerPort = "4000";
+				
+				try {
+					Runtime.getRuntime().exec(
+							new String[] { "java", "-jar", "Server.jar",
+									 SinglePlayerPort, "single" });// ,"parameter"});
+					} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}// ,parameter});
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				try {
+					Runtime.getRuntime().exec(
+							new String[] { "java", "-jar", "Client.jar","localhost",SinglePlayerPort
+									});// ,"parameter"});
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}// ,parameter});
+			}
+				
+//				try {
+//					Runtime.getRuntime().exec(
+//					new String[] { "java", "-jar", "Server.jar", SinglePlayerPort, "single"});// ,"parameter"});
+//					} catch (IOException e1) {
+//					// TODO Auto-generated catch block
+//					e1.printStackTrace();
+//					}// ,parameter});
+//					try {
+//					Thread.sleep(100);
+//					} catch (InterruptedException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//					}
+//					try {
+//					Runtime.getRuntime().exec(
+//					new String[] { "java", "-jar", "Client.jar","localhost", SinglePlayerPort });// ,"parameter"});
+//					} catch (IOException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//					}// ,parameter});
+//
+//					}
+				
+			}
+		);
 		SpielStarten.setVisible(false);
 
 		GridBagConstraints client = new GridBagConstraints();
