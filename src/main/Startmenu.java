@@ -38,13 +38,18 @@ public class Startmenu extends JFrame {
 	JButton LevelEditor = new JButton("LevelEditor");
 	JButton Server = new JButton("createGame");
 	JButton Client = new JButton("joinGame");
+	JButton SpielStarten = new JButton("StartGame");
 	JTextField IPFeld;
 	JLabel IPLabel;
+	JTextField PortFeld;
+	JLabel PortLabel;
 	String IP;
+	String Port;
 
 	public void intitialize() {
 		Client.setVisible(false);
 		Server.setVisible(false);
+	
 
 		GridBagConstraints spc = new GridBagConstraints();
 		spc.gridx = 0;
@@ -60,26 +65,11 @@ public class Startmenu extends JFrame {
 				System.out.println("Singleplayer");
 				Startmenu.IntroStopped = true;
 				Startmenu.playsound = true;
-				try {
-					Runtime.getRuntime().exec(
-							new String[] { "java", "-jar", "Server.jar" });// ,"parameter"});
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}// ,parameter});
-				try {
-					Thread.sleep(100);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				try {
-					Runtime.getRuntime().exec(
-							new String[] { "java", "-jar", "Client.jar" });// ,"parameter"});
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}// ,parameter});
+				MultiPlayer.setVisible(false);
+				SinglePlayer.setVisible(false);
+				LevelEditor.setVisible(false);
+				SpielStarten.setVisible(true);
+			
 
 			}
 		}
@@ -107,7 +97,9 @@ public class Startmenu extends JFrame {
 				Server.setVisible(true);
 				IPFeld.setVisible(true);
 				IPLabel.setVisible(true);
-				
+				PortFeld.setVisible(true);
+				PortLabel.setVisible(true);
+
 			}
 		}
 
@@ -139,10 +131,7 @@ public class Startmenu extends JFrame {
 		}
 
 		);
-		
-		
-		
-		
+
 		this.startpanel = new JPanel() {
 			private static final long serialVersionUID = 1L;
 
@@ -156,22 +145,31 @@ public class Startmenu extends JFrame {
 							Startmenu.panelSizeX, Startmenu.panelSizeY - 50,
 							this);
 					if (Startmenu.playsound == true)
-						new Sound("src/sounds/DelayExp.wav", 4000).start();
+						new Sound("src/sounds/DelayExp1.wav", 7000).start();
 					Startmenu.playsound = false;
 				}
 
 			}
 
 		};
-		IPFeld= new JTextField("localhost");
+		IPFeld = new JTextField("localhost");
 		GridBagConstraints ipf = new GridBagConstraints();
 		ipf.gridx = 1;
 		ipf.gridy = 1;
 		spc.gridwidth = 1;
 		ipf.fill = GridBagConstraints.HORIZONTAL;
-		// spinner.weighty = 1.0;
 		cp.add(IPFeld, ipf);
 		IPFeld.setVisible(false);
+
+		PortFeld = new JTextField("4000");
+		GridBagConstraints pf = new GridBagConstraints();
+		pf.gridx = 1;
+		pf.gridy = 2;
+		spc.gridwidth = 1;
+		pf.fill = GridBagConstraints.HORIZONTAL;
+		cp.add(PortFeld, pf);
+		PortFeld.setVisible(false);
+
 		GridBagConstraints pa = new GridBagConstraints();
 		pa.gridx = 0;
 		pa.gridy = 0;
@@ -189,7 +187,7 @@ public class Startmenu extends JFrame {
 
 		GridBagConstraints server = new GridBagConstraints();
 		server.gridx = 0;
-		server.gridy = 2;
+		server.gridy = 3;
 		server.gridwidth = 1;
 		server.fill = GridBagConstraints.HORIZONTAL;
 		server.weightx = 1.0;
@@ -198,13 +196,75 @@ public class Startmenu extends JFrame {
 		Server.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-		
-			
+				Port = PortFeld.getText();
+				try {
+					Runtime.getRuntime().exec(
+							new String[] { "java", "-jar", "Server.jar",
+									"localhost", Port });// ,"parameter"});
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}// ,parameter});
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				try {
+					Runtime.getRuntime().exec(
+							new String[] { "java", "-jar", "Client.jar", Port,
+									"single" });// ,"parameter"});
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}// ,parameter});
+
 			}
 		});
+		GridBagConstraints sps = new GridBagConstraints();
+		sps.gridx = 0;
+		sps.gridy = 2;
+		sps.gridwidth = 2;
+		sps.gridheight=2;
+		sps.fill = GridBagConstraints.BOTH;
+		sps.weightx = 2.0;		
+		// cp.setLayout(new GridBagLayout());
+		cp.add(SpielStarten, sps);
+		SpielStarten.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				String SinglePlayerPort = "4000";
+				try {
+					Runtime.getRuntime().exec(
+							new String[] { "java", "-jar", "Server.jar",
+									"localhost", SinglePlayerPort });// ,"parameter"});
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}// ,parameter});
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				try {
+					Runtime.getRuntime().exec(
+							new String[] { "java", "-jar", "Client.jar",
+									SinglePlayerPort, "single" });// ,"parameter"});
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}// ,parameter});
+				
+			}
+		});
+		SpielStarten.setVisible(false);
+
 		GridBagConstraints client = new GridBagConstraints();
 		client.gridx = 1;
-		client.gridy = 2;
+		client.gridy = 3;
 		client.gridwidth = 1;
 		client.fill = GridBagConstraints.HORIZONTAL;
 		client.weightx = 1.0;
@@ -213,11 +273,13 @@ public class Startmenu extends JFrame {
 		Client.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				IP=IPFeld.getText();
-					
+				IP = IPFeld.getText();
+				Port = PortFeld.getText();
+
 				try {
 					Runtime.getRuntime().exec(
-							new String[] { "java", "-jar", "Client.jar", IP, "4000" });// ,"parameter"});
+							new String[] { "java", "-jar", "Client.jar", IP,
+									Port });// ,"parameter"});
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -233,6 +295,16 @@ public class Startmenu extends JFrame {
 		// spinner.weightx = 1.0;
 		cp.add(IPLabel, il);
 		IPLabel.setVisible(false);
+
+		PortLabel = new JLabel("   Port : ");
+		GridBagConstraints pl = new GridBagConstraints();
+		pl.gridx = 0;
+		pl.gridy = 2;
+		// spc.gridwidth = 2;
+		pl.fill = GridBagConstraints.HORIZONTAL;
+		// spinner.weightx = 1.0;
+		cp.add(PortLabel, pl);
+		PortLabel.setVisible(false);
 
 	}
 
