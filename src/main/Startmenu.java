@@ -10,7 +10,9 @@ import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import Editor.GLevelEditor;
 
@@ -34,8 +36,15 @@ public class Startmenu extends JFrame {
 	JButton SinglePlayer = new JButton("SinglePlayer");
 	JButton MultiPlayer = new JButton("MultiPlayer");
 	JButton LevelEditor = new JButton("LevelEditor");
+	JButton Server = new JButton("createGame");
+	JButton Client = new JButton("joinGame");
+	JTextField IPFeld;
+	JLabel IPLabel;
+	String IP;
 
 	public void intitialize() {
+		Client.setVisible(false);
+		Server.setVisible(false);
 
 		GridBagConstraints spc = new GridBagConstraints();
 		spc.gridx = 0;
@@ -91,6 +100,14 @@ public class Startmenu extends JFrame {
 				Startmenu.IntroStopped = true;
 				Startmenu.playsound = true;
 
+				MultiPlayer.setVisible(false);
+				SinglePlayer.setVisible(false);
+				LevelEditor.setVisible(false);
+				Client.setVisible(true);
+				Server.setVisible(true);
+				IPFeld.setVisible(true);
+				IPLabel.setVisible(true);
+				
 			}
 		}
 
@@ -122,6 +139,10 @@ public class Startmenu extends JFrame {
 		}
 
 		);
+		
+		
+		
+		
 		this.startpanel = new JPanel() {
 			private static final long serialVersionUID = 1L;
 
@@ -142,6 +163,15 @@ public class Startmenu extends JFrame {
 			}
 
 		};
+		IPFeld= new JTextField("localhost");
+		GridBagConstraints ipf = new GridBagConstraints();
+		ipf.gridx = 1;
+		ipf.gridy = 1;
+		spc.gridwidth = 1;
+		ipf.fill = GridBagConstraints.HORIZONTAL;
+		// spinner.weighty = 1.0;
+		cp.add(IPFeld, ipf);
+		IPFeld.setVisible(false);
 		GridBagConstraints pa = new GridBagConstraints();
 		pa.gridx = 0;
 		pa.gridy = 0;
@@ -156,6 +186,53 @@ public class Startmenu extends JFrame {
 		this.pack();
 		this.setSize(Startmenu.panelSizeX, Startmenu.panelSizeY);
 		this.setVisible(true);
+
+		GridBagConstraints server = new GridBagConstraints();
+		server.gridx = 0;
+		server.gridy = 2;
+		server.gridwidth = 1;
+		server.fill = GridBagConstraints.HORIZONTAL;
+		server.weightx = 1.0;
+		// cp.setLayout(new GridBagLayout());
+		cp.add(Server, server);
+		Server.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+		
+			
+			}
+		});
+		GridBagConstraints client = new GridBagConstraints();
+		client.gridx = 1;
+		client.gridy = 2;
+		client.gridwidth = 1;
+		client.fill = GridBagConstraints.HORIZONTAL;
+		client.weightx = 1.0;
+		// cp.setLayout(new GridBagLayout());
+		cp.add(Client, client);
+		Client.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				IP=IPFeld.getText();
+					
+				try {
+					Runtime.getRuntime().exec(
+							new String[] { "java", "-jar", "Client.jar", IP, "4000" });// ,"parameter"});
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}// ,parameter});
+			}
+		});
+		IPLabel = new JLabel("   Server IP : ");
+		GridBagConstraints il = new GridBagConstraints();
+		il.gridx = 0;
+		il.gridy = 1;
+		// spc.gridwidth = 2;
+		il.fill = GridBagConstraints.HORIZONTAL;
+		// spinner.weightx = 1.0;
+		cp.add(IPLabel, il);
+		IPLabel.setVisible(false);
 
 	}
 
