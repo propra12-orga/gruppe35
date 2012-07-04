@@ -23,6 +23,7 @@ import Fields.Exit;
 import Fields.Field;
 import Fields.Floor;
 import Fields.Stone;
+import Network.Server;
 
 /**
  * The Levellist class is responsible for loading and initializing Levels. It is
@@ -56,15 +57,23 @@ public class Levellist {
 	public static Level activeLevel = null;
 	public static int activeLevelIndex = 0;
 
-	// Initialisierung
-	static {
-		// Lade Levels aus dem Levels Ordner
-		File levelsfolder = new File("Levels/");
-		levelList = levelsfolder.listFiles();
-	}
+	// // Initialisierung
+	// static {
+	// // Lade Levels aus dem Levels Ordner
+	// File levelsfolder = new File("Levels/");
+	// levelList = levelsfolder.listFiles();
+	// }
 
 	// Lade das Level das zum activeLevelIndex gehört
 	public static void load(int levelIndex) {
+		if (Server.single) {
+			File levelsfolder = new File("Levels/");
+			levelList = levelsfolder.listFiles();
+		} else {
+			File levelsfolder = new File("Levels/Multi/");
+			levelList = levelsfolder.listFiles();
+		}
+
 		try {
 			File file = levelList[levelIndex];
 			// Besorge Levelname aus Dateinamen ohne Extension

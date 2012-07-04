@@ -763,12 +763,16 @@ public class GLevelEditor extends JFrame {
 		}
 
 		// Bärchenspawnpoints speichern
-
-		Element spawnpointsbaerElement = document
-				.createElement("spawnpointsbaer");
-		rootElement.appendChild(spawnpointsbaerElement);
+		//Element spawnpointsbaerElement = null;
+		//if (bearlist.size() != 0) {
+			Element spawnpointsbaerElement = document
+					.createElement("spawnpointsbaer");
+			rootElement.appendChild(spawnpointsbaerElement);
+		//}
 
 		for (int i = 0; i < bearlist.size(); i++) {
+			if(spawnpointsbaerElement != null){
+
 			Element spawnpointbaerElement = document
 					.createElement("spawnpoint");
 			spawnpointsbaerElement.appendChild(spawnpointbaerElement);
@@ -776,6 +780,7 @@ public class GLevelEditor extends JFrame {
 					Integer.toString(bearlist.get(i)[0] + 1));
 			spawnpointbaerElement.setAttribute("y",
 					Integer.toString(bearlist.get(i)[1] + 1));
+			}
 		}
 
 		// speichern
@@ -786,6 +791,10 @@ public class GLevelEditor extends JFrame {
 		DOMSource source = new DOMSource(document);
 		StreamResult result = new StreamResult(new File("Levels/" + levelname
 				+ ".txt"));
+		if(!Singleplayer){
+			result = new StreamResult(new File("Levels/Multi/" + levelname
+					+ ".txt"));
+		}
 		transformer.transform(source, result);
 		System.out.println("gespeichert");
 	}

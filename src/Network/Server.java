@@ -61,8 +61,6 @@ public class Server extends Thread {
 	public static boolean single;
 
 	public static void main(String[] args) throws Exception {
-		// Lade erstes Level
-		Levellist.load(0);
 		int port = Integer.parseInt(args[0]);
 		single = false;
 		if (args.length > 1) {
@@ -72,6 +70,10 @@ public class Server extends Thread {
 				System.out.println("Singleplayer Server");
 			}
 		}
+		// Lade erstes Level
+		Levellist.load(0);
+		
+		
 		final Server server = new Server(port, single);
 	}
 
